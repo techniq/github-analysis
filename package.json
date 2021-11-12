@@ -12,17 +12,23 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-netlify": "^1.0.0-next.35",
-		"@sveltejs/kit": "next",
+		"@sveltejs/kit": "^1.0.0-next.196",
+		"autoprefixer": "^10.4.0",
 		"prettier": "^2.4.1",
 		"prettier-plugin-svelte": "^2.4.0",
-		"svelte": "^3.42.6",
+		"svelte": "^3.44.1",
 		"svelte-check": "^2.2.6",
 		"svelte-preprocess": "^4.9.4",
+		"tailwindcss": "^2.2.19",
+		"tailwindcss-elevation": "^1.0.1",
 		"tslib": "^2.3.1",
 		"typescript": "^4.4.3"
 	},
 	"type": "module",
 	"dependencies": {
-		"cookie": "^0.4.1"
+		"@mdi/js": "^6.4.95",
+		"cookie": "^0.4.1",
+		"graphql-tag": "^2.12.6",
+		"svelte-ux": "^0.0.99"
 	}
 }

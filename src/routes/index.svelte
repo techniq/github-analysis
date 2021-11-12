@@ -1,20 +1,9 @@
-<script context="module" lang="ts">
-	export async function load({ session }) {
-		return {
-			props: {
-				user: session.user,
-				accessToken: session.accessToken
-			}
-		};
-	}
-</script>
-
 <script lang="ts">
-	export let user: string;
-	export let accessToken: string;
+	import { AppBar } from 'svelte-ux';
 </script>
 
-<a href="/auth/login" rel="external">Login to Github</a>
+<AppBar title="Home" />
 
-<div>User: {user}</div>
-<div>Access Token: {accessToken}</div>
+<div class="p-2">
+	<h1>Home</h1>
+</div>

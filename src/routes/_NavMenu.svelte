@@ -1,0 +1,42 @@
+<script lang="ts">
+	import { mdiAccount, mdiCodeBraces, mdiExitRun, mdiHome } from '@mdi/js';
+
+	import { Avatar, Button, Dialog, Icon, NavItem, Toggle, Tooltip } from 'svelte-ux';
+
+	export let user: string;
+</script>
+
+<NavItem class="pl-4 py-2 border-b border-gray-600 ">
+	<Avatar class="bg-gray-600 mr-4">
+		<Icon path={mdiAccount} />
+	</Avatar>
+
+	<div class="flex-grow">{user}</div>
+
+	<Toggle let:on={open} let:toggle>
+		<Tooltip title="Sign out">
+			<Button icon={mdiExitRun} on:click={toggle} class="p-2" />
+		</Tooltip>
+
+		<Dialog {open} on:close={toggle}>
+			<div slot="title">Sign out</div>
+			<div class="p-4">Are you sure you want to sign out?</div>
+
+			<div slot="actions">
+				<Button
+					class="bg-blue-500 hover:bg-blue-600 text-white"
+					icon={mdiExitRun}
+					on:click={() => console.log('TODO')}
+				>
+					Yes
+				</Button>
+				<Button class="">No</Button>
+			</div>
+		</Dialog>
+	</Toggle>
+</NavItem>
+
+<NavItem text="Home" icon={mdiHome} path="/" class="pl-6 py-2 mt-2" />
+
+<div class="pt-4 pb-2 pl-4 text-xs text-gray-200 font-bold">Viewer</div>
+<NavItem text="Repositories" icon={mdiCodeBraces} path="/repositories" class="pl-6 py-2" />
