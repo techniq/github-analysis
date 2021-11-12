@@ -26,11 +26,11 @@
 				<Button
 					class="bg-blue-500 hover:bg-blue-600 text-white"
 					icon={mdiExitRun}
-					on:click={() => console.log('TODO')}
+					href="/auth/logout"
 				>
-					Yes
+					Sign out
 				</Button>
-				<Button class="">No</Button>
+				<Button class="">Cancel</Button>
 			</div>
 		</Dialog>
 	</Toggle>

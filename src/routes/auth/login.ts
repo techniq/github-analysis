@@ -1,5 +1,4 @@
-const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID as string;
-const baseUrl = import.meta.env.VITE_BASE_URL as string;
+import { baseUrl, clientId } from './_config';
 
 export function get() {
 	const params = new URLSearchParams();

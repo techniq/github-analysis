@@ -1,5 +1,5 @@
-const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID as string;
-const clientSecret = import.meta.env.VITE_GITHUB_CLIENT_SECRET as string;
+import cookie, { CookieSerializeOptions } from 'cookie';
+import { baseUrl, clientId, clientSecret } from './_config';
 
 export async function get(req) {
 	const code = req.query.get('code');
@@ -10,12 +10,18 @@ export async function get(req) {
 	req.locals.accessToken = accessToken;
 	req.locals.user = user.login;
 
+	const cookieOptions = {
+		path: '/',
+		httpOnly: true,
+		secure: baseUrl.startsWith('https://')
+	} as CookieSerializeOptions;
+
 	return {
 		status: 302,
 		headers: {
 			'Set-Cookie': [
-				`user=${user.login || ''}; Path=/; HttpOnly`,
-				`accessToken=${accessToken || ''}; Path=/; HttpOnly`
+				cookie.serialize('user', user.login || '', cookieOptions),
+				cookie.serialize('accessToken', accessToken || '', cookieOptions)
 			],
 			Location: '/'
 		}

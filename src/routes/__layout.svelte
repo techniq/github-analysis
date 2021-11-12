@@ -54,10 +54,7 @@
 	</AppLayout>
 {:else}
 	<ViewportCenter>
-		<Card
-			title="Security Error"
-			subheading="An unexpected error occurred while retrieving security."
-		>
+		<Card title="Authenticate" subheading="Login to retrieve access token for GraphQL">
 			<div class="px-4 pb-4">
 				<Button href="/auth/login" rel="external" class="bg-blue-500 hover:bg-blue-600 text-white">
 					Login
