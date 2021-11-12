@@ -10,8 +10,8 @@
     - `VITE_BASE_URL` (ex. `http://localhost:3000`)
     - `VITE_GITHUB_CLIENT_ID` (see above)
     - `VITE_GITHUB_CLIENT_SECRET` (see above)
-- Netlify
-  - Add to `Environment Variables` in UI
-    - `VITE_BASE_URL` (ex. `https://commit-analyzer.netlify.app`)
+- Vercel
+  - Add to `Environment Variables` via interface
+    - `VITE_BASE_URL` (ex. `https://commit-analyzer.vercel.app`)
     - `VITE_GITHUB_CLIENT_ID` (see above)
     - `VITE_GITHUB_CLIENT_SECRET` (see above)

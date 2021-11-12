@@ -12,6 +12,7 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-netlify": "^1.0.0-next.35",
+		"@sveltejs/adapter-vercel": "^1.0.0-next.31",
 		"@sveltejs/kit": "^1.0.0-next.196",
 		"autoprefixer": "^10.4.0",
 		"prettier": "^2.4.1",
