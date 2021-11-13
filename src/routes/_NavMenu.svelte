@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { mdiAccount, mdiCodeBraces, mdiExitRun, mdiHome } from '@mdi/js';
+	import { mdiAccount, mdiCodeBraces, mdiExitRun, mdiHome, mdiSourceCommit } from '@mdi/js';
 
 	import { Avatar, Button, Dialog, Icon, NavItem, Toggle, Tooltip } from 'svelte-ux';
 
@@ -39,4 +39,5 @@
 <NavItem text="Home" icon={mdiHome} path="/" class="pl-6 py-2 mt-2" />
 
 <div class="pt-4 pb-2 pl-4 text-xs text-gray-200 font-bold">Viewer</div>
+<NavItem text="Contributions" icon={mdiSourceCommit} path="/contributions" class="pl-6 py-2" />
 <NavItem text="Repositories" icon={mdiCodeBraces} path="/repositories" class="pl-6 py-2" />
