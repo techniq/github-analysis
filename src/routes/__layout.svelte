@@ -2,7 +2,6 @@
 	export async function load({ session }) {
 		return {
 			props: {
-				user: session.user,
 				accessToken: session.accessToken
 			}
 		};
@@ -12,6 +11,7 @@
 <script lang="ts">
 	import { writable } from 'svelte/store';
 	import { flip } from 'svelte/animate';
+	import gql from 'graphql-tag';
 
 	import {
 		AppLayout,
@@ -19,12 +19,15 @@
 		ErrorNotification,
 		ViewportCenter,
 		Card,
-		Button
+		Button,
+		graphStore,
+		CircularProgress
 	} from 'svelte-ux';
+
+	import { user } from '$lib/stores';
 
 	import NavMenu from './_NavMenu.svelte';
 
-	export let user: string;
 	export let accessToken: string;
 
 	const fetchErrors = writable([]);
@@ -42,17 +45,26 @@
 			errors: fetchErrors
 		}
 	});
+
+	const query = graphStore();
+	$: query.fetch({
+		query: gql`
+			query {
+				viewer {
+					login
+					name
+				}
+			}
+		`,
+		config: {
+			onDataChange(data) {
+				$user = data.viewer;
+			}
+		}
+	});
 </script>
 
-{#if accessToken}
-	<AppLayout>
-		<nav slot="nav" class="nav h-full">
-			<NavMenu {user} />
-		</nav>
-
-		<slot />
-	</AppLayout>
-{:else}
+{#if !accessToken}
 	<ViewportCenter>
 		<Card title="Authenticate" subheading="Login to retrieve access token for GraphQL">
 			<div class="px-4 pb-4">
@@ -62,6 +74,23 @@
 			</div>
 		</Card>
 	</ViewportCenter>
+{:else if $query.loading}
+	<ViewportCenter>
+		<Card>
+			<div class="grid place-items-center gap-4 p-4">
+				<CircularProgress />
+				<div class="text-lg">Loading user...</div>
+			</div>
+		</Card>
+	</ViewportCenter>
+{:else}
+	<AppLayout>
+		<nav slot="nav" class="nav h-full">
+			<NavMenu />
+		</nav>
+
+		<slot />
+	</AppLayout>
 {/if}
 
 {#if $fetchErrors.length}

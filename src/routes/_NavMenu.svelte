@@ -3,7 +3,7 @@
 
 	import { Avatar, Button, Dialog, Icon, NavItem, Toggle, Tooltip } from 'svelte-ux';
 
-	export let user: string;
+	import { user } from '$lib/stores';
 </script>
 
 <NavItem class="pl-4 py-2 border-b border-gray-600 ">
@@ -11,7 +11,10 @@
 		<Icon path={mdiAccount} />
 	</Avatar>
 
-	<div class="flex-grow">{user}</div>
+	<div class="flex-grow">
+		<div>{$user.name}</div>
+		<div class="text-xs text-white/30">{$user.login}</div>
+	</div>
 
 	<Toggle let:on={open} let:toggle>
 		<Tooltip title="Sign out">

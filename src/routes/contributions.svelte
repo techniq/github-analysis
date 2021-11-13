@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
 	import { startOfWeek, subDays } from 'date-fns';
-
 	import gql from 'graphql-tag';
+
 	import {
 		AppBar,
 		Card,
@@ -15,7 +15,9 @@
 	} from 'svelte-ux';
 	import { formatDate, PeriodType } from 'svelte-ux/utils/date';
 
-	let login = 'techniq';
+	import { user } from '$lib/stores';
+
+	let login = $user.login;
 	let from = startOfWeek(subDays(new Date(), 365));
 	let to = new Date();
 
