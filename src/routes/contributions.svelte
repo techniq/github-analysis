@@ -3,8 +3,11 @@
 	import { startOfWeek, subDays } from 'date-fns';
 	import gql from 'graphql-tag';
 
+	import { mdiPlay } from '@mdi/js';
+
 	import {
 		AppBar,
+		Button,
 		Card,
 		CircularProgress,
 		DateField,
@@ -21,8 +24,7 @@
 	let from = startOfWeek(subDays(new Date(), 365));
 	let to = new Date();
 
-	const query = graphStore();
-	$: query.fetch({
+	const query = graphStore({
 		query: gql`
 			query ($login: String!, $from: DateTime, $to: DateTime) {
 				user(login: $login) {
@@ -48,7 +50,9 @@
 					}
 				}
 			}
-		`,
+		`
+	});
+	query.fetch({
 		variables: {
 			login,
 			from,
@@ -61,9 +65,42 @@
 
 <main>
 	<div class="flex gap-2 bg-white border-b p-4">
-		<TextField label="Login" bind:value={login} dense placeholder="User to lookup" shrinkLabel />
+		<TextField
+			label="User"
+			bind:value={login}
+			dense
+			placeholder="User to lookup"
+			shrinkLabel
+			class="flex-1"
+			on:keypress={(e) => {
+				console.log(e.key);
+				if (e.key === 'Enter') {
+					query.fetch({
+						variables: {
+							login,
+							from,
+							to
+						}
+					});
+				}
+			}}
+		/>
 		<DateField label="From" bind:value={from} dense picker />
 		<DateField label="To" bind:value={to} dense picker />
+		<Button
+			on:click={() =>
+				query.fetch({
+					variables: {
+						login,
+						from,
+						to
+					}
+				})}
+			icon={mdiPlay}
+			class="bg-blue-500 text-white hover:bg-blue-600"
+		>
+			Run
+		</Button>
 	</div>
 
 	<div class="relative min-h-[56px] p-4">
