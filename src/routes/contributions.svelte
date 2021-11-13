@@ -85,13 +85,11 @@
 								<Tooltip offset={2}>
 									<div
 										slot="title"
-										class="bg-black/90 text-white text-xs p-2 rounded pointer-events-none"
+										class="bg-black/90 text-white text-xs p-2 rounded pointer-events-none whitespace-nowrap"
 										transition:fly={{ y: -6, duration: 300 }}
 									>
-										<strong>{day.contributionCount} contributions</strong> on {formatDate(
-											day.date,
-											PeriodType.Day
-										)}
+										<strong>{day.contributionCount} contributions</strong>
+										<div>on {formatDate(day.date, PeriodType.Day)}</div>
 									</div>
 									<div
 										class="w-4 h-4 rounded border border-black/10"
