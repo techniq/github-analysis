@@ -27,6 +27,7 @@
 					class="bg-blue-500 hover:bg-blue-600 text-white"
 					icon={mdiExitRun}
 					href="/auth/logout"
+					rel="external"
 				>
 					Sign out
 				</Button>
