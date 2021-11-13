@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fly } from 'svelte/transition';
 	import { startOfWeek, subDays } from 'date-fns';
 
 	import gql from 'graphql-tag';
@@ -80,7 +81,11 @@
 						<div class="week grid grid-rows-[repeat(7,1fr)] gap-1">
 							{#each week.contributionDays as day}
 								<Tooltip offset={2}>
-									<div slot="title" class="bg-black/90 text-white text-xs p-2 rounded">
+									<div
+										slot="title"
+										class="bg-black/90 text-white text-xs p-2 rounded pointer-events-none"
+										transition:fly={{ y: -6, duration: 300 }}
+									>
 										<strong>{day.contributionCount} contributions</strong> on {formatDate(
 											day.date,
 											PeriodType.Day
