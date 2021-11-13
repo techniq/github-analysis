@@ -52,13 +52,17 @@
 			}
 		`
 	});
-	query.fetch({
-		variables: {
-			login,
-			from,
-			to
-		}
-	});
+
+	function run() {
+		query.fetch({
+			variables: {
+				login,
+				from,
+				to
+			}
+		});
+	}
+	run();
 </script>
 
 <AppBar title="Contributions" />
@@ -73,32 +77,14 @@
 			shrinkLabel
 			class="flex-1"
 			on:keypress={(e) => {
-				console.log(e.key);
 				if (e.key === 'Enter') {
-					query.fetch({
-						variables: {
-							login,
-							from,
-							to
-						}
-					});
+					run();
 				}
 			}}
 		/>
 		<DateField label="From" bind:value={from} dense picker />
 		<DateField label="To" bind:value={to} dense picker />
-		<Button
-			on:click={() =>
-				query.fetch({
-					variables: {
-						login,
-						from,
-						to
-					}
-				})}
-			icon={mdiPlay}
-			class="bg-blue-500 text-white hover:bg-blue-600"
-		>
+		<Button on:click={() => run()} icon={mdiPlay} class="bg-blue-500 text-white hover:bg-blue-600">
 			Run
 		</Button>
 	</div>
