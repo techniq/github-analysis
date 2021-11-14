@@ -100,7 +100,6 @@
 			shrinkLabel
 			class="flex-1"
 			on:keypress={(e) => {
-				console.log(e.key);
 				if (e.key === 'Enter') {
 					run();
 				}
@@ -114,7 +113,6 @@
 			shrinkLabel
 			class="flex-1"
 			on:keypress={(e) => {
-				console.log(e.key);
 				if (e.key === 'Enter') {
 					run();
 				}
