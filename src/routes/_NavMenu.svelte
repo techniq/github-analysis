@@ -5,7 +5,8 @@
 		mdiExitRun,
 		mdiHome,
 		mdiPeriodicTable,
-		mdiSourceCommit
+		mdiSourceCommit,
+		mdiTimelineClockOutline
 	} from '@mdi/js';
 
 	import { Avatar, Button, Dialog, Icon, NavItem, Toggle, Tooltip } from 'svelte-ux';
@@ -49,7 +50,8 @@
 
 <NavItem text="Home" icon={mdiHome} path="/" class="pl-6 py-2 mt-2" />
 
-<div class="pt-4 pb-2 pl-4 text-xs text-gray-200 font-bold">Viewer</div>
+<div class="pt-4 pb-2 pl-4 text-xs text-gray-200 font-bold">User</div>
 <NavItem text="Contributions" icon={mdiPeriodicTable} path="/contributions" class="pl-6 py-2" />
 <NavItem text="Commits" icon={mdiSourceCommit} path="/commits" class="pl-6 py-2" />
+<NavItem text="Punch Card" icon={mdiTimelineClockOutline} path="/punchcard" class="pl-6 py-2" />
 <NavItem text="Repositories" icon={mdiCodeBraces} path="/repositories" class="pl-6 py-2" />
