@@ -10,7 +10,7 @@
 					name
 					repositories(last: $last) {
 						nodes {
-							name
+							nameWithOwner
 							description
 						}
 					}
@@ -35,7 +35,7 @@
 
 		{#if $query.data}
 			{#each $query.data.viewer.repositories.nodes as repo}
-				<ListItem title={repo.name} subheading={repo.description} />
+				<ListItem title={repo.nameWithOwner} subheading={repo.description} />
 			{/each}
 		{/if}
 	</div>
