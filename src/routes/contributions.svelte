@@ -12,6 +12,7 @@
 		CircularProgress,
 		DateField,
 		graphStore,
+		ListItem,
 		Overlay,
 		TextField,
 		Tooltip
@@ -37,6 +38,7 @@
 									weekday
 									date
 									contributionCount
+									contributionLevel
 									color
 								}
 							}
@@ -47,10 +49,34 @@
 								totalWeeks
 							}
 						}
+
+						startedAt
+						endedAt
+						hasAnyContributions
+						hasActivityInThePast
+						commitContributionsByRepository {
+							repository {
+								nameWithOwner
+								description
+							}
+							contributions(first: 10) {
+								totalCount
+								nodes {
+									commitCount
+									occurredAt
+								}
+							}
+							url
+						}
 					}
 				}
 			}
-		`
+		`,
+		config: {
+			onDataChange(data) {
+				return data.user.contributionsCollection;
+			}
+		}
 	});
 
 	function run() {
@@ -63,6 +89,8 @@
 		});
 	}
 	run();
+
+	$: console.log($query.data);
 </script>
 
 <AppBar title="Contributions" />
@@ -97,33 +125,43 @@
 		{/if}
 
 		{#if $query.data}
-			<Card
-				title={$query.data.user.contributionsCollection.contributionCalendar.totalContributions}
-				subheading="Contributions"
-			>
-				<div class="grid grid-flow-col gap-1 justify-start px-4 pb-4 overflow-auto">
-					{#each $query.data.user.contributionsCollection.contributionCalendar.weeks as week, i}
-						<div class="week grid grid-rows-[repeat(7,1fr)] gap-1">
-							{#each week.contributionDays as day}
-								<Tooltip offset={2}>
-									<div
-										slot="title"
-										class="bg-black/90 text-white text-xs p-2 rounded pointer-events-none whitespace-nowrap"
-										transition:fly={{ y: -6, duration: 300 }}
-									>
-										<strong>{day.contributionCount} contributions</strong>
-										<div>on {formatDate(day.date, PeriodType.Day)}</div>
-									</div>
-									<div
-										class="w-4 h-4 rounded border border-black/10"
-										style="grid-row: {day.weekday + 1}; background-color: {day.color}"
-									/>
-								</Tooltip>
-							{/each}
-						</div>
+			<div class="grid gap-4">
+				<Card
+					title={$query.data.contributionCalendar.totalContributions}
+					subheading="Contributions"
+				>
+					<div class="grid grid-flow-col gap-1 justify-start px-4 pb-4 overflow-auto">
+						{#each $query.data.contributionCalendar.weeks as week, i}
+							<div class="week grid grid-rows-[repeat(7,1fr)] gap-1">
+								{#each week.contributionDays as day}
+									<Tooltip offset={2}>
+										<div
+											slot="title"
+											class="bg-black/90 text-white text-xs p-2 rounded pointer-events-none whitespace-nowrap"
+											transition:fly={{ y: -6, duration: 300 }}
+										>
+											<strong>{day.contributionCount} contributions</strong>
+											<div>on {formatDate(day.date, PeriodType.Day)}</div>
+										</div>
+										<div
+											class="w-4 h-4 rounded border border-black/10"
+											style="grid-row: {day.weekday + 1}; background-color: {day.color}"
+										/>
+									</Tooltip>
+								{/each}
+							</div>
+						{/each}
+					</div>
+				</Card>
+
+				<div>
+					<div class="text-xs text-black/50">Commits</div>
+
+					{#each $query.data.commitContributionsByRepository as d}
+						<ListItem title={d.repository.nameWithOwner} subheading={d.contributions.totalCount} />
 					{/each}
 				</div>
-			</Card>
+			</div>
 		{/if}
 	</div>
 </main>
