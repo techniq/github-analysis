@@ -1,8 +1,12 @@
-## TODO
+# TODO
 
-### Users
+## Users
 
-#### Followers, starred repositories, ...
+### Contributions
+
+- [ ] Group repository commits by day (but also support overall totals for period)
+
+### Followers, starred repositories, ...
 
 ```gql
 query {
@@ -24,38 +28,9 @@ query {
 }
 ```
 
-#### User contributations
+## Repositories
 
-```gql
-query {
-	user(login: "techniq") {
-		login
-		contributionsCollection(from: "2021-11-07T00:00:00", to: "2021-11-13T23:59:59") {
-			startedAt
-			endedAt
-			hasAnyContributions
-			hasActivityInThePast
-			commitContributionsByRepository {
-				repository {
-					nameWithOwner
-				}
-				contributions(first: 100) {
-					totalCount
-					nodes {
-						commitCount
-						occurredAt
-					}
-				}
-				url
-			}
-		}
-	}
-}
-```
-
-### Repositories
-
-#### Stargazers
+### Stargazers
 
 ```gql
 query {
