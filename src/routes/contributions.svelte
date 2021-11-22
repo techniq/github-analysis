@@ -3,7 +3,7 @@
 	import { startOfWeek, subDays } from 'date-fns';
 	import gql from 'graphql-tag';
 
-	import { mdiPlay } from '@mdi/js';
+	import { mdiOpenInNew, mdiPlay } from '@mdi/js';
 
 	import {
 		AppBar,
@@ -12,6 +12,7 @@
 		CircularProgress,
 		DateField,
 		graphStore,
+		Icon,
 		ListItem,
 		Overlay,
 		TextField,
@@ -158,7 +159,17 @@
 					<div class="text-xs text-black/50">Commits</div>
 
 					{#each $query.data.commitContributionsByRepository as d}
-						<ListItem title={d.repository.nameWithOwner} subheading={d.contributions.totalCount} />
+						<ListItem subheading={d.contributions.totalCount}>
+							<a
+								slot="title"
+								href="https://github.com/{d.repository.nameWithOwner}/commits"
+								target="_blank"
+								class="hover:text-blue-500"
+							>
+								{d.repository.nameWithOwner}
+								<Icon path={mdiOpenInNew} size=".8em" />
+							</a>
+						</ListItem>
 					{/each}
 				</div>
 			</div>
