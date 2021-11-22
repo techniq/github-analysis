@@ -10,6 +10,7 @@
 		Button,
 		Card,
 		CircularProgress,
+		Header,
 		DateField,
 		graphStore,
 		Icon,
@@ -26,7 +27,9 @@
 	let from = startOfWeek(subDays(new Date(), 365));
 	let to = new Date();
 
-	const query = graphStore({
+	let selectedDate: Date = null;
+
+	const calendarQuery = graphStore({
 		query: gql`
 			query ($login: String!, $from: DateTime, $to: DateTime) {
 				user(login: $login) {
@@ -50,7 +53,22 @@
 								totalWeeks
 							}
 						}
+					}
+				}
+			}
+		`,
+		config: {
+			onDataChange(data) {
+				return data.user.contributionsCollection.contributionCalendar;
+			}
+		}
+	});
 
+	const commitsQuery = graphStore({
+		query: gql`
+			query ($login: String!, $from: DateTime, $to: DateTime) {
+				user(login: $login) {
+					contributionsCollection(from: $from, to: $to) {
 						startedAt
 						endedAt
 						hasAnyContributions
@@ -75,13 +93,13 @@
 		`,
 		config: {
 			onDataChange(data) {
-				return data.user.contributionsCollection;
+				return data.user.contributionsCollection.commitContributionsByRepository;
 			}
 		}
 	});
 
-	function run() {
-		query.fetch({
+	function fetchCalendar() {
+		calendarQuery.fetch({
 			variables: {
 				login,
 				from,
@@ -89,9 +107,28 @@
 			}
 		});
 	}
-	run();
 
-	$: console.log($query.data);
+	function fetchCommits() {
+		commitsQuery.fetch({
+			variables: {
+				login,
+				from: selectedDate ?? from,
+				to: selectedDate ?? to
+			}
+		});
+	}
+
+	function fetchAll() {
+		fetchCalendar();
+		fetchCommits();
+	}
+
+	$: {
+		selectedDate;
+		fetchCommits();
+	}
+
+	fetchAll();
 </script>
 
 <AppBar title="Contributions" />
@@ -107,59 +144,74 @@
 			class="flex-1"
 			on:keypress={(e) => {
 				if (e.key === 'Enter') {
-					run();
+					fetchAll();
 				}
 			}}
 		/>
 		<DateField label="From" bind:value={from} dense picker />
 		<DateField label="To" bind:value={to} dense picker />
-		<Button on:click={() => run()} icon={mdiPlay} class="bg-blue-500 text-white hover:bg-blue-600">
+		<Button
+			on:click={() => fetchAll()}
+			icon={mdiPlay}
+			class="bg-blue-500 text-white hover:bg-blue-600"
+		>
 			Run
 		</Button>
 	</div>
 
-	<div class="relative min-h-[56px] p-4">
-		{#if $query.loading}
-			<Overlay center class="rounded">
-				<CircularProgress />
-			</Overlay>
-		{/if}
-
-		{#if $query.data}
-			<div class="grid gap-4">
-				<Card
-					title={$query.data.contributionCalendar.totalContributions}
+	<div class="p-4">
+		<div class="grid gap-4">
+			<Card loading={$calendarQuery.loading} class="min-h-[232px]">
+				<Header
+					title={$calendarQuery.data?.totalContributions ?? '...'}
 					subheading="Contributions"
+					slot="header"
 				>
-					<div class="grid grid-flow-col gap-1 justify-start px-4 pb-4">
-						{#each $query.data.contributionCalendar.weeks as week, i}
-							<div class="week grid grid-rows-[repeat(7,1fr)] gap-1">
-								{#each week.contributionDays as day}
-									<Tooltip offset={2}>
-										<div
-											slot="title"
-											class="bg-black/90 text-white text-xs p-2 rounded pointer-events-none whitespace-nowrap"
-											transition:fly={{ y: -6, duration: 300 }}
-										>
-											<strong>{day.contributionCount} contributions</strong>
-											<div>on {formatDate(day.date, PeriodType.Day)}</div>
-										</div>
-										<div
-											class="w-4 h-4 rounded border border-black/10 transition-transform hover:scale-125"
-											style="grid-row: {day.weekday + 1}; background-color: {day.color}"
-										/>
-									</Tooltip>
-								{/each}
-							</div>
-						{/each}
+					<div slot="actions">
+						{#if selectedDate}
+							<Button on:click={() => (selectedDate = null)}>Reset</Button>
+						{/if}
 					</div>
-				</Card>
+				</Header>
 
-				<div>
-					<div class="text-xs text-black/50">Commits</div>
+				<div class="grid grid-flow-col gap-1 justify-start px-4 pb-4">
+					{#each $calendarQuery.data?.weeks ?? [] as week, i}
+						<div class="week grid grid-rows-[repeat(7,1fr)] gap-1">
+							{#each week.contributionDays as day}
+								<Tooltip offset={2}>
+									<div
+										slot="title"
+										class="bg-black/90 text-white text-xs p-2 rounded pointer-events-none whitespace-nowrap"
+										transition:fly={{ y: -6, duration: 300 }}
+									>
+										<strong>{day.contributionCount} contributions</strong>
+										<div>on {formatDate(day.date, PeriodType.Day)}</div>
+									</div>
+									<div
+										class="w-4 h-4 rounded border border-black/10 transition-transform hover:scale-125 hover:opacity-100"
+										class:opacity-10={selectedDate && selectedDate != day.date}
+										style="grid-row: {day.weekday + 1}; background-color: {day.color}"
+										on:click={() => (selectedDate = day.date)}
+									/>
+								</Tooltip>
+							{/each}
+						</div>
+					{/each}
+				</div>
+			</Card>
 
-					{#each $query.data.commitContributionsByRepository as d}
-						<ListItem subheading={d.contributions.totalCount}>
+			<div>
+				<div class="text-xs text-black/50">Commits</div>
+
+				<div class="relative min-h-[56px]">
+					{#if $commitsQuery.loading}
+						<Overlay center class="rounded">
+							<CircularProgress />
+						</Overlay>
+					{/if}
+
+					{#each $commitsQuery.data ?? [] as d}
+						<ListItem subheading={d.contributions.totalCount} list="type">
 							<a
 								slot="title"
 								href="https://github.com/{d.repository.nameWithOwner}/commits"
@@ -173,6 +225,6 @@
 					{/each}
 				</div>
 			</div>
-		{/if}
+		</div>
 	</div>
 </main>
