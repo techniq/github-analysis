@@ -18,20 +18,20 @@
 		"autoprefixer": "^10.4.0",
 		"cookie": "^0.4.1",
 		"prettier": "^2.4.1",
-		"prettier-plugin-svelte": "^2.4.0",
-		"svelte": "^3.44.1",
-		"svelte-check": "^2.2.6",
+		"prettier-plugin-svelte": "^2.5.0",
+		"svelte": "^3.44.2",
+		"svelte-check": "^2.2.10",
 		"svelte-preprocess": "^4.9.4",
 		"tailwindcss": "^2.2.19",
 		"tailwindcss-elevation": "^1.0.1",
 		"tslib": "^2.3.1",
-		"typescript": "^4.4.3"
+		"typescript": "^4.5.2"
 	},
 	"type": "module",
 	"dependencies": {
-		"@mdi/js": "^6.4.95",
-		"date-fns": "^2.25.0",
+		"@mdi/js": "^6.5.95",
+		"date-fns": "^2.26.0",
 		"graphql-tag": "^2.12.6",
-		"svelte-ux": "^0.0.99"
+		"svelte-ux": "^0.0.102"
 	}
 }
