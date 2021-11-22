@@ -131,7 +131,7 @@
 					title={$query.data.contributionCalendar.totalContributions}
 					subheading="Contributions"
 				>
-					<div class="grid grid-flow-col gap-1 justify-start px-4 pb-4 overflow-auto">
+					<div class="grid grid-flow-col gap-1 justify-start px-4 pb-4">
 						{#each $query.data.contributionCalendar.weeks as week, i}
 							<div class="week grid grid-rows-[repeat(7,1fr)] gap-1">
 								{#each week.contributionDays as day}
@@ -145,7 +145,7 @@
 											<div>on {formatDate(day.date, PeriodType.Day)}</div>
 										</div>
 										<div
-											class="w-4 h-4 rounded border border-black/10"
+											class="w-4 h-4 rounded border border-black/10 transition-transform hover:scale-125"
 											style="grid-row: {day.weekday + 1}; background-color: {day.color}"
 										/>
 									</Tooltip>
