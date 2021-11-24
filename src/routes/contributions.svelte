@@ -189,9 +189,9 @@
 									</div>
 									<div
 										class="w-4 h-4 rounded border border-black/10 transition-transform hover:scale-125 hover:opacity-100"
-										class:opacity-10={selectedDate && selectedDate != day.date}
+										class:opacity-10={selectedDate && selectedDate !== day.date}
 										style="grid-row: {day.weekday + 1}; background-color: {day.color}"
-										on:click={() => (selectedDate = day.date)}
+										on:click={() => (selectedDate = selectedDate === day.date ? null : day.date)}
 									/>
 								</Tooltip>
 							{/each}
