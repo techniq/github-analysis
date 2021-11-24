@@ -27,21 +27,10 @@
 	import { user } from '$lib/stores';
 
 	import NavMenu from './_NavMenu.svelte';
-	import { initFetchClient } from 'svelte-ux/stores/fetchStore';
 
 	export let accessToken: string;
 
 	const fetchErrors = writable([]);
-
-	// initFetchClient({
-	// 	options() {
-	// 		return {
-	// 			headers: {
-	// 				Authorization: `token ${accessToken}`
-	// 			}
-	// 		};
-	// 	}
-	// });
 
 	initGraphClient({
 		url: 'https://api.github.com/graphql',
