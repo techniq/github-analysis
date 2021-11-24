@@ -201,7 +201,7 @@
 			</Card>
 
 			<div>
-				<div class="text-xs text-black/50">Commits</div>
+				<div class="text-xs text-black/50 mb-1">Commits</div>
 
 				<div class="relative min-h-[56px]">
 					{#if $commitsQuery.loading}
