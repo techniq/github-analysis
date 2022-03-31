@@ -1,21 +1,21 @@
+import type { GetSession, Handle } from '@sveltejs/kit';
 import cookie from 'cookie';
 
-/** @type {import('@sveltejs/kit').Handle} */
-export async function handle({ request, resolve }) {
-	const cookies = cookie.parse(request.headers.cookie || '');
+export const handle: Handle = async ({ event, resolve }) => {
+	const cookies = cookie.parse(event.request.headers.get('cookie') || '');
 
 	// Before each endpoint or page, read cookies into request.locals to access in session / frontend
-	request.locals.user = cookies.user;
-	request.locals.accessToken = cookies.accessToken;
+	event.locals.user = cookies.user;
+	event.locals.accessToken = cookies.accessToken;
 
-	const response = await resolve(request);
+	const response = await resolve(event);
 
 	return response;
-}
+};
 
-export async function getSession(request) {
+export const getSession: GetSession = async (event) => {
 	return {
-		user: request.locals.user,
-		accessToken: request.locals.accessToken
+		user: event.locals.user,
+		accessToken: event.locals.accessToken
 	};
-}
+};
