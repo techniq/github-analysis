@@ -3,7 +3,7 @@
 	import { format, startOfWeek, subDays } from 'date-fns';
 	import gql from 'graphql-tag';
 
-	import { mdiPlay } from '@mdi/js';
+	import { mdiAccount, mdiDatabase, mdiPlay, mdiSourceBranch } from '@mdi/js';
 
 	import {
 		AppBar,
@@ -82,6 +82,7 @@
 		<TextField
 			label="Owner"
 			bind:value={owner}
+			icon={mdiAccount}
 			dense
 			placeholder="User or organization"
 			shrinkLabel
@@ -95,6 +96,7 @@
 		<TextField
 			label="Repository"
 			bind:value={repo}
+			icon={mdiDatabase}
 			dense
 			placeholder="Name of repository"
 			shrinkLabel
@@ -108,6 +110,7 @@
 		<TextField
 			label="Branch"
 			bind:value={branch}
+			icon={mdiSourceBranch}
 			dense
 			placeholder="Name of repository"
 			shrinkLabel
