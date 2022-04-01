@@ -60,7 +60,8 @@
 		config: {
 			onDataChange(data) {
 				return data.user.contributionsCollection.contributionCalendar;
-			}
+			},
+			force: true
 		}
 	});
 
@@ -94,7 +95,8 @@
 		config: {
 			onDataChange(data) {
 				return data.user.contributionsCollection.commitContributionsByRepository;
-			}
+			},
+			force: true
 		}
 	});
 
