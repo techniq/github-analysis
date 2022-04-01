@@ -3,7 +3,7 @@
 	import { startOfWeek, subDays } from 'date-fns';
 	import gql from 'graphql-tag';
 
-	import { mdiOpenInNew, mdiPlay } from '@mdi/js';
+	import { mdiAccount, mdiCalendarRange, mdiOpenInNew, mdiPlay } from '@mdi/js';
 
 	import {
 		AppBar,
@@ -11,21 +11,26 @@
 		Card,
 		CircularProgress,
 		Header,
-		DateField,
 		graphStore,
 		Icon,
 		ListItem,
 		Overlay,
 		TextField,
-		Tooltip
+		Tooltip,
+		DateRangeField
 	} from 'svelte-ux';
-	import { formatDate, PeriodType } from 'svelte-ux/utils/date';
+	import { formatDate, localToUtcDate, PeriodType } from 'svelte-ux/utils/date';
 
 	import { user } from '$lib/stores';
+	import type { DateRange } from 'svelte-ux/utils/dateRange';
 
 	let login = $user.login;
-	let from = startOfWeek(subDays(new Date(), 365));
-	let to = new Date();
+
+	let dateRange: DateRange = {
+		periodType: PeriodType.Day,
+		from: startOfWeek(subDays(new Date(), 365)),
+		to: new Date()
+	};
 
 	let selectedDate: Date = null;
 
@@ -104,8 +109,8 @@
 		calendarQuery.fetch({
 			variables: {
 				login,
-				from,
-				to
+				from: dateRange.from,
+				to: dateRange.to
 			}
 		});
 	}
@@ -114,8 +119,8 @@
 		commitsQuery.fetch({
 			variables: {
 				login,
-				from: selectedDate ?? from,
-				to: selectedDate ?? to
+				from: selectedDate ?? localToUtcDate(dateRange.from),
+				to: selectedDate ?? localToUtcDate(dateRange.to)
 			}
 		});
 	}
@@ -136,22 +141,21 @@
 <AppBar title="Contributions" />
 
 <main>
-	<div class="flex gap-2 bg-white border-b p-4">
+	<div class="grid grid-cols-[1fr,1fr,auto] gap-2 bg-white border-b p-4">
 		<TextField
 			label="User"
 			bind:value={login}
+			icon={mdiAccount}
 			dense
 			placeholder="User to lookup"
 			shrinkLabel
-			class="flex-1"
 			on:keypress={(e) => {
 				if (e.key === 'Enter') {
 					fetchAll();
 				}
 			}}
 		/>
-		<DateField label="From" bind:value={from} dense picker />
-		<DateField label="To" bind:value={to} dense picker />
+		<DateRangeField label="Date Range" bind:value={dateRange} icon={mdiCalendarRange} dense />
 		<Button
 			on:click={() => fetchAll()}
 			icon={mdiPlay}

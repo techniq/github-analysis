@@ -6,6 +6,7 @@
 
 - [ ] Group repository commits by day (but also support overall totals for period)
 - [x] Support clicking on day to see commits/activity on day
+- [ ] Show commits
 
 ### Followers, starred repositories, ...
 
