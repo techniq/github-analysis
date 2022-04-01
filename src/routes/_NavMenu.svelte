@@ -33,7 +33,7 @@
 			<div slot="title">Sign out</div>
 			<div class="p-4">Are you sure you want to sign out?</div>
 
-			<div slot="actions">
+			<div slot="actions" class="flex items-center gap-2">
 				<Button
 					class="bg-blue-500 hover:bg-blue-600 text-white"
 					icon={mdiExitRun}
