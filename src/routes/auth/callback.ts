@@ -2,7 +2,7 @@ import cookie, { CookieSerializeOptions } from 'cookie';
 import { baseUrl, clientId, clientSecret } from './_config';
 
 export async function get(req) {
-	const code = req.query.get('code');
+	const code = req.url.searchParams.get('code');
 	const accessToken = await getAccessToken(code);
 	const user = await getUser(accessToken);
 
