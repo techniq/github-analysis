@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { mdiAccount, mdiDatabase, mdiPlay, mdiSourceBranch, mdiSourceRepository } from '@mdi/js';
-	import { scaleBand, scaleLinear } from 'd3-scale';
+	import { scaleBand, scaleLinear, scaleSqrt } from 'd3-scale';
 	import { max, range } from 'd3-array';
 
 	import { AppBar, Button, Card, ProgressCircle, fetchStore, Overlay, TextField } from 'svelte-ux';
@@ -14,6 +14,7 @@
 		HighlightRect,
 		Points,
 		Svg,
+		Text,
 		Tooltip,
 		TooltipItem
 	} from 'layerchart';
@@ -120,7 +121,7 @@
 				{/each}
 			</Card> -->
 
-			<Card class="h-[300px] p-4 mt-4">
+			<Card class="h-[300px] p-4 mt-4 group">
 				<Chart
 					data={$query.data}
 					x={(d) => d.hour}
@@ -136,12 +137,16 @@
 				>
 					{@const minBandwidth = Math.min(xScale.bandwidth(), yScale.bandwidth())}
 					{@const maxValue = max($query.data, (d) => d.count)}
-					{@const rScale = scaleLinear()
+					{@const rScale = scaleSqrt()
 						.domain([0, maxValue])
 						.range([0, minBandwidth / 2 - 5])}
 					<Svg>
 						<AxisY formatTick={(d) => daysOfWeek[d]} gridlines={{ style: 'stroke-dasharray: 2' }} />
-						<AxisX formatTick={(d) => `${d}:00`} gridlines />
+						<AxisX
+							formatTick={(d) => `${d}:00`}
+							gridlines
+							labelProps={{ rotate: 0, textAnchor: 'middle', verticalAnchor: 'middle' }}
+						/>
 						<Baseline y />
 						<Points let:points>
 							{#each points as point, index}
@@ -149,7 +154,16 @@
 									cx={point.x}
 									cy={point.y}
 									r={rScale(point.data.count)}
-									class="fill-blue-500 stroke-blue-600"
+									class="fill-blue-500"
+								/>
+								<Text
+									x={point.x}
+									y={point.y}
+									value={point.data.count}
+									textAnchor="middle"
+									verticalAnchor="middle"
+									class="stroke-blue-800 fill-white text-xs stroke-2 transition-all opacity-0 group-hover:opacity-100"
+									capHeight=".6rem"
 								/>
 							{/each}
 						</Points>
