@@ -144,8 +144,8 @@
 						<AxisY formatTick={(d) => daysOfWeek[d]} gridlines={{ style: 'stroke-dasharray: 2' }} />
 						<AxisX
 							formatTick={(d) => `${d}:00`}
-							gridlines
 							labelProps={{ rotate: 0, textAnchor: 'middle', verticalAnchor: 'middle' }}
+							gridlines
 						/>
 						<Baseline y />
 						<Points let:points>

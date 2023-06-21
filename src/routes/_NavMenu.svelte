@@ -6,6 +6,7 @@
 		mdiHome,
 		mdiPeriodicTable,
 		mdiSourceCommit,
+		mdiSourcePull,
 		mdiTimelineClockOutline
 	} from '@mdi/js';
 
@@ -59,6 +60,7 @@
 	currentUrl={$page.url}
 />
 <NavItem text="Repositories" icon={mdiCodeBraces} path="/repositories" currentUrl={$page.url} />
+<NavItem text="Pull Requests" icon={mdiSourcePull} path="/pullrequests" currentUrl={$page.url} />
 
 <h2>Repository</h2>
 <NavItem
