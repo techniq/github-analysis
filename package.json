@@ -29,8 +29,11 @@
 	"type": "module",
 	"dependencies": {
 		"@mdi/js": "^7.2.96",
+		"d3-array": "^3.2.4",
+		"d3-scale": "^4.0.2",
 		"date-fns": "^2.30.0",
 		"graphql-tag": "^2.12.6",
+		"layerchart": "^0.16.0",
 		"svelte-ux": "^0.40.6"
 	}
 }

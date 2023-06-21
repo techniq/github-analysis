@@ -1,7 +1,22 @@
 <script lang="ts">
 	import { mdiAccount, mdiDatabase, mdiPlay, mdiSourceBranch, mdiSourceRepository } from '@mdi/js';
+	import { scaleBand, scaleLinear } from 'd3-scale';
+	import { max, range } from 'd3-array';
 
 	import { AppBar, Button, Card, ProgressCircle, fetchStore, Overlay, TextField } from 'svelte-ux';
+
+	import {
+		AxisX,
+		AxisY,
+		Baseline,
+		Chart,
+		Circle,
+		HighlightRect,
+		Points,
+		Svg,
+		Tooltip,
+		TooltipItem
+	} from 'layerchart';
 
 	import { user } from '$lib/stores';
 
@@ -22,6 +37,8 @@
 		});
 	}
 	run();
+
+	const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 </script>
 
 <AppBar title="Punch Card" />
@@ -83,7 +100,7 @@
 		{/if}
 
 		{#if $query.data}
-			<Card class="grid grid-rows-[repeat(8,1fr)] grid-cols-[repeat(25,1fr)] gap-1 p-4 text-right">
+			<!-- <Card class="grid grid-rows-[repeat(8,1fr)] grid-cols-[repeat(25,1fr)] gap-1 p-4 text-right">
 				{#each Array.from({ length: 24 }) as _, i}
 					<div class="text-xs font-bold" style="grid-row: 1; grid-column: {i + 2}">{i}:00</div>
 				{/each}
@@ -101,6 +118,48 @@
 						{item.count || '-'}
 					</div>
 				{/each}
+			</Card> -->
+
+			<Card class="h-[300px] p-4 mt-4">
+				<Chart
+					data={$query.data}
+					x={(d) => d.hour}
+					xScale={scaleBand()}
+					y={(d) => d.weekday}
+					yScale={scaleBand()}
+					yDomain={range(7)}
+					r={(d) => d.value}
+					padding={{ left: 24, bottom: 36 }}
+					tooltip={{ mode: 'band' }}
+					let:xScale
+					let:yScale
+				>
+					{@const minBandwidth = Math.min(xScale.bandwidth(), yScale.bandwidth())}
+					{@const maxValue = max($query.data, (d) => d.count)}
+					{@const rScale = scaleLinear()
+						.domain([0, maxValue])
+						.range([0, minBandwidth / 2 - 5])}
+					<Svg>
+						<AxisY formatTick={(d) => daysOfWeek[d]} gridlines={{ style: 'stroke-dasharray: 2' }} />
+						<AxisX formatTick={(d) => `${d}:00`} gridlines />
+						<Baseline y />
+						<Points let:points>
+							{#each points as point, index}
+								<Circle
+									cx={point.x}
+									cy={point.y}
+									r={rScale(point.data.count)}
+									class="fill-blue-500 stroke-blue-600"
+								/>
+							{/each}
+						</Points>
+						<HighlightRect axis="x" />
+						<HighlightRect axis="y" />
+					</Svg>
+					<Tooltip header={(d) => daysOfWeek[d.weekday] + ' @ ' + d.hour + ':00'} let:data>
+						<TooltipItem label="Commits" value={data?.count} valueAlign="right" />
+					</Tooltip>
+				</Chart>
 			</Card>
 		{/if}
 	</div>
