@@ -9,7 +9,7 @@
 		AppBar,
 		Button,
 		Card,
-		CircularProgress,
+		ProgressCircle,
 		Header,
 		graphStore,
 		Icon,
@@ -212,7 +212,7 @@
 				<div class="relative min-h-[56px]">
 					{#if $commitsQuery.loading}
 						<Overlay center class="rounded">
-							<CircularProgress />
+							<ProgressCircle />
 						</Overlay>
 					{/if}
 

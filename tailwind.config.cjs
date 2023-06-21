@@ -2,16 +2,12 @@ const colors = require('tailwindcss/colors');
 const plugin = require('tailwindcss/plugin');
 
 module.exports = {
-	mode: 'jit',
 	content: ['./src/**/*.{html,svelte}', './node_modules/svelte-ux/**/*.{svelte,js}'],
 	theme: {
 		extend: {
 			colors: {
 				'color-var': 'var(--color)',
-				accent: colors.blue,
-				sky: colors.sky,
-				orange: colors.orange,
-				gray: colors.gray
+				accent: colors.blue
 			}
 		}
 	},
@@ -19,7 +15,7 @@ module.exports = {
 		extend: {}
 	},
 	plugins: [
-		require('tailwindcss-elevation')(['responsive']),
+		require('svelte-ux/plugins/tailwind.cjs'),
 
 		// Expose color palette as CSS variables (--color-xxx-yyy) - https://gist.github.com/Merott/d2a19b32db07565e94f10d13d11a8574
 		plugin(function ({ addBase, theme }) {

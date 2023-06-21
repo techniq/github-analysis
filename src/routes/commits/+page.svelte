@@ -8,7 +8,7 @@
 	import {
 		AppBar,
 		Button,
-		CircularProgress,
+		ProgressCircle,
 		graphStore,
 		ListItem,
 		Overlay,
@@ -129,7 +129,7 @@
 	<div class="relative min-h-[56px] p-4">
 		{#if $query.loading}
 			<Overlay center class="rounded">
-				<CircularProgress />
+				<ProgressCircle />
 			</Overlay>
 		{/if}
 

@@ -1,15 +1,7 @@
 <script lang="ts">
 	import { mdiAccount, mdiDatabase, mdiPlay, mdiSourceBranch, mdiSourceRepository } from '@mdi/js';
 
-	import {
-		AppBar,
-		Button,
-		Card,
-		CircularProgress,
-		fetchStore,
-		Overlay,
-		TextField
-	} from 'svelte-ux';
+	import { AppBar, Button, Card, ProgressCircle, fetchStore, Overlay, TextField } from 'svelte-ux';
 
 	import { user } from '$lib/stores';
 
@@ -86,7 +78,7 @@
 	<div class="relative min-h-[56px] p-4">
 		{#if $query.loading}
 			<Overlay center class="rounded">
-				<CircularProgress />
+				<ProgressCircle />
 			</Overlay>
 		{/if}
 

@@ -12,9 +12,10 @@
 	import { Avatar, Button, Dialog, Icon, NavItem, Toggle, Tooltip } from 'svelte-ux';
 
 	import { user } from '$lib/stores';
+	import { page } from '$app/stores';
 </script>
 
-<NavItem class="pl-4 py-2 border-b border-gray-600 ">
+<NavItem currentUrl={$page.url} class="pl-4 border-b border-neutral-600">
 	<Avatar class="bg-gray-600 mr-4">
 		<Icon path={mdiAccount} />
 	</Avatar>
@@ -42,18 +43,28 @@
 				>
 					Sign out
 				</Button>
-				<Button class="">Cancel</Button>
+				<Button>Cancel</Button>
 			</div>
 		</Dialog>
 	</Toggle>
 </NavItem>
 
-<NavItem text="Home" icon={mdiHome} path="/" class="pl-6 py-2 mt-2" />
+<NavItem text="Home" icon={mdiHome} path="/" currentUrl={$page.url} class="mt-2" />
 
-<div class="pt-4 pb-2 pl-4 text-xs text-gray-200 font-bold">User</div>
-<NavItem text="Contributions" icon={mdiPeriodicTable} path="/contributions" class="pl-6 py-2" />
-<NavItem text="Repositories" icon={mdiCodeBraces} path="/repositories" class="pl-6 py-2" />
+<h2>User</h2>
+<NavItem
+	text="Contributions"
+	icon={mdiPeriodicTable}
+	path="/contributions"
+	currentUrl={$page.url}
+/>
+<NavItem text="Repositories" icon={mdiCodeBraces} path="/repositories" currentUrl={$page.url} />
 
-<div class="pt-4 pb-2 pl-4 text-xs text-gray-200 font-bold">Repository</div>
-<NavItem text="Punch Card" icon={mdiTimelineClockOutline} path="/punchcard" class="pl-6 py-2" />
-<NavItem text="Commits" icon={mdiSourceCommit} path="/commits" class="pl-6 py-2" />
+<h2>Repository</h2>
+<NavItem
+	text="Punch Card"
+	icon={mdiTimelineClockOutline}
+	path="/punchcard"
+	currentUrl={$page.url}
+/>
+<NavItem text="Commits" icon={mdiSourceCommit} path="/commits" currentUrl={$page.url} />

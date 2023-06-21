@@ -1,6 +1,6 @@
 <script lang="ts">
 	import gql from 'graphql-tag';
-	import { AppBar, CircularProgress, graphStore, ListItem, Overlay } from 'svelte-ux';
+	import { AppBar, ProgressCircle, graphStore, ListItem, Overlay } from 'svelte-ux';
 
 	const query = graphStore();
 	$: query.fetch({
@@ -29,7 +29,7 @@
 	<div class="relative min-h-[56px]">
 		{#if $query.loading}
 			<Overlay center class="rounded">
-				<CircularProgress />
+				<ProgressCircle />
 			</Overlay>
 		{/if}
 

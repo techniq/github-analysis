@@ -1,13 +1,3 @@
-<script context="module" lang="ts">
-	export async function load({ session }) {
-		return {
-			props: {
-				accessToken: session.accessToken
-			}
-		};
-	}
-</script>
-
 <script lang="ts">
 	import { writable } from 'svelte/store';
 	import { flip } from 'svelte/animate';
@@ -21,14 +11,15 @@
 		Card,
 		Button,
 		graphStore,
-		CircularProgress
+		ProgressCircle,
+		createTheme
 	} from 'svelte-ux';
 
 	import { user } from '$lib/stores';
 
 	import NavMenu from './_NavMenu.svelte';
 
-	export let accessToken: string;
+	export let data;
 
 	const fetchErrors = writable([]);
 
@@ -38,11 +29,22 @@
 			options() {
 				return {
 					headers: {
-						Authorization: `Bearer ${accessToken}`
+						Authorization: `Bearer ${data.accessToken}`
 					}
 				};
 			},
 			errors: fetchErrors
+		}
+	});
+
+	createTheme({
+		AppBar: 'bg-accent-500 text-white shadow-md',
+		AppLayout: {
+			nav: 'bg-neutral-800'
+		},
+		NavItem: {
+			root: 'text-gray-400 hover:text-white hover:bg-gray-300/10 [&:where(.is-active)]:text-sky-400 [&:where(.is-active)]:bg-gray-500/10 pl-6 py-2',
+			indicator: 'bg-sky-500'
 		}
 	});
 
@@ -59,12 +61,13 @@
 		config: {
 			onDataChange(data) {
 				$user = data.viewer;
-			}
+			},
+			disabled: data.accessToken == null
 		}
 	});
 </script>
 
-{#if !accessToken}
+{#if !data.accessToken}
 	<ViewportCenter>
 		<Card title="Authenticate" subheading="Login to retrieve access token for GraphQL">
 			<div class="px-4 pb-4">
@@ -78,7 +81,7 @@
 	<ViewportCenter>
 		<Card>
 			<div class="grid place-items-center gap-4 p-4">
-				<CircularProgress />
+				<ProgressCircle />
 				<div class="text-lg">Loading user...</div>
 			</div>
 		</Card>
@@ -120,5 +123,13 @@
 
 	:global(body) {
 		@apply bg-black/10;
+	}
+
+	:global(nav h1) {
+		@apply py-2 pl-4 mt-4 text-sm text-gray-200 font-bold bg-black/20 border-t border-b border-white/10;
+	}
+
+	:global(nav h2) {
+		@apply pt-4 pb-2 pl-4 text-xs text-gray-200 font-bold;
 	}
 </style>

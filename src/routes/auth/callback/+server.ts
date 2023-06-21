@@ -1,14 +1,16 @@
-import cookie, { CookieSerializeOptions } from 'cookie';
-import { baseUrl, clientId, clientSecret } from './_config';
+import { redirect } from '@sveltejs/kit';
+import type { CookieSerializeOptions } from 'cookie';
 
-export async function get(req) {
-	const code = req.url.searchParams.get('code');
+import { baseUrl, clientId, clientSecret } from '../_config';
+
+export async function GET({ url, locals, cookies }) {
+	const code = url.searchParams.get('code');
 	const accessToken = await getAccessToken(code);
 	const user = await getUser(accessToken);
 
 	// Set on request locals to be read in `handle` hook
-	req.locals.accessToken = accessToken;
-	req.locals.user = user.login;
+	locals.accessToken = accessToken;
+	locals.user = user.login;
 
 	const cookieOptions = {
 		path: '/',
@@ -16,17 +18,10 @@ export async function get(req) {
 		secure: baseUrl.startsWith('https://')
 	} as CookieSerializeOptions;
 
-	return {
-		status: 302,
-		headers: {
-			'Set-Cookie': [
-				cookie.serialize('user', user.login || '', cookieOptions),
-				cookie.serialize('accessToken', accessToken || '', cookieOptions)
-			],
-			Location: '/'
-		}
-		// body: JSON.stringify({ accessToken, user })
-	};
+	cookies.set('user', user.login || '', cookieOptions);
+	cookies.set('accessToken', accessToken || '', cookieOptions);
+
+	throw redirect(302, '/');
 }
 
 /**
