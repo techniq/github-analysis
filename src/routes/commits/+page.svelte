@@ -53,9 +53,7 @@
 			shrinkLabel
 			class="flex-1"
 		/>
-		<Button type="submit" icon={mdiPlay} class="bg-blue-500 text-white hover:bg-blue-600">
-			Run
-		</Button>
+		<Button type="submit" icon={mdiPlay} variant="fill" color="blue">Run</Button>
 	</form>
 
 	<div class="relative min-h-[56px] p-4">

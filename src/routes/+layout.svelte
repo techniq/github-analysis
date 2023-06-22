@@ -15,6 +15,7 @@
 	import { user } from '$lib/stores';
 
 	import NavMenu from './_NavMenu.svelte';
+	import { mdiLogin } from '@mdi/js';
 
 	export let data;
 
@@ -52,9 +53,9 @@
 	<ViewportCenter>
 		<Card title="Authenticate" subheading="Login to retrieve access token for GraphQL">
 			<div class="px-4 pb-4">
-				<Button href="/auth/login" rel="external" class="bg-blue-500 hover:bg-blue-600 text-white">
-					Login
-				</Button>
+				<Button href="/auth/login" rel="external" variant="fill" color="blue" icon={mdiLogin}
+					>Login</Button
+				>
 			</div>
 		</Card>
 	</ViewportCenter>
