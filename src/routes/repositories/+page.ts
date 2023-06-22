@@ -1,4 +1,5 @@
 import { Github } from '$lib/github.js';
+import { gql } from 'svelte-ux';
 // import type { User } from '@octokit/graphql-schema';
 
 export async function load({ parent }) {
@@ -11,7 +12,7 @@ export async function load({ parent }) {
 async function fetchRepositories(accessToken: string) {
   const github = new Github(accessToken);
   const { viewer } = await github.graphql<{ viewer: any }>(
-    `
+    gql`
       query ($last: Int!) {
         viewer {
           name

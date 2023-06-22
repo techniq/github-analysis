@@ -1,4 +1,5 @@
 import { Github } from '$lib/github.js';
+import { gql } from 'svelte-ux';
 // import type { User } from '@octokit/graphql-schema';
 
 export async function load({ parent, url }) {
@@ -22,7 +23,7 @@ async function fetchCommits(
 ) {
   const github = new Github(accessToken);
   const { repository } = await github.graphql<{ repository: any }>(
-    `
+    gql`
       query ($owner: String!, $repo: String!, $branch: String!) {
         repository(owner: $owner, name: $repo) {
           diskUsage

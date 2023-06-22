@@ -1,5 +1,4 @@
 <script lang="ts">
-	// import gql from 'graphql-tag';
 	import { AppBar, ListItem } from 'svelte-ux';
 
 	export let data;
