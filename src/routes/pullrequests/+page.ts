@@ -1,4 +1,5 @@
 import { Github } from '$lib/github.js';
+import { gql } from 'svelte-ux';
 // import type { User } from '@octokit/graphql-schema';
 
 export async function load({ parent }) {
@@ -13,7 +14,7 @@ async function fetchPullRequests(accessToken: string) {
 
   // Reference: https://gist.github.com/MichaelCurrin/f8a7a11451ce4ec055d41000c915b595
   const { viewer } = await github.graphql<{ viewer: any }>(
-    `
+    gql`
       query ($first: Int!) {
         viewer {
           pullRequests(
@@ -25,7 +26,13 @@ async function fetchPullRequests(accessToken: string) {
               id
               number
               title
+              url
               state
+              reviewDecision
+              createdAt
+              updatedAt
+              mergedAt
+              closedAt
               repository {
                 nameWithOwner
                 isPrivate
@@ -81,10 +88,10 @@ async function fetchPullRequests(accessToken: string) {
         # 		}
         # 	}
         # }
-    }
+      }
     `,
     {
-      first: 10
+      first: 40
     }
   );
   return viewer.pullRequests;
