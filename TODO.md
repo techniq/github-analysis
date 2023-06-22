@@ -12,21 +12,21 @@
 
 ```gql
 query {
-	user(login: "techniq") {
-		login
+  user(login: "techniq") {
+    login
 
-		followers {
-			totalCount
-		}
+    followers {
+      totalCount
+    }
 
-		following {
-			totalCount
-		}
+    following {
+      totalCount
+    }
 
-		starredRepositories {
-			totalCount
-		}
-	}
+    starredRepositories {
+      totalCount
+    }
+  }
 }
 ```
 
@@ -36,13 +36,13 @@ query {
 
 ```gql
 query {
-	repository(owner: "sveltejs", name: "svelte") {
-		stargazers(last: 10) {
-			totalCount
-			nodes {
-				login
-			}
-		}
-	}
+  repository(owner: "sveltejs", name: "svelte") {
+    stargazers(last: 10) {
+      totalCount
+      nodes {
+        login
+      }
+    }
+  }
 }
 ```

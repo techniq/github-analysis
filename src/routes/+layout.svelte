@@ -1,135 +1,135 @@
 <script lang="ts">
-	import { writable } from 'svelte/store';
-	import { flip } from 'svelte/animate';
-	import gql from 'graphql-tag';
+  import { writable } from 'svelte/store';
+  import { flip } from 'svelte/animate';
+  import gql from 'graphql-tag';
 
-	import {
-		AppLayout,
-		initGraphClient,
-		ErrorNotification,
-		ViewportCenter,
-		Card,
-		Button,
-		graphStore,
-		ProgressCircle,
-		createTheme
-	} from 'svelte-ux';
+  import {
+    AppLayout,
+    initGraphClient,
+    ErrorNotification,
+    ViewportCenter,
+    Card,
+    Button,
+    graphStore,
+    ProgressCircle,
+    createTheme
+  } from 'svelte-ux';
 
-	import { user } from '$lib/stores';
+  import { user } from '$lib/stores';
 
-	import NavMenu from './_NavMenu.svelte';
+  import NavMenu from './_NavMenu.svelte';
 
-	export let data;
+  export let data;
 
-	const fetchErrors = writable([]);
+  const fetchErrors = writable([]);
 
-	initGraphClient({
-		url: 'https://api.github.com/graphql',
-		config: {
-			options() {
-				return {
-					headers: {
-						Authorization: `Bearer ${data.accessToken}`
-					}
-				};
-			},
-			errors: fetchErrors
-		}
-	});
+  initGraphClient({
+    url: 'https://api.github.com/graphql',
+    config: {
+      options() {
+        return {
+          headers: {
+            Authorization: `Bearer ${data.accessToken}`
+          }
+        };
+      },
+      errors: fetchErrors
+    }
+  });
 
-	createTheme({
-		AppBar: 'bg-accent-500 text-white shadow-md',
-		AppLayout: {
-			nav: 'bg-neutral-800'
-		},
-		NavItem: {
-			root: 'text-gray-400 hover:text-white hover:bg-gray-300/10 [&:where(.is-active)]:text-sky-400 [&:where(.is-active)]:bg-gray-500/10 pl-6 py-2',
-			indicator: 'bg-sky-500'
-		}
-	});
+  createTheme({
+    AppBar: 'bg-accent-500 text-white shadow-md',
+    AppLayout: {
+      nav: 'bg-neutral-800'
+    },
+    NavItem: {
+      root: 'text-gray-400 hover:text-white hover:bg-gray-300/10 [&:where(.is-active)]:text-sky-400 [&:where(.is-active)]:bg-gray-500/10 pl-6 py-2',
+      indicator: 'bg-sky-500'
+    }
+  });
 
-	const query = graphStore();
-	$: query.fetch({
-		query: gql`
-			query {
-				viewer {
-					login
-					name
-				}
-			}
-		`,
-		config: {
-			onDataChange(data) {
-				$user = data.viewer;
-			},
-			disabled: data.accessToken == null
-		}
-	});
+  const query = graphStore();
+  $: query.fetch({
+    query: gql`
+      query {
+        viewer {
+          login
+          name
+        }
+      }
+    `,
+    config: {
+      onDataChange(data) {
+        $user = data.viewer;
+      },
+      disabled: data.accessToken == null
+    }
+  });
 </script>
 
 {#if !data.accessToken}
-	<ViewportCenter>
-		<Card title="Authenticate" subheading="Login to retrieve access token for GraphQL">
-			<div class="px-4 pb-4">
-				<Button href="/auth/login" rel="external" class="bg-blue-500 hover:bg-blue-600 text-white">
-					Login
-				</Button>
-			</div>
-		</Card>
-	</ViewportCenter>
+  <ViewportCenter>
+    <Card title="Authenticate" subheading="Login to retrieve access token for GraphQL">
+      <div class="px-4 pb-4">
+        <Button href="/auth/login" rel="external" class="bg-blue-500 hover:bg-blue-600 text-white">
+          Login
+        </Button>
+      </div>
+    </Card>
+  </ViewportCenter>
 {:else if $query.loading}
-	<ViewportCenter>
-		<Card>
-			<div class="grid place-items-center gap-4 p-4">
-				<ProgressCircle />
-				<div class="text-lg">Loading user...</div>
-			</div>
-		</Card>
-	</ViewportCenter>
+  <ViewportCenter>
+    <Card>
+      <div class="grid place-items-center gap-4 p-4">
+        <ProgressCircle />
+        <div class="text-lg">Loading user...</div>
+      </div>
+    </Card>
+  </ViewportCenter>
 {:else}
-	<AppLayout>
-		<nav slot="nav" class="nav h-full">
-			<NavMenu />
-		</nav>
+  <AppLayout>
+    <nav slot="nav" class="nav h-full">
+      <NavMenu />
+    </nav>
 
-		<slot />
-	</AppLayout>
+    <slot />
+  </AppLayout>
 {/if}
 
 {#if $fetchErrors.length}
-	<div
-		class="flex flex-col gap-4 fixed top-0 right-0 p-7 overflow-auto h-max-screen z-[100] pointer-events-none"
-	>
-		{#each $fetchErrors as error (error)}
-			<div class="pointer-events-auto" animate:flip>
-				<ErrorNotification
-					title="An error has occurred"
-					description={error.message}
-					message={error.extensions?.message}
-					stackTrace={error.extensions?.stackTrace}
-					on:close={() => {
-						$fetchErrors = $fetchErrors.filter((e) => e != error);
-					}}
-				/>
-			</div>
-		{/each}
-	</div>
+  <div
+    class="flex flex-col gap-4 fixed top-0 right-0 p-7 overflow-auto h-max-screen z-[100] pointer-events-none"
+  >
+    {#each $fetchErrors as error (error)}
+      <div class="pointer-events-auto" animate:flip>
+        <ErrorNotification
+          title="An error has occurred"
+          description={error.message}
+          message={error.extensions?.message}
+          stackTrace={error.extensions?.stackTrace}
+          on:close={() => {
+            $fetchErrors = $fetchErrors.filter((e) => e != error);
+          }}
+        />
+      </div>
+    {/each}
+  </div>
 {/if}
 
 <style lang="postcss">
-	@tailwind base;
-	@tailwind components;
-	@tailwind utilities;
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
 
-	:global(body) {
-		@apply bg-black/10;
-	}
+  :global(body) {
+    @apply bg-black/10;
+  }
 
-	:global(nav h1) {
-		@apply py-2 pl-4 mt-4 text-sm text-gray-200 font-bold bg-black/20 border-t border-b border-white/10;
-	}
+  :global(nav h1) {
+    @apply py-2 pl-4 mt-4 text-sm text-gray-200 font-bold bg-black/20 border-t border-b border-white/10;
+  }
 
-	:global(nav h2) {
-		@apply pt-4 pb-2 pl-4 text-xs text-gray-200 font-bold;
-	}
+  :global(nav h2) {
+    @apply pt-4 pb-2 pl-4 text-xs text-gray-200 font-bold;
+  }
 </style>
