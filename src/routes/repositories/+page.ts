@@ -1,0 +1,32 @@
+import { Github } from '$lib/github.js';
+// import type { User } from '@octokit/graphql-schema';
+
+export async function load({ parent }) {
+  const { accessToken } = await parent();
+  return {
+    repositories: fetchRepositories(accessToken)
+  };
+}
+
+async function fetchRepositories(accessToken: string) {
+  const github = new Github(accessToken);
+  const { viewer } = await github.graphql<{ viewer: any }>(
+    `
+      query ($last: Int!) {
+        viewer {
+          name
+          repositories(last: $last) {
+            nodes {
+              nameWithOwner
+              description
+            }
+          }
+        }
+      }
+    `,
+    {
+      last: 10
+    }
+  );
+  return viewer.repositories;
+}
