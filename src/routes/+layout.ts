@@ -5,7 +5,7 @@ export const ssr = false;
 export async function load({ data }) {
   return {
     ...data,
-    user: fetchUser(data.accessToken)
+    user: data.accessToken ? fetchUser(data.accessToken) : null
   };
 }
 
