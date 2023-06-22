@@ -141,7 +141,10 @@
 <AppBar title="Contributions" />
 
 <main>
-	<div class="grid grid-cols-[1fr,1fr,auto] gap-2 bg-white border-b p-4">
+	<form
+		class="grid grid-cols-[1fr,1fr,auto] gap-2 bg-white border-b p-4"
+		on:submit|preventDefault={fetchAll}
+	>
 		<TextField
 			label="User"
 			bind:value={login}
@@ -149,15 +152,10 @@
 			dense
 			placeholder="User to lookup"
 			shrinkLabel
-			on:keypress={(e) => {
-				if (e.key === 'Enter') {
-					fetchAll();
-				}
-			}}
 		/>
 		<DateRangeField label="Date Range" bind:value={dateRange} icon={mdiCalendarRange} dense />
-		<Button on:click={() => fetchAll()} icon={mdiPlay} variant="fill" color="blue">Run</Button>
-	</div>
+		<Button type="submit" icon={mdiPlay} variant="fill" color="blue">Run</Button>
+	</form>
 
 	<div class="p-4">
 		<div class="grid gap-4">

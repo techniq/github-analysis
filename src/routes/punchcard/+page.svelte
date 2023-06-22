@@ -45,7 +45,7 @@
 <AppBar title="Punch Card" />
 
 <main>
-	<div class="flex gap-2 bg-white border-b p-4">
+	<form class="flex gap-2 bg-white border-b p-4" on:submit|preventDefault={run}>
 		<TextField
 			label="Owner"
 			bind:value={owner}
@@ -54,11 +54,6 @@
 			placeholder="User or organization"
 			shrinkLabel
 			class="flex-1"
-			on:keypress={(e) => {
-				if (e.key === 'Enter') {
-					run();
-				}
-			}}
 		/>
 		<TextField
 			label="Repository"
@@ -68,11 +63,6 @@
 			placeholder="Name of repository"
 			shrinkLabel
 			class="flex-1"
-			on:keypress={(e) => {
-				if (e.key === 'Enter') {
-					run();
-				}
-			}}
 		/>
 		<TextField
 			label="Branch"
@@ -82,14 +72,9 @@
 			placeholder="Name of repository"
 			shrinkLabel
 			class="flex-1"
-			on:keypress={(e) => {
-				if (e.key === 'Enter') {
-					run();
-				}
-			}}
 		/>
-		<Button on:click={() => run()} icon={mdiPlay} variant="fill" color="blue">Run</Button>
-	</div>
+		<Button type="submit" icon={mdiPlay} variant="fill" color="blue">Run</Button>
+	</form>
 
 	<div class="relative min-h-[56px] p-4">
 		{#if $query.loading}
