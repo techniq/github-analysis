@@ -1,5 +1,22 @@
 <script lang="ts">
+  import { fly } from 'svelte/transition';
   import { mdiCalendar, mdiSourcePull } from '@mdi/js';
+  import { scaleTime, scaleBand } from 'd3-scale';
+
+  import {
+    Axis,
+    Baseline,
+    Chart,
+    ConnectedPoints,
+    HighlightLine,
+    HighlightRect,
+    Points,
+    Svg,
+    Tooltip as ChartTooltip,
+    TooltipItem,
+    TooltipSeparator
+  } from 'layerchart';
+
   import {
     AppBar,
     ListItem,
@@ -9,17 +26,62 @@
     Icon,
     Tooltip,
     dateDisplay,
-    PeriodType
+    PeriodType,
+    Duration,
+    formatDate,
+    Card
   } from 'svelte-ux';
-  import { fly } from 'svelte/transition';
+  import { createPropertySortFunc } from 'svelte-ux/utils/sort';
 
   export let data;
+
+  $: pullRequests = data.pullRequests.nodes.sort(createPropertySortFunc('createdAt', 'asc'));
 </script>
 
 <AppBar title="Pull Requests" />
 
-<main class="p-4">
-  <div class="relative min-h-[56px]">
+<main class="p-4 grid gap-3">
+  <Card class="p-4" style="height: {32 + 56 + pullRequests.length * 16}px">
+    <Chart
+      data={pullRequests}
+      x={['createdAt', 'closedAt']}
+      xScale={scaleTime()}
+      y="number"
+      yScale={scaleBand()}
+      padding={{ left: 36, bottom: 56 }}
+      tooltip={{ mode: 'band' }}
+    >
+      <Svg>
+        <Axis
+          placement="left"
+          gridlines={{ style: 'stroke-dasharray: 2' }}
+          labelProps={{ dx: -8 }}
+        />
+        <Axis
+          placement="bottom"
+          format={(d) => formatDate(d, PeriodType.Day)}
+          labelProps={{ rotate: 315, textAnchor: 'end', verticalAnchor: 'middle', dy: 10 }}
+        />
+        <Baseline y />
+        <ConnectedPoints stroke="#000" />
+        <Points class="fill-blue-500 stroke-blue-800" />
+        <HighlightLine color="var(--color-blue-500)" />
+        <HighlightRect />
+      </Svg>
+      <ChartTooltip let:data>
+        <div class="col-span-full text-center text-accent-400">#{data.number}</div>
+        <div class="col-span-full max-w-[300px] text-sm text-center mb-2">{data.title}</div>
+        <TooltipItem label="Created At" value={dateDisplay(data.createdAt)} />
+        <TooltipItem label="Closed At" value={dateDisplay(data.closedAt)} />
+        <TooltipSeparator />
+        <TooltipItem label="duration" valueAlign="right">
+          <Duration start={data.createdAt} end={data.closedAt} totalUnits={2} />
+        </TooltipItem>
+      </ChartTooltip>
+    </Chart>
+  </Card>
+
+  <div>
     {#each data.pullRequests.nodes as pr}
       <ListItem
         icon={mdiSourcePull}

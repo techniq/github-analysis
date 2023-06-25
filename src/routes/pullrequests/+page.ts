@@ -91,7 +91,7 @@ async function fetchPullRequests(accessToken: string) {
       }
     `,
     {
-      first: 40
+      first: 50
     }
   );
   return viewer.pullRequests;
