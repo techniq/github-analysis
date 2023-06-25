@@ -1,3 +1,5 @@
+import { parse } from 'svelte-ux';
+
 export class Github {
   accessToken: string;
 
@@ -17,7 +19,10 @@ export class Github {
         variables
       })
     })
-      .then((response) => response.json())
+      .then(async (response) => {
+        const text = await response.text();
+        return parse(text);
+      })
       .then((json) => json.data as Data);
   }
 }
