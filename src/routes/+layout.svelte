@@ -91,7 +91,6 @@
 <style lang="postcss">
   @tailwind base;
   @tailwind components;
-  @tailwind utilities;
 
   :global(body) {
     @apply bg-black/10;
@@ -123,4 +122,6 @@
       @apply text-sky-400 bg-gray-500/10 border-sky-400;
     }
   }
+
+  @tailwind utilities;
 </style>
