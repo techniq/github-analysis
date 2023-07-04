@@ -72,7 +72,7 @@
       shrinkLabel
       class="flex-1"
     />
-    <Button type="submit" icon={mdiPlay} variant="fill" color="blue">Run</Button>
+    <Button type="submit" icon={mdiPlay} variant="fill" color="accent">Run</Button>
   </form>
 
   <div class="relative min-h-[56px] p-4">
@@ -136,7 +136,7 @@
                   cx={point.x}
                   cy={point.y}
                   r={rScale(point.data.count)}
-                  class="fill-blue-500"
+                  class="fill-emerald-600"
                 />
                 <Text
                   x={point.x}
@@ -144,7 +144,7 @@
                   value={point.data.count}
                   textAnchor="middle"
                   verticalAnchor="middle"
-                  class="stroke-blue-800 fill-white text-xs stroke-2 transition-all opacity-0 group-hover:opacity-100"
+                  class="stroke-emerald-800 fill-white text-xs stroke-2 transition-all opacity-0 group-hover:opacity-100"
                   capHeight=".6rem"
                 />
               {/each}

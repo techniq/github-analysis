@@ -64,8 +64,8 @@
         />
         <Baseline y />
         <ConnectedPoints stroke="#000" />
-        <Points class="fill-blue-500 stroke-blue-800" />
-        <HighlightLine color="var(--color-blue-500)" />
+        <Points class="fill-emerald-500 stroke-emerald-700" />
+        <HighlightLine color="var(--color-emerald-500)" />
         <HighlightRect />
       </Svg>
       <ChartTooltip let:data>

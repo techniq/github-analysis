@@ -105,21 +105,21 @@
   }
 
   :global(.AppBar) {
-    @apply bg-accent-500 text-white shadow-md;
+    @apply bg-emerald-600 text-white shadow-md;
   }
   :global(nav) {
     @apply bg-neutral-800;
   }
 
   :global(.NavItem) {
-    @apply text-sm text-gray-400 pl-6 py-2 border-l-4 border-transparent;
+    @apply text-sm text-neutral-400 pl-6 py-2 border-l-4 border-transparent;
 
     &:hover {
-      @apply text-white bg-gray-300/10;
+      @apply text-white bg-neutral-400/10;
     }
 
     &.is-active {
-      @apply text-sky-400 bg-gray-500/10 border-sky-400;
+      @apply text-emerald-500 bg-neutral-400/10 border-emerald-400;
     }
   }
 
