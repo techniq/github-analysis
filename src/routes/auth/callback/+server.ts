@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { CookieSerializeOptions } from 'cookie';
 
-import { baseUrl, clientId, clientSecret } from '../_config';
+import { BASE_URL, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from '$env/static/private';
 
 export async function GET({ url, locals, cookies }) {
   const code = url.searchParams.get('code');
@@ -15,7 +15,7 @@ export async function GET({ url, locals, cookies }) {
   const cookieOptions = {
     path: '/',
     httpOnly: true,
-    secure: baseUrl.startsWith('https://')
+    secure: BASE_URL.startsWith('https://')
   } as CookieSerializeOptions;
 
   cookies.set('user', user.login || '', cookieOptions);
@@ -32,8 +32,8 @@ async function getAccessToken(code: string) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     body: JSON.stringify({
-      client_id: clientId,
-      client_secret: clientSecret,
+      client_id: GITHUB_CLIENT_ID,
+      client_secret: GITHUB_CLIENT_SECRET,
       code
     })
   });
