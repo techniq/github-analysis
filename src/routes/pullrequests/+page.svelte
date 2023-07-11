@@ -5,7 +5,6 @@
 
   import {
     Axis,
-    Baseline,
     Chart,
     ConnectedPoints,
     HighlightLine,
@@ -54,15 +53,15 @@
       <Svg>
         <Axis
           placement="left"
-          gridlines={{ style: 'stroke-dasharray: 2' }}
+          grid={{ style: 'stroke-dasharray: 2' }}
           labelProps={{ dx: -8 }}
+          rule
         />
         <Axis
           placement="bottom"
           format={(d) => formatDate(d, PeriodType.Day)}
           labelProps={{ rotate: 315, textAnchor: 'end', verticalAnchor: 'middle', dy: 10 }}
         />
-        <Baseline y />
         <ConnectedPoints stroke="#000" />
         <Points class="fill-emerald-500 stroke-emerald-700" />
         <HighlightLine color="var(--color-emerald-500)" />

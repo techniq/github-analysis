@@ -7,7 +7,6 @@
 
   import {
     Axis,
-    Baseline,
     Chart,
     Circle,
     HighlightRect,
@@ -126,10 +125,10 @@
             <Axis
               placement="left"
               format={(d) => daysOfWeek[d]}
-              gridlines={{ style: 'stroke-dasharray: 2' }}
+              grid={{ style: 'stroke-dasharray: 2' }}
+              rule
             />
-            <Axis placement="bottom" format={(d) => `${d}:00`} gridlines />
-            <Baseline y />
+            <Axis placement="bottom" format={(d) => `${d}:00`} grid />
             <Points let:points>
               {#each points as point, index}
                 <Circle
