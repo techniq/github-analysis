@@ -9,7 +9,7 @@
     Axis,
     Chart,
     Circle,
-    HighlightRect,
+    Highlight,
     Points,
     Svg,
     Text,
@@ -50,7 +50,6 @@
       icon={mdiAccount}
       dense
       placeholder="User or organization"
-      shrinkLabel
       class="flex-1"
     />
     <TextField
@@ -59,7 +58,6 @@
       icon={mdiDatabase}
       dense
       placeholder="Name of repository"
-      shrinkLabel
       class="flex-1"
     />
     <TextField
@@ -68,7 +66,6 @@
       icon={mdiSourceBranch}
       dense
       placeholder="Name of repository"
-      shrinkLabel
       class="flex-1"
     />
     <Button type="submit" icon={mdiPlay} variant="fill" color="accent">Run</Button>
@@ -148,8 +145,8 @@
                 />
               {/each}
             </Points>
-            <HighlightRect axis="x" />
-            <HighlightRect axis="y" />
+            <Highlight area axis="x" />
+            <Highlight area axis="y" />
           </Svg>
           <Tooltip header={(d) => daysOfWeek[d.weekday] + ' @ ' + d.hour + ':00'} let:data>
             <TooltipItem label="Commits" value={data?.count} valueAlign="right" />

@@ -6,9 +6,7 @@
   import {
     Axis,
     Chart,
-    ConnectedPoints,
-    HighlightLine,
-    HighlightRect,
+    Highlight,
     Points,
     Svg,
     Tooltip as ChartTooltip,
@@ -62,10 +60,8 @@
           format={(d) => formatDate(d, PeriodType.Day)}
           labelProps={{ rotate: 315, textAnchor: 'end', verticalAnchor: 'middle', dy: 10 }}
         />
-        <ConnectedPoints stroke="#000" />
-        <Points class="fill-emerald-500 stroke-emerald-700" />
-        <HighlightLine color="var(--color-emerald-500)" />
-        <HighlightRect />
+        <Points class="fill-emerald-500 stroke-emerald-700" links />
+        <Highlight points={{ class: 'fill-emerald-500' }} lines area />
       </Svg>
       <ChartTooltip let:data>
         <div class="col-span-full text-center text-accent-400">#{data.number}</div>

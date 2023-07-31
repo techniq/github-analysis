@@ -151,7 +151,6 @@
       icon={mdiAccount}
       dense
       placeholder="User to lookup"
-      shrinkLabel
     />
     <DateRangeField label="Date Range" bind:value={dateRange} icon={mdiCalendarRange} dense />
     <Button type="submit" icon={mdiPlay} variant="fill" color="blue">Run</Button>
