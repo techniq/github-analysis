@@ -57,7 +57,7 @@
         <div slot="title">
           {commit.node.message}
           <span class="text-xs text-black/50 whitespace-nowrap">
-            {format(new Date(commit.node.committedDate), 'h:mm aa')}
+            {format(commit.node.committedDate, 'h:mm aa')}
           </span>
         </div>
         <div slot="actions" />
