@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { mdiAccount, mdiDatabase, mdiPlay, mdiSourceBranch, mdiSourceRepository } from '@mdi/js';
+  import { mdiAccount, mdiDatabase, mdiPlay, mdiSourceBranch } from '@mdi/js';
   import { scaleBand, scaleLinear, scaleSqrt } from 'd3-scale';
   import { max, range } from 'd3-array';
 
-  import { AppBar, Button, Card, ProgressCircle, fetchStore, Overlay, TextField } from 'svelte-ux';
+  import { Button, Card, ProgressCircle, fetchStore, Overlay, TextField } from 'svelte-ux';
 
   import {
     Axis,
@@ -39,8 +39,6 @@
 
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 </script>
-
-<AppBar title="Punch Card" />
 
 <main>
   <form class="flex gap-2 bg-white border-b p-4" on:submit|preventDefault={run}>

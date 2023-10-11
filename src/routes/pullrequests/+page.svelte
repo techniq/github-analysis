@@ -15,7 +15,6 @@
   } from 'layerchart';
 
   import {
-    AppBar,
     ListItem,
     DividerDot,
     Button,
@@ -34,8 +33,6 @@
 
   $: pullRequests = data.pullRequests.nodes.sort(createPropertySortFunc('createdAt', 'asc'));
 </script>
-
-<AppBar title="Pull Requests" />
 
 <main class="p-4 grid gap-3">
   <Card class="p-4" style="height: {32 + 56 + pullRequests.length * 16}px">

@@ -5,7 +5,6 @@
   import { mdiAccount, mdiCalendarRange, mdiOpenInNew, mdiPlay } from '@mdi/js';
 
   import {
-    AppBar,
     Button,
     Card,
     ProgressCircle,
@@ -137,8 +136,6 @@
 
   fetchAll();
 </script>
-
-<AppBar title="Contributions" />
 
 <main>
   <form

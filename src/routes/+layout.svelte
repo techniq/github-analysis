@@ -9,13 +9,15 @@
     ViewportCenter,
     Card,
     Button,
-    createTheme
+    createTheme,
+    AppBar,
+    Tooltip
   } from 'svelte-ux';
 
   import { user } from '$lib/stores';
 
   import NavMenu from './_NavMenu.svelte';
-  import { mdiLogin } from '@mdi/js';
+  import { mdiGithub, mdiLogin, mdiTwitter } from '@mdi/js';
 
   export let data;
 
@@ -63,6 +65,28 @@
     <nav slot="nav" class="nav h-full">
       <NavMenu />
     </nav>
+
+    <AppBar title="Github Analysis">
+      <div slot="actions" class="flex gap-3">
+        <Tooltip title="Open Twitter / X" placement="left" offset={2}>
+          <Button
+            icon={mdiTwitter}
+            href="https://twitter.com/techniq35"
+            class="p-2"
+            target="_blank"
+          />
+        </Tooltip>
+
+        <Tooltip title="View repository" placement="left" offset={2}>
+          <Button
+            icon={mdiGithub}
+            href="https://github.com/techniq/github-commit-analyzer"
+            class="p-2"
+            target="_blank"
+          />
+        </Tooltip>
+      </div>
+    </AppBar>
 
     <slot />
   </AppLayout>

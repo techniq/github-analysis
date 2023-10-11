@@ -3,7 +3,7 @@
 
   import { mdiAccount, mdiDatabase, mdiPlay, mdiSourceBranch } from '@mdi/js';
 
-  import { AppBar, Button, ListItem, TextField } from 'svelte-ux';
+  import { Button, ListItem, TextField } from 'svelte-ux';
 
   import { goto } from '$app/navigation';
 
@@ -21,8 +21,6 @@
     goto(`?${params}`);
   }
 </script>
-
-<AppBar title="Commits" />
 
 <main>
   <form class="flex gap-2 bg-white border-b p-4" on:submit|preventDefault={run}>
