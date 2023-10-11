@@ -3,7 +3,7 @@
 
   import { mdiAccount, mdiDatabase, mdiPlay } from '@mdi/js';
 
-  import { Button, ListItem, PeriodType, TextField, format } from 'svelte-ux';
+  import { Button, Card, DividerDot, ListItem, PeriodType, TextField, format } from 'svelte-ux';
   import { createPropertySortFunc } from 'svelte-ux/utils/sort';
 
   import { goto } from '$app/navigation';
@@ -61,9 +61,12 @@
     <Button type="submit" icon={mdiPlay} variant="fill" color="blue">Run</Button>
   </form>
 
-  <div class="p-4">
-    <div class="text-black/50 text-xs mb-2 tracking-wider">{data.stargazers.length} stargazers</div>
-    <div class="h-[300px] p-4 border border-gray-300 rounded bg-white mb-3">
+  <div class="p-4 grid gap-4">
+    <Card
+      title="{data.variables.owner}/{data.variables.repo}"
+      subheading="{data.stargazers.length} stargazers"
+      class="h-[300px]"
+    >
       <Chart
         data={chartData}
         x="starredAt"
@@ -71,7 +74,7 @@
         y="count"
         yDomain={[0, null]}
         yNice
-        padding={{ left: 16, bottom: 24 }}
+        padding={{ left: 24, bottom: 32, right: 24 }}
         tooltip
       >
         <Svg>
@@ -83,12 +86,12 @@
           <Highlight points lines />
         </Svg>
 
-        <Tooltip header={(data) => formatDate(data.starredAt, 'MM/d/yyyy @ h:mm aa')} let:data>
+        <Tooltip header={(data) => formatDate(data.starredAt, 'M/d/yyyy @ h:mm aa')} let:data>
           <TooltipItem label="User" value={data.name ?? data.login} />
           <TooltipItem label="Count" value={data.count} />
         </Tooltip>
       </Chart>
-    </div>
+    </Card>
 
     <div>
       {#each [...data.stargazers].sort(createPropertySortFunc('starredAt', 'desc')) as stargazer}
@@ -105,10 +108,13 @@
               {name}
             </a>
             <span class="text-xs text-black/50 whitespace-nowrap">
-              {formatDate(stargazer.starredAt, 'MM/d/yyyy @ h:mm aa')}
+              {formatDate(stargazer.starredAt, 'M/d/yyyy @ h:mm aa')}
             </span>
           </div>
-          <div slot="actions" />
+          <div slot="subheading" class="text-xs text-black/50">
+            {stargazer.followers.totalCount} followers <DividerDot />
+            {stargazer.following.totalCount} following
+          </div>
         </ListItem>
       {/each}
     </div>

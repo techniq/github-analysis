@@ -28,6 +28,12 @@ async function fetchStargazers(accessToken: string, variables: { owner: string; 
                 name
                 login
                 avatarUrl
+                following {
+                  totalCount
+                }
+                followers {
+                  totalCount
+                }
               }
               starredAt
             }
