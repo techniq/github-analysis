@@ -26,7 +26,7 @@ async function fetchRepositories(accessToken: string) {
       }
     `,
     {
-      last: 10
+      last: 100
     }
   );
   return viewer.repositories;
