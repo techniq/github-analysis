@@ -1,4 +1,4 @@
-# github-commit-analyzer
+# github-analyzer
 
 ## Environment
 
