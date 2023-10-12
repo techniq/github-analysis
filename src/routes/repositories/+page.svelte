@@ -21,7 +21,7 @@
               {repo.nameWithOwner}
             </a>
           </div>
-          <div slot="actions">
+          <div slot="actions" class="whitespace-nowrap">
             <Tooltip title="View stars" offset={2}>
               <Button
                 icon={mdiStar}
