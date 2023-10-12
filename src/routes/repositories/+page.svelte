@@ -22,7 +22,7 @@
             </a>
           </div>
           <div slot="actions">
-            <Tooltip title="View stars">
+            <Tooltip title="View stars" offset={2}>
               <Button
                 icon={mdiStar}
                 href="/stars?owner={owner}&repo={name}"
@@ -34,7 +34,7 @@
               </Button>
             </Tooltip>
 
-            <Tooltip title="View punchcard">
+            <Tooltip title="View punchcard" offset={2}>
               <Button
                 icon={mdiTimelineClockOutline}
                 href="/punchcard?owner={owner}&repo={name}"
@@ -45,7 +45,7 @@
               />
             </Tooltip>
 
-            <Tooltip title="View commits">
+            <Tooltip title="View commits" offset={2}>
               <Button
                 icon={mdiSourceCommit}
                 href="/commits?owner={owner}&repo={name}"
