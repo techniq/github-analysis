@@ -18,8 +18,9 @@
 </script>
 
 <NavItem currentUrl={$page.url} class="pl-4 border-b border-b-neutral-600">
-  <Avatar class="bg-gray-600 mr-4">
-    <Icon path={mdiAccount} />
+  <Avatar class="bg-gray-600 mr-4 overflow-hidden">
+    <img src={$user.avatarUrl} />
+    <!-- <Icon path={mdiAccount} /> -->
   </Avatar>
 
   <div class="flex-grow">

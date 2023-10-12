@@ -18,6 +18,7 @@ async function fetchUser(accessToken: string) {
       viewer {
         login
         name
+        avatarUrl
       }
     }
   `);
