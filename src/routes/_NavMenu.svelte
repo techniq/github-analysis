@@ -47,7 +47,7 @@
   </Toggle>
 </NavItem>
 
-<NavItem text="Home" icon={mdiHome} path="/" currentUrl={$page.url} class="mt-2" />
+<!-- <NavItem text="Home" icon={mdiHome} path="/" currentUrl={$page.url} class="mt-2" /> -->
 
 <h2>User</h2>
 <NavItem
