@@ -12,6 +12,6 @@
     - `VITE_GITHUB_CLIENT_SECRET` (see above)
 - Vercel
   - Add to `Environment Variables` via interface
-    - `VITE_BASE_URL` (ex. `https://commit-analyzer.vercel.app`)
+    - `VITE_BASE_URL` (ex. `https://github-analysis.vercel.app`)
     - `VITE_GITHUB_CLIENT_ID` (see above)
     - `VITE_GITHUB_CLIENT_SECRET` (see above)

@@ -80,7 +80,7 @@
         <Tooltip title="View repository" placement="left" offset={2}>
           <Button
             icon={mdiGithub}
-            href="https://github.com/techniq/github-analyzer"
+            href="https://github.com/techniq/github-analysis"
             class="p-2"
             target="_blank"
           />

@@ -1,5 +1,5 @@
 {
-  "name": "github-analyzer",
+  "name": "github-analysis",
   "version": "0.0.1",
   "scripts": {
     "dev": "vite dev --port 3003",
