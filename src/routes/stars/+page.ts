@@ -17,45 +17,55 @@ export async function load({ parent, url }) {
 }
 
 async function fetchStargazers(accessToken: string, variables: { owner: string; repo: string }) {
-  const github = new Github(accessToken);
-  const { repository } = await github.graphql<{ repository: any }>(
-    gql`
-      query ($owner: String!, $repo: String!) {
-        repository(owner: $owner, name: $repo) {
-          stargazers(last: 100) {
-            edges {
-              node {
-                name
-                login
-                avatarUrl
-                following {
-                  totalCount
+  let stargazers = [];
+
+  async function fetchPage(after: string | null = null) {
+    const github = new Github(accessToken);
+    const { repository } = await github.graphql<{ repository: any }>(
+      gql`
+        query ($owner: String!, $repo: String!, $after: String) {
+          repository(owner: $owner, name: $repo) {
+            stargazers(first: 100, after: $after) {
+              edges {
+                node {
+                  name
+                  login
+                  avatarUrl
+                  following {
+                    totalCount
+                  }
+                  followers {
+                    totalCount
+                  }
                 }
-                followers {
-                  totalCount
-                }
+                starredAt
               }
-              starredAt
+              pageInfo {
+                hasNextPage
+                endCursor
+              }
             }
-            pageInfo {
-              hasNextPage
-            }
-            totalCount
           }
         }
-      }
-    `,
-    variables
-  );
+      `,
+      { ...variables, after }
+    );
 
-  const stargazers = repository.stargazers.edges.map((e: any) => {
-    return {
-      ...e.node,
-      starredAt: e.starredAt
-    };
-  });
+    stargazers = stargazers.concat(
+      repository.stargazers.edges.map((e: any) => {
+        return {
+          ...e.node,
+          starredAt: e.starredAt
+        };
+      })
+    );
 
-  // TODO: Fetch remaining stargazers (100 per page based on `totalCount`)
+    if (repository.stargazers.pageInfo.hasNextPage) {
+      await fetchPage(repository.stargazers.pageInfo.endCursor);
+    }
+  }
+
+  await fetchPage();
 
   return stargazers;
 }
