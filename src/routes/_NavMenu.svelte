@@ -1,6 +1,7 @@
 <script lang="ts">
   import {
     mdiAccount,
+    mdiBookVariant,
     mdiCodeBraces,
     mdiExitRun,
     mdiHome,
@@ -11,7 +12,7 @@
     mdiTimelineClockOutline
   } from '@mdi/js';
 
-  import { Avatar, Button, Dialog, Icon, NavItem, Toggle, Tooltip } from 'svelte-ux';
+  import { Avatar, Button, Dialog, NavItem, Toggle, Tooltip } from 'svelte-ux';
 
   import { user } from '$lib/stores';
   import { page } from '$app/stores';
@@ -50,13 +51,13 @@
 <!-- <NavItem text="Home" icon={mdiHome} path="/" currentUrl={$page.url} class="mt-2" /> -->
 
 <h2>User</h2>
+<NavItem text="Repositories" icon={mdiBookVariant} path="/repositories" currentUrl={$page.url} />
 <NavItem
   text="Contributions"
   icon={mdiPeriodicTable}
   path="/contributions"
   currentUrl={$page.url}
 />
-<NavItem text="Repositories" icon={mdiCodeBraces} path="/repositories" currentUrl={$page.url} />
 <NavItem text="Pull Requests" icon={mdiSourcePull} path="/pullrequests" currentUrl={$page.url} />
 
 <h2>Repository</h2>

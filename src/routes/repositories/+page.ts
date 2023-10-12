@@ -13,20 +13,28 @@ async function fetchRepositories(accessToken: string) {
   const github = new Github(accessToken);
   const { viewer } = await github.graphql<{ viewer: any }>(
     gql`
-      query ($last: Int!) {
+      query ($first: Int!, $isFork: Boolean) {
         viewer {
           name
-          repositories(last: $last) {
+          repositories(
+            first: $first
+            orderBy: { field: UPDATED_AT, direction: DESC }
+            isFork: $isFork
+          ) {
             nodes {
               nameWithOwner
               description
+              stargazerCount
+              isFork
+              updatedAt
             }
           }
         }
       }
     `,
     {
-      last: 100
+      first: 100,
+      isFork: false
     }
   );
   return viewer.repositories;
