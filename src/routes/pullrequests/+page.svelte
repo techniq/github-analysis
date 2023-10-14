@@ -25,13 +25,13 @@
     PeriodType,
     Duration,
     formatDate,
-    Card
+    Card,
+    sortFunc
   } from 'svelte-ux';
-  import { createPropertySortFunc } from 'svelte-ux/utils/sort';
 
   export let data;
 
-  $: pullRequests = data.pullRequests.nodes.sort(createPropertySortFunc('createdAt', 'asc'));
+  $: pullRequests = data.pullRequests.nodes.sort(sortFunc('createdAt', 'asc'));
 </script>
 
 <main class="p-4 grid gap-3">

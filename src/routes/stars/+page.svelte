@@ -3,8 +3,16 @@
 
   import { mdiAccount, mdiDatabase, mdiPlay } from '@mdi/js';
 
-  import { Button, Card, DividerDot, ListItem, PeriodType, TextField, format } from 'svelte-ux';
-  import { createPropertySortFunc } from 'svelte-ux/utils/sort';
+  import {
+    Button,
+    Card,
+    DividerDot,
+    ListItem,
+    PeriodType,
+    TextField,
+    format,
+    sortFunc
+  } from 'svelte-ux';
 
   import { goto } from '$app/navigation';
   import {
@@ -94,7 +102,7 @@
     </Card>
 
     <div>
-      {#each [...data.stargazers].sort(createPropertySortFunc('starredAt', 'desc')) as stargazer}
+      {#each [...data.stargazers].sort(sortFunc('starredAt', 'desc')) as stargazer}
         {@const name = stargazer.name ?? stargazer.login}
         <ListItem>
           <img
