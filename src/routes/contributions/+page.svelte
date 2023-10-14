@@ -1,6 +1,9 @@
 <script lang="ts">
   import { fly } from 'svelte/transition';
-  import { startOfWeek, subDays } from 'date-fns';
+  import { endOfYear, startOfWeek, startOfYear, subDays } from 'date-fns';
+  import { flatGroup } from 'd3-array';
+  import { scaleThreshold } from 'd3-scale';
+  import { schemeGreens } from 'd3-scale-chromatic';
 
   import { mdiAccount, mdiCalendarRange, mdiOpenInNew, mdiPlay } from '@mdi/js';
 
@@ -15,13 +18,16 @@
     ListItem,
     Overlay,
     TextField,
-    Tooltip,
-    DateRangeField
+    DateRangeField,
+    format,
+    sortFunc
   } from 'svelte-ux';
   import { formatDate, localToUtcDate, PeriodType } from 'svelte-ux/utils/date';
+  import type { DateRange } from 'svelte-ux/utils/dateRange';
+
+  import { Calendar, Chart, Svg, Tooltip, TooltipItem, Group, Text } from 'layerchart';
 
   import { user } from '$lib/stores';
-  import type { DateRange } from 'svelte-ux/utils/dateRange';
 
   let login = $user.login;
 
@@ -135,6 +141,14 @@
   }
 
   fetchAll();
+
+  $: console.log($calendarQuery.data);
+
+  $: calendarData = $calendarQuery.data?.weeks.flatMap((w) => w.contributionDays);
+  $: calendarDataByYear = flatGroup(calendarData ?? [], (d) => d.date.getFullYear()).sort(
+    sortFunc((d) => d[0], 'desc')
+  );
+  $: console.log({ calendarData, calendarDataByYear });
 </script>
 
 <main>
@@ -168,7 +182,54 @@
           </div>
         </Header>
 
-        <div class="grid grid-flow-col gap-1 justify-start px-4 pb-4">
+        <div
+          class="p-4 border rounded overflow-hidden"
+          style:height="{140 * calendarDataByYear.length + 16}px"
+        >
+          <Chart
+            data={calendarData}
+            x="date"
+            r="contributionCount"
+            rScale={scaleThreshold().unknown('transparent')}
+            rDomain={[1, 10, 20, 30]}
+            rRange={['white', ...schemeGreens[4]]}
+            padding={{ top: 8, left: 20 }}
+            tooltip={{ mode: 'manual' }}
+            let:tooltip
+          >
+            <Svg>
+              {#each calendarDataByYear as [year, calendarData], i}
+                {@const start = startOfYear(calendarData[0].date)}
+                {@const end = endOfYear(calendarData[calendarData.length - 1].date)}
+                <Group y={140 * i}>
+                  <Text
+                    value={year}
+                    class="text-xs"
+                    rotate={270}
+                    x={-20}
+                    y={(16 * 7) / 2}
+                    textAnchor="middle"
+                    verticalAnchor="start"
+                  />
+                  <Calendar {start} {end} {tooltip} cellSize={16} monthPath />
+                </Group>
+              {/each}
+            </Svg>
+
+            <Tooltip header={(d) => format(d.date, PeriodType.Day)} let:data>
+              {#if data?.contributionCount != null}
+                <TooltipItem
+                  label="Contributions"
+                  value={data.contributionCount}
+                  format="integer"
+                  valueAlign="right"
+                />
+              {/if}
+            </Tooltip>
+          </Chart>
+        </div>
+
+        <!-- <div class="grid grid-flow-col gap-1 justify-start px-4 pb-4">
           {#each $calendarQuery.data?.weeks ?? [] as week, i}
             <div class="week grid grid-rows-[repeat(7,1fr)] gap-1">
               {#each week.contributionDays as day}
@@ -191,7 +252,7 @@
               {/each}
             </div>
           {/each}
-        </div>
+        </div> -->
       </Card>
 
       <div>
