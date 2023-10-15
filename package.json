@@ -34,7 +34,7 @@
     "d3-array": "^3.2.4",
     "d3-scale": "^4.0.2",
     "date-fns": "^2.30.0",
-    "layerchart": "^0.24.2",
+    "layerchart": "^0.24.3",
     "svelte-ux": "^0.53.0"
   }
 }
