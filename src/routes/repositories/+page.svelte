@@ -1,6 +1,6 @@
 <script lang="ts">
   import { mdiBookVariant, mdiSourceCommit, mdiStar, mdiTimelineClockOutline } from '@mdi/js';
-  import { Button, ListItem, Tooltip } from 'svelte-ux';
+  import { Button, ListItem, Tooltip, format } from 'svelte-ux';
 
   export let data;
 </script>
@@ -30,7 +30,7 @@
                 size="sm"
                 color="accent"
               >
-                {repo.stargazerCount} Stars
+                {format(repo.stargazerCount, 'integer')} Stars
               </Button>
             </Tooltip>
 

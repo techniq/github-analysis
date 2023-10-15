@@ -171,7 +171,7 @@
     <div class="grid gap-4">
       <Card loading={$calendarQuery.loading} class="min-h-[232px]">
         <Header
-          title={$calendarQuery.data?.totalContributions ?? '...'}
+          title={format($calendarQuery.data?.totalContributions, 'integer') || '...'}
           subheading="Contributions"
           slot="header"
         >
@@ -266,7 +266,10 @@
           {/if}
 
           {#each $commitsQuery.data ?? [] as d}
-            <ListItem subheading={d.contributions.totalCount} list="type">
+            <ListItem
+              subheading="{format(d.contributions.totalCount, 'integer')} commits"
+              list="type"
+            >
               <a
                 slot="title"
                 href="https://github.com/{d.repository.nameWithOwner}/commits"
