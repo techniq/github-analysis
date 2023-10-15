@@ -1,6 +1,8 @@
 <script lang="ts">
   import { writable } from 'svelte/store';
   import { flip } from 'svelte/animate';
+  import { inject } from '@vercel/analytics';
+  import { mdiGithub, mdiLogin, mdiTwitter } from '@mdi/js';
 
   import {
     AppLayout,
@@ -14,12 +16,13 @@
     Tooltip
   } from 'svelte-ux';
 
+  import { dev } from '$app/environment';
   import { user } from '$lib/stores';
-
   import NavMenu from './_NavMenu.svelte';
-  import { mdiGithub, mdiLogin, mdiTwitter } from '@mdi/js';
 
   export let data;
+
+  inject({ mode: dev ? 'development' : 'production' });
 
   const fetchErrors = writable([]);
 
