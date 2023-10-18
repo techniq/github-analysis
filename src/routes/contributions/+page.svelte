@@ -28,7 +28,7 @@
   let login = data.variables.login;
 
   let dateRange: DateRange = {
-    periodType: PeriodType.Day,
+    periodType: PeriodType.CalendarYear,
     from: data.variables.from,
     to: data.variables.to
   };
@@ -60,7 +60,13 @@
       dense
       placeholder="User to lookup"
     />
-    <DateRangeField label="Date Range" bind:value={dateRange} icon={mdiCalendarRange} dense />
+    <DateRangeField
+      label="Date Range"
+      bind:value={dateRange}
+      icon={mdiCalendarRange}
+      dense
+      on:change={run}
+    />
     <Button type="submit" icon={mdiPlay} variant="fill" color="blue">Run</Button>
   </form>
 

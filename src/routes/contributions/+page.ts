@@ -12,7 +12,7 @@ export async function load({ parent, url }) {
   const login = url.searchParams.get('login') ?? user.login;
   const from = url.searchParams.has('from')
     ? new Date(url.searchParams.get('from'))
-    : startOfWeek(subDays(new Date(), 365));
+    : startOfYear(new Date());
   const to = url.searchParams.has('to') ? new Date(url.searchParams.get('to')) : new Date();
 
   const variables = { login, from, to };
