@@ -1,6 +1,7 @@
 <script lang="ts">
   import { writable } from 'svelte/store';
   import { flip } from 'svelte/animate';
+  import { fade } from 'svelte/transition';
   import { inject } from '@vercel/analytics';
   import { mdiGithub, mdiLogin, mdiTwitter } from '@mdi/js';
 
@@ -17,8 +18,10 @@
   } from 'svelte-ux';
 
   import { dev } from '$app/environment';
+  import { navigating } from '$app/stores';
   import { user } from '$lib/stores';
   import NavMenu from './_NavMenu.svelte';
+  import LoadingProgress from './LoadingProgress.svelte';
 
   export let data;
 
@@ -52,6 +55,16 @@
 
   $user = data.user;
 </script>
+
+{#if $navigating}
+  <div out:fade={{ duration: 200 }} class="absolute top-0 w-full z-[9999]">
+    <LoadingProgress
+      loading={$navigating != null}
+      timeout={3000}
+      class="[--color:theme(colors.emerald.400)] [--track-color:theme(colors.emerald.600)] [&.error]:[--color:theme(colors.red.400)] block h-1"
+    />
+  </div>
+{/if}
 
 {#if !data.accessToken}
   <ViewportCenter>
