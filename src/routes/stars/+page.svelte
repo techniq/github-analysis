@@ -82,7 +82,7 @@
         y="count"
         yDomain={[0, null]}
         yNice
-        padding={{ left: 24, bottom: 32, right: 24 }}
+        padding={{ left: 36, bottom: 32, right: 24 }}
         tooltip
       >
         <Svg>
@@ -105,12 +105,9 @@
       {#each [...data.stargazers].sort(sortFunc('starredAt', 'desc')) as stargazer}
         {@const name = stargazer.name ?? stargazer.login}
         <ListItem>
-          <img
-            slot="avatar"
-            src={stargazer.avatarUrl}
-            alt="{name}'s avatar"
-            class="w-8 w-8 rounded-full"
-          />
+          <a slot="avatar" href="https://github.com/{stargazer.login}" target="_blank">
+            <img src={stargazer.avatarUrl} alt="{name}'s avatar" class="w-8 w-8 rounded-full" />
+          </a>
           <div slot="title">
             <a href="https://github.com/{stargazer.login}" target="_blank">
               {name}
