@@ -12,21 +12,21 @@
   },
   "devDependencies": {
     "@sveltejs/adapter-vercel": "^3.0.3",
-    "@sveltejs/kit": "^1.25.2",
-    "@types/cookies": "^0.7.8",
-    "@types/d3-array": "^3.0.8",
-    "@types/d3-scale": "^4.0.5",
+    "@sveltejs/kit": "^1.26.0",
+    "@types/cookies": "^0.7.9",
+    "@types/d3-array": "^3.0.9",
+    "@types/d3-scale": "^4.0.6",
     "@types/d3-time": "^3.0.2",
     "autoprefixer": "^10.4.16",
     "prettier": "^3.0.3",
     "prettier-plugin-svelte": "^3.0.3",
-    "svelte": "^4.2.1",
+    "svelte": "^4.2.2",
     "svelte-check": "^3.5.2",
     "svelte-preprocess": "^5.0.4",
     "tailwindcss": "^3.3.3",
     "tslib": "^2.6.2",
     "typescript": "^5.2.2",
-    "vite": "^4.4.11"
+    "vite": "^4.5.0"
   },
   "type": "module",
   "dependencies": {
@@ -37,6 +37,6 @@
     "d3-time": "^3.1.0",
     "date-fns": "^2.30.0",
     "layerchart": "^0.24.4",
-    "svelte-ux": "^0.53.1"
+    "svelte-ux": "^0.53.3"
   }
 }
