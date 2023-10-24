@@ -137,7 +137,7 @@
       </Card>
 
       <div>
-        <div class="text-xs text-black/50 mb-1">Commits</div>
+        <div class="text-xs text-black/50 mb-1 tracking-widest">Commits</div>
 
         <div class="relative min-h-[56px]">
           {#each data.commits ?? [] as d}

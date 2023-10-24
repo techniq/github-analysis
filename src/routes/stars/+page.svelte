@@ -86,10 +86,10 @@
         tooltip
       >
         <Svg>
-          <Axis placement="left" grid rule />
+          <Axis placement="left" grid rule format="metric" />
           <Axis placement="bottom" format={(d) => format(d, PeriodType.Month, 'short')} rule />
           <LinearGradient class="from-accent-500/50 to-accent-500/0" vertical let:url>
-            <Area line={{ class: 'stroke-2 stroke-accent-500' }} fill={url} />
+            <Area line={{ class: 'stroke-2 stroke-accent-500' }} fill={url} tweened />
           </LinearGradient>
           <Highlight points lines />
         </Svg>
@@ -102,26 +102,29 @@
     </Card>
 
     <div>
-      {#each [...data.stargazers].sort(sortFunc('starredAt', 'desc')) as stargazer}
-        {@const name = stargazer.name ?? stargazer.login}
-        <ListItem>
-          <a slot="avatar" href="https://github.com/{stargazer.login}" target="_blank">
-            <img src={stargazer.avatarUrl} alt="{name}'s avatar" class="w-8 w-8 rounded-full" />
-          </a>
-          <div slot="title">
-            <a href="https://github.com/{stargazer.login}" target="_blank">
-              {name}
+      <div class="text-xs text-black/50 mb-1">Stargazers</div>
+      <div>
+        {#each [...data.stargazers].sort(sortFunc('starredAt', 'desc')) as stargazer}
+          {@const name = stargazer.name ?? stargazer.login}
+          <ListItem>
+            <a slot="avatar" href="https://github.com/{stargazer.login}" target="_blank">
+              <img src={stargazer.avatarUrl} alt="{name}'s avatar" class="w-8 w-8 rounded-full" />
             </a>
-            <span class="text-xs text-black/50 whitespace-nowrap">
-              {formatDate(stargazer.starredAt, 'M/d/yyyy @ h:mm aa')}
-            </span>
-          </div>
-          <div slot="subheading" class="text-xs text-black/50">
-            {stargazer.followers.totalCount} followers <DividerDot />
-            {stargazer.following.totalCount} following
-          </div>
-        </ListItem>
-      {/each}
+            <div slot="title">
+              <a href="https://github.com/{stargazer.login}" target="_blank">
+                {name}
+              </a>
+              <span class="text-xs text-black/50 whitespace-nowrap">
+                {formatDate(stargazer.starredAt, 'M/d/yyyy @ h:mm aa')}
+              </span>
+            </div>
+            <div slot="subheading" class="text-xs text-black/50">
+              {stargazer.followers.totalCount} followers <DividerDot />
+              {stargazer.following.totalCount} following
+            </div>
+          </ListItem>
+        {/each}
+      </div>
     </div>
   </div>
 </main>

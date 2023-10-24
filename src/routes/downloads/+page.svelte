@@ -109,11 +109,11 @@
         y="downloads"
         yDomain={[0, null]}
         yNice
-        padding={{ left: 48, bottom: 32, right: 24 }}
+        padding={{ left: 36, bottom: 32, right: 24 }}
         tooltip
       >
         <Svg>
-          <Axis placement="left" grid rule />
+          <Axis placement="left" grid rule format="metric" />
           <Axis placement="bottom" format={(d) => format(d, PeriodType.Month, 'short')} rule />
           <LinearGradient class="from-accent-500/50 to-accent-500/0" vertical let:url>
             <Area line={{ class: 'stroke-2 stroke-accent-500' }} fill={url} tweened />
