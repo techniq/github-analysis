@@ -69,7 +69,8 @@
   path="/punchcard"
   currentUrl={$page.url}
 />
-<NavItem text="Commits" icon={mdiSourceCommit} path="/commits" currentUrl={$page.url} />
+<!-- TODO: Improve and show -->
+<!-- <NavItem text="Commits" icon={mdiSourceCommit} path="/commits" currentUrl={$page.url} /> -->
 
 <h2>NPM</h2>
 <NavItem text="Downloads" icon={mdiDownload} path="/downloads" currentUrl={$page.url} />
