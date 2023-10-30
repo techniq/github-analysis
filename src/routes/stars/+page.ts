@@ -19,6 +19,9 @@ export async function load({ parent, url }) {
 async function fetchStargazers(accessToken: string, variables: { owner: string; repo: string }) {
   let stargazers = [];
 
+  // TODO: Consider using API instead of GraphQL to fan out requests (like https://star-history.com and  https://seladb.github.io/) - `curl 'https://api.github.com/repos/techniq/svelte-ux/stargazers?per_page=100&page=1' -H 'accept: application/vnd.github.v3.star+json'`
+  // TODO: Also consider only grabbing a few data points (like https://star-history.com).  Especially for very big repos
+  // Both of these would break showing all users and follower details.  Could maybe paginate details (showing most recent)
   async function fetchPage(after: string | null = null) {
     const github = new Github(accessToken);
     const { repository } = await github.graphql<{ repository: any }>(
