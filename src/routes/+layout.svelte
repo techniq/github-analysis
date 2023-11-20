@@ -12,7 +12,6 @@
     ViewportCenter,
     Card,
     Button,
-    createTheme,
     AppBar,
     Tooltip
   } from 'svelte-ux';
@@ -41,16 +40,6 @@
       },
       errors: fetchErrors
     }
-  });
-
-  createTheme({
-    // AppBar: 'bg-accent-500 text-white shadow-md',
-    // AppLayout: {
-    //   nav: 'bg-neutral-800'
-    // },
-    // NavItem: {
-    //   root: 'text-sm text-gray-400 pl-6 py-2 hover:text-white hover:bg-gray-300/10 [&:where(.is-active)]:text-sky-400 [&:where(.is-active)]:bg-gray-500/10'
-    // }
   });
 
   $user = data.user;
