@@ -1,8 +1,9 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
   import { flip } from 'svelte/animate';
   import { fade } from 'svelte/transition';
-  import { inject } from '@vercel/analytics';
+  import posthog from 'posthog-js';
   import { mdiGithub, mdiLogin, mdiTwitter } from '@mdi/js';
 
   import {
@@ -17,14 +18,12 @@
   } from 'svelte-ux';
 
   import { dev } from '$app/environment';
-  import { navigating } from '$app/stores';
+  import { navigating, page } from '$app/stores';
   import { user } from '$lib/stores';
   import NavMenu from './_NavMenu.svelte';
   import LoadingProgress from './LoadingProgress.svelte';
 
   export let data;
-
-  inject({ mode: dev ? 'development' : 'production' });
 
   const fetchErrors = writable([]);
 
@@ -43,6 +42,32 @@
   });
 
   $user = data.user;
+
+  let currentPath = '';
+  onMount(() => {
+    // Posthog analytics
+    if (!dev) {
+      const unsubscribePage = page.subscribe(($page) => {
+        if (currentPath && currentPath !== $page.url.pathname) {
+          // Page navigated away
+          posthog.capture('$pageleave');
+        }
+
+        // Page entered
+        currentPath = $page.url.pathname;
+        posthog.capture('$pageview');
+      });
+      const handleBeforeUnload = () => {
+        // Hard reloads or browser exit
+        posthog.capture('$pageleave');
+      };
+      window.addEventListener('beforeunload', handleBeforeUnload);
+      return () => {
+        unsubscribePage();
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+      };
+    }
+  });
 </script>
 
 {#if $navigating}
