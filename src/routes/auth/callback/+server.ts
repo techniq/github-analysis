@@ -7,9 +7,9 @@ export async function GET({ url, locals, cookies }) {
   console.log('callback');
   const code = url.searchParams.get('code');
   console.log({ code });
-  console.log('getting access token');
+  console.log('getting access token', code);
   const accessToken = await getAccessToken(code);
-  console.log('getting user');
+  console.log('getting user', accessToken);
   const user = await getUser(accessToken);
   console.log({ accessToken, user });
 
