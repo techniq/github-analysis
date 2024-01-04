@@ -3,15 +3,10 @@ import type { CookieSerializeOptions } from 'cookie';
 
 import { BASE_URL, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from '$env/static/private';
 
-export async function GET({ url, locals, cookies, fetch }) {
-  console.log('callback');
+export async function GET({ url, locals, cookies }) {
   const code = url.searchParams.get('code');
-  console.log({ code });
-  console.log('getting access token', code);
   const accessToken = await getAccessToken(code);
-  console.log('getting user', accessToken);
   const user = await getUser(accessToken);
-  console.log({ accessToken, user });
 
   // Set on request locals to be read in `handle` hook
   locals.accessToken = accessToken;
@@ -57,8 +52,6 @@ async function getUser(accessToken: string) {
       'User-Agent': 'Github-Analysis'
     }
   });
-  const userText = await response.text();
-  console.log('userText', userText);
-  const user = JSON.parse(userText);
+  const user = await response.json();
   return user;
 }
