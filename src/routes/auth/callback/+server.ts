@@ -10,7 +10,7 @@ export async function GET({ url, locals, cookies, fetch }) {
   console.log('getting access token', code);
   const accessToken = await getAccessToken(code);
   console.log('getting user', accessToken);
-  const user = await getUser(fetch, accessToken);
+  const user = await getUser(accessToken);
   console.log({ accessToken, user });
 
   // Set on request locals to be read in `handle` hook
@@ -49,11 +49,12 @@ async function getAccessToken(code: string) {
 /**
  * Get user info from Github API using accessToken
  */
-async function getUser(fetch: typeof window.fetch, accessToken: string) {
+async function getUser(accessToken: string) {
   const response = await fetch('https://api.github.com/user', {
     headers: {
       Accept: 'application/json',
-      Authorization: `Bearer ${accessToken}`
+      Authorization: `Bearer ${accessToken}`,
+      'User-Agent': 'Github-Analysis'
     }
   });
   const userText = await response.text();
