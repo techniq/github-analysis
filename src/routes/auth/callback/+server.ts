@@ -56,6 +56,8 @@ async function getUser(accessToken: string) {
       Authorization: `Bearer ${accessToken}`
     }
   });
-  const user = await response.json();
+  const userText = await response.text();
+  console.log('userText', userText);
+  const user = JSON.parse(userText);
   return user;
 }
