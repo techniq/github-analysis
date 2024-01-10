@@ -7,7 +7,7 @@ export async function load({ parent, url }) {
 
   const owner = url.searchParams.get('owner') ?? 'techniq';
   const repo = url.searchParams.get('repo') ?? 'svelte-ux';
-  const branch = url.searchParams.get('branch') ?? 'master';
+  const branch = url.searchParams.get('branch') ?? 'main';
 
   const variables = { owner, repo, branch };
 
