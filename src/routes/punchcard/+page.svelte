@@ -21,7 +21,7 @@
 
   let owner = 'techniq';
   let repo = 'svelte-ux';
-  let branch = 'master';
+  let branch = 'main';
 
   const query = fetchStore();
 
