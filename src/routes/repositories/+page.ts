@@ -5,7 +5,7 @@ import { gql } from 'svelte-ux';
 export async function load({ parent }) {
   const { accessToken } = await parent();
   return {
-    repositories: fetchRepositories(accessToken)
+    repositories: await fetchRepositories(accessToken)
   };
 }
 

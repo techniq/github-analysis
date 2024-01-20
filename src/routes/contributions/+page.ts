@@ -18,8 +18,8 @@ export async function load({ parent, url }) {
   const variables = { login, from, to };
 
   return {
-    commits: fetchCommits(accessToken, variables),
-    calendar: fetchCalendar(accessToken, variables),
+    commits: await fetchCommits(accessToken, variables),
+    calendar: await fetchCalendar(accessToken, variables),
     variables
   };
 }

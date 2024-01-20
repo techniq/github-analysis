@@ -11,7 +11,7 @@ export async function load({ parent, url }) {
   const variables = { owner, repo };
 
   return {
-    stargazers: fetchStargazers(accessToken, variables),
+    stargazers: await fetchStargazers(accessToken, variables),
     variables
   };
 }

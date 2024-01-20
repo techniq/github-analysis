@@ -12,7 +12,7 @@ export async function load({ url }) {
   const variables = { pkg, from, to };
 
   return {
-    downloads: fetchDownloads(variables),
+    downloads: await fetchDownloads(variables),
     variables
   };
 }

@@ -5,7 +5,7 @@ import { gql } from 'svelte-ux';
 export async function load({ parent }) {
   const { accessToken } = await parent();
   return {
-    pullRequests: fetchPullRequests(accessToken)
+    pullRequests: await fetchPullRequests(accessToken)
   };
 }
 

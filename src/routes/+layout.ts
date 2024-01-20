@@ -19,7 +19,7 @@ export async function load({ data }) {
 
   return {
     ...data,
-    user: data.accessToken ? fetchUser(data.accessToken) : null
+    user: data.accessToken ? await fetchUser(data.accessToken) : null
   };
 }
 
@@ -37,7 +37,7 @@ async function fetchUser(accessToken: string) {
 
   if (result == null) {
     // Unauthorized (401)
-    throw redirect(302, '/auth/login');
+    redirect(302, '/auth/login');
   }
   return result.viewer;
 }

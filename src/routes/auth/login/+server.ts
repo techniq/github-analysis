@@ -7,5 +7,5 @@ export function GET() {
   params.append('scope', 'read:user repo');
   params.append('redirect_uri', `${BASE_URL}/auth/callback`);
 
-  throw redirect(302, `https://github.com/login/oauth/authorize?${params}`);
+  redirect(302, `https://github.com/login/oauth/authorize?${params}`);
 }

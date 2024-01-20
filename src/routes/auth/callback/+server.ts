@@ -21,7 +21,7 @@ export async function GET({ url, locals, cookies }) {
   cookies.set('user', user.login || '', cookieOptions);
   cookies.set('accessToken', accessToken || '', cookieOptions);
 
-  throw redirect(302, '/');
+  redirect(302, '/');
 }
 
 /**
