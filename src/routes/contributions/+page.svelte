@@ -50,7 +50,7 @@
 
 <main>
   <form
-    class="grid grid-cols-[1fr,1fr,auto] gap-2 bg-white border-b p-4"
+    class="grid grid-cols-[1fr,1fr,auto] gap-2 bg-surface-100 border-b p-4"
     on:submit|preventDefault={run}
   >
     <TextField
@@ -67,7 +67,7 @@
       dense
       on:change={run}
     />
-    <Button type="submit" icon={mdiPlay} variant="fill" color="blue">Run</Button>
+    <Button type="submit" icon={mdiPlay} variant="fill" color="primary">Run</Button>
   </form>
 
   <div class="p-4">
@@ -98,7 +98,13 @@
             r="contributionCount"
             rScale={scaleThreshold().unknown('transparent')}
             rDomain={[1, 10, 20, 30]}
-            rRange={['white', ...schemeGreens[4]]}
+            rRange={[
+              'hsl(var(--color-surface-100))',
+              'hsl(var(--color-secondary-300))',
+              'hsl(var(--color-secondary-500))',
+              'hsl(var(--color-secondary-700))',
+              'hsl(var(--color-secondary-900))'
+            ]}
             padding={{ top: 8, left: 20 }}
             tooltip={{ mode: 'manual' }}
             let:tooltip
@@ -137,7 +143,7 @@
       </Card>
 
       <div>
-        <div class="text-xs text-black/50 mb-1 tracking-widest">Commits</div>
+        <div class="text-xs text-surface-content/50 mb-1 tracking-widest">Commits</div>
 
         <div class="relative min-h-[56px]">
           {#each data.commits ?? [] as d}

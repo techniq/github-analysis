@@ -41,7 +41,7 @@
 </script>
 
 <main>
-  <form class="flex gap-2 bg-white border-b p-4" on:submit|preventDefault={run}>
+  <form class="flex gap-2 bg-surface-100 border-b p-4" on:submit|preventDefault={run}>
     <TextField
       label="Owner"
       bind:value={owner}
@@ -66,7 +66,7 @@
       placeholder="Name of repository"
       class="flex-1"
     />
-    <Button type="submit" icon={mdiPlay} variant="fill" color="accent">Run</Button>
+    <Button type="submit" icon={mdiPlay} variant="fill" color="primary">Run</Button>
   </form>
 
   <div class="relative min-h-[56px] p-4">
@@ -130,7 +130,7 @@
                   cx={point.x}
                   cy={point.y}
                   r={rScale(point.data.count)}
-                  class="fill-emerald-600"
+                  class="fill-secondary"
                 />
                 <Text
                   x={point.x}

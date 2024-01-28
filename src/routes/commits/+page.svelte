@@ -23,9 +23,9 @@
 </script>
 
 <main>
-  <form class="flex gap-2 bg-white border-b p-4" on:submit|preventDefault={run}>
+  <form class="flex gap-2 bg-surface-100 border-b p-4" on:submit|preventDefault={run}>
     <TextField
-      label="Owner"
+      label="User"
       bind:value={owner}
       icon={mdiAccount}
       dense
@@ -56,7 +56,7 @@
       <ListItem>
         <div slot="title">
           {commit.node.message}
-          <span class="text-xs text-black/50 whitespace-nowrap">
+          <span class="text-xs text-surface-content/50 whitespace-nowrap">
             {format(commit.node.committedDate, 'h:mm aa')}
           </span>
         </div>

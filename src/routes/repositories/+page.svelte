@@ -8,14 +8,14 @@
 <main class="p-4">
   <div class="relative min-h-[56px]">
     {#if data}
-      <div class="text-xs text-black/50 mb-1 tracking-widest">Repositories</div>
+      <div class="text-xs text-surface-content/50 mb-1 tracking-widest">Repositories</div>
       <div>
         {#each data.repositories.nodes as repo}
           {@const [owner, name] = repo.nameWithOwner.split('/')}
 
           <ListItem
             icon={mdiBookVariant}
-            avatar={{ class: 'bg-gray-400 text-white/90 w-8 h-8 text-sm' }}
+            avatar={{ class: 'bg-surface-300 text-surface-content/90 w-8 h-8 text-sm' }}
             subheading={repo.description}
           >
             <div slot="title">
@@ -30,7 +30,7 @@
                   href="/stars?owner={owner}&repo={name}"
                   variant="fill-outline"
                   size="sm"
-                  color="accent"
+                  color="secondary"
                 >
                   {format(repo.stargazerCount, 'integer')} Stars
                 </Button>
@@ -42,7 +42,7 @@
                   href="/punchcard?owner={owner}&repo={name}"
                   variant="fill-outline"
                   size="sm"
-                  color="accent"
+                  color="secondary"
                   iconOnly={false}
                 />
               </Tooltip>
@@ -53,7 +53,7 @@
                   href="/commits?owner={owner}&repo={name}"
                   variant="fill-outline"
                   size="sm"
-                  color="accent"
+                  color="secondary"
                   iconOnly={false}
                 />
               </Tooltip>

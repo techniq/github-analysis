@@ -12,7 +12,7 @@
     DateRangeField,
     PeriodType,
     TextField,
-    format,
+    getSettings,
     sort
   } from 'svelte-ux';
   import { getDateFuncsByPeriodType } from 'svelte-ux/utils/date';
@@ -32,6 +32,8 @@
 
   export let data;
 
+  const { format, localeSettings } = getSettings();
+
   let pkg = data.variables.pkg;
 
   let dateRange: DateRange = {
@@ -48,7 +50,7 @@
     goto(`?${params}`);
   }
 
-  $: dateFuncs = getDateFuncsByPeriodType(dateRange.periodType);
+  $: dateFuncs = getDateFuncsByPeriodType($localeSettings, dateRange.periodType);
 
   $: chartData = sort(
     flatRollup(
@@ -67,7 +69,7 @@
 </script>
 
 <main>
-  <form class="flex gap-2 bg-white border-b p-4" on:submit|preventDefault={run}>
+  <form class="flex gap-2 bg-surface-100 border-b p-4" on:submit|preventDefault={run}>
     <TextField
       label="Package"
       bind:value={pkg}
@@ -90,13 +92,13 @@
       on:change={run}
       class="flex-1"
     />
-    <Button type="submit" icon={mdiPlay} variant="fill" color="blue">Run</Button>
+    <Button type="submit" icon={mdiPlay} variant="fill" color="primary">Run</Button>
   </form>
 
   <div class="p-4 grid gap-4">
     <Card
       title={data.variables.pkg}
-      subheading="{format(
+      subheading="{$format(
         sum(data?.downloads ?? [], (d) => d.downloads),
         'integer'
       )} total downloads"
@@ -114,9 +116,9 @@
       >
         <Svg>
           <Axis placement="left" grid rule format="metric" />
-          <Axis placement="bottom" format={(d) => format(d, PeriodType.Month, 'short')} rule />
-          <LinearGradient class="from-accent-500/50 to-accent-500/0" vertical let:url>
-            <Area line={{ class: 'stroke-2 stroke-accent-500' }} fill={url} tweened />
+          <Axis placement="bottom" format={(d) => $format(d, PeriodType.Month)} rule />
+          <LinearGradient class="from-secondary/50 to-secondary/0" vertical let:url>
+            <Area line={{ class: 'stroke-2 stroke-secondary' }} fill={url} tweened />
           </LinearGradient>
           <Highlight points lines />
         </Svg>

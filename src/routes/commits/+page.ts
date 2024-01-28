@@ -12,7 +12,7 @@ export async function load({ parent, url }) {
   const variables = { owner, repo, branch };
 
   return {
-    commits: fetchCommits(accessToken, variables),
+    commits: await fetchCommits(accessToken, variables),
     variables
   };
 }

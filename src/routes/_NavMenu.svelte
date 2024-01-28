@@ -19,15 +19,15 @@
   import { page } from '$app/stores';
 </script>
 
-<NavItem currentUrl={$page.url} class="pl-4 border-b border-b-neutral-600">
-  <Avatar class="bg-gray-600 mr-4 overflow-hidden">
+<NavItem currentUrl={$page.url} class="pl-4 border-b border-b">
+  <Avatar class="bg-surface-100 mr-4 overflow-hidden">
     <img src={$user.avatarUrl} />
     <!-- <Icon path={mdiAccount} /> -->
   </Avatar>
 
   <div class="flex-grow">
-    <div>{$user.name}</div>
-    <div class="text-xs text-white/30">{$user.login}</div>
+    <div class="text-surface-content">{$user.name}</div>
+    <div class="text-xs text-surface-content/50">{$user.login}</div>
   </div>
 
   <Toggle let:on={open} let:toggle>
@@ -74,3 +74,10 @@
 
 <h2>NPM</h2>
 <NavItem text="Downloads" icon={mdiDownload} path="/downloads" currentUrl={$page.url} />
+
+<style lang="postcss">
+  h2 {
+    @apply pt-4 pb-2 pl-4 text-xs text-surface-content font-bold;
+  }
+
+</style>
