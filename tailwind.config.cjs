@@ -31,9 +31,6 @@ module.exports = {
       },
     },
   },
-  variants: {
-    extend: {}
-  },
   plugins: [
     require('svelte-ux/plugins/tailwind.cjs'), // Can also call it with colorSpace options
   ]
