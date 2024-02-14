@@ -32,7 +32,7 @@
 
   <Toggle let:on={open} let:toggle>
     <Tooltip title="Sign out">
-      <Button icon={mdiExitRun} on:click={toggle} class="p-2" />
+      <Button icon={mdiExitRun} on:click={toggle} class="p-1 m-1 transition-none" />
     </Tooltip>
 
     <Dialog {open} on:close={toggle}>
@@ -79,5 +79,4 @@
   h2 {
     @apply pt-4 pb-2 pl-4 text-xs text-surface-content font-bold;
   }
-
 </style>
