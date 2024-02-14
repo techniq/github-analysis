@@ -91,7 +91,7 @@
           <LinearGradient class="from-secondary/50 to-secondary/0" vertical let:url>
             <Area line={{ class: 'stroke-2 stroke-secondary' }} fill={url} tweened />
           </LinearGradient>
-          <Highlight points lines />
+          <Highlight points={{ class: 'fill-secondary' }} lines />
         </Svg>
 
         <Tooltip header={(data) => formatDate(data.starredAt, 'M/d/yyyy @ h:mm aa')} let:data>
