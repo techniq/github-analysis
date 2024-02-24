@@ -38,8 +38,8 @@
     "d3-scale-chromatic": "^3.0.0",
     "d3-time": "^3.1.0",
     "date-fns": "^3.3.1",
-    "layerchart": "^0.30.2",
+    "layerchart": "^0.31.1",
     "posthog-js": "^1.108.0",
-    "svelte-ux": "^0.60.3"
+    "svelte-ux": "^0.60.4"
   }
 }

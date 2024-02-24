@@ -24,14 +24,14 @@ dependencies:
     specifier: ^3.3.1
     version: 3.3.1
   layerchart:
-    specifier: ^0.30.2
-    version: 0.30.2(postcss@8.4.35)(svelte@4.2.11)(typescript@5.3.3)(vite@5.1.3)
+    specifier: ^0.31.1
+    version: 0.31.1(postcss@8.4.35)(svelte@4.2.11)(typescript@5.3.3)(vite@5.1.3)
   posthog-js:
     specifier: ^1.108.0
     version: 1.108.0
   svelte-ux:
-    specifier: ^0.60.3
-    version: 0.60.3(postcss@8.4.35)(svelte@4.2.11)
+    specifier: ^0.60.4
+    version: 0.60.4(postcss@8.4.35)(svelte@4.2.11)
 
 devDependencies:
   '@sveltejs/adapter-cloudflare':
@@ -673,8 +673,8 @@ packages:
       undici-types: 5.26.5
     dev: true
 
-  /@types/node@20.11.19:
-    resolution: {integrity: sha512-7xMnVEcZFu0DikYjWOlRq7NTPETrm7teqUT2WkQjrTIkEgUyyGdWsj/Zg8bEJt5TNklzbPD1X3fqfsHw3SpapQ==}
+  /@types/node@20.11.20:
+    resolution: {integrity: sha512-7/rR21OS+fq8IyHTgtLkDK949uzsa6n8BkziAKtPVpugIkO6D+/ooXMvzXxDnZrmtXVfjb1bKQafYpb8s89LOg==}
     dependencies:
       undici-types: 5.26.5
     dev: false
@@ -693,7 +693,7 @@ packages:
   /@types/resolve@1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 20.11.19
+      '@types/node': 20.11.20
     dev: false
 
   /@types/send@0.17.4:
@@ -1439,8 +1439,8 @@ packages:
       typescript: 5.3.3
     dev: false
 
-  /layerchart@0.30.2(postcss@8.4.35)(svelte@4.2.11)(typescript@5.3.3)(vite@5.1.3):
-    resolution: {integrity: sha512-3fYIonxvgfePKBJAKH7mDmkZb6zEILHI4YzIL2xWTBQcxUBIHwDZ1HXYTg/B5h5YHs82Kzl0/tYoOYiEsY9UNw==}
+  /layerchart@0.31.1(postcss@8.4.35)(svelte@4.2.11)(typescript@5.3.3)(vite@5.1.3):
+    resolution: {integrity: sha512-YP0a8/9EBazO5g4l5ldRN0tItI2+353dgyaK9Yjc+xrIQKBj/a0W3o0p28nqZZuT1LMB4pqMS1E90DfiWRv0MA==}
     peerDependencies:
       svelte: ^3.56.0 || ^4.0.0
     dependencies:
@@ -1467,7 +1467,7 @@ packages:
       posthog-js: 1.108.0
       shapefile: 0.6.6
       svelte: 4.2.11
-      svelte-ux: 0.60.3(postcss@8.4.35)(svelte@4.2.11)
+      svelte-ux: 0.60.4(postcss@8.4.35)(svelte@4.2.11)
       topojson-client: 3.1.0
     transitivePeerDependencies:
       - '@babel/core'
@@ -2158,8 +2158,8 @@ packages:
       svelte: 4.2.11
       typescript: 5.3.3
 
-  /svelte-ux@0.60.3(postcss@8.4.35)(svelte@4.2.11):
-    resolution: {integrity: sha512-6bRSv916E55ZO/8PLDs+YTfX3DymvICmEIra/GYmx+DmoGVDoScAROIcTUUGKyvtWb19zJ160wukgaL7JmRL6A==}
+  /svelte-ux@0.60.4(postcss@8.4.35)(svelte@4.2.11):
+    resolution: {integrity: sha512-T1rV3GmxvZAg9dZip10BkAdE7e8IIsz/zt67vilR+jzIlqbP03ktaJ0IuXi2NB9bC9aXR5BvpDQ2BUvpFp7aaQ==}
     peerDependencies:
       svelte: ^3.56.0 || ^4.0.0
     dependencies:
