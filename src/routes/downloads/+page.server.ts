@@ -18,10 +18,11 @@ export async function load({ url }) {
 }
 
 async function fetchDownloads(variables: { pkg: string; from: Date; to: Date }) {
+  const npm = new Npm();
+
   let data = [];
 
   async function fetchPage(from: Date, to: Date) {
-    const npm = new Npm();
     const resource = `/downloads/range/${format(from, 'yyyy-MM-dd')}:${format(to, 'yyyy-MM-dd')}/${
       variables.pkg
     }`;
