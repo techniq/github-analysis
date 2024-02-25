@@ -28,7 +28,12 @@ async function fetchStargazers(
     gql`
       query ($owner: String!, $repo: String!, $before: String, $after: String) {
         repository(owner: $owner, name: $repo) {
-          stargazers(first: 10, before: $before, after: $after) {
+          stargazers(
+            first: 10
+            before: $before
+            after: $after
+            orderBy: { field: STARRED_AT, direction: DESC }
+          ) {
             edges {
               node {
                 name
