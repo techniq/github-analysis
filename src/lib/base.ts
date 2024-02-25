@@ -1,0 +1,56 @@
+import { parse } from 'svelte-ux';
+
+export type ApiOptions = {
+  method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  data?: any;
+  headers?: Record<string, string>;
+};
+
+export async function api<Data = any>(origin: string, resource: string, options: ApiOptions = {}) {
+  let url = `${origin}/${resource}`;
+  const method = options?.method ?? 'GET';
+
+  if (method === 'GET' && options?.data) {
+    url += `?${new URLSearchParams(options.data)}`;
+  }
+
+  return fetch(url, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers
+    },
+    ...(method === 'POST' &&
+      options?.data && {
+        body: JSON.stringify(options.data)
+      })
+  }).then(async (response) => {
+    const text = await response.text();
+    return parse<Data>(text);
+  });
+}
+
+export async function graphql<Data = any>(
+  endpoint: string,
+  query: string,
+  variables: Record<string, any> = {},
+  options: ApiOptions = {}
+) {
+  return fetch(endpoint, {
+    method: options?.method ?? 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers
+    },
+    body: JSON.stringify({
+      query,
+      variables,
+      ...options.data
+    })
+  })
+    .then(async (response) => {
+      const text = await response.text();
+      return parse(text);
+    })
+    .then((json) => json.data as Data);
+}
