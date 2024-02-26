@@ -22,7 +22,13 @@ export class Github {
   }
 
   async api<Data = any>(resource: string, options: ApiOptions = {}) {
-    return api<Data>('https://api.github.com', resource, options);
+    return api<Data>('https://api.github.com', resource, {
+      ...options,
+      headers: {
+        Authorization: `Bearer ${this.accessToken}`,
+        ...options.headers
+      }
+    });
   }
 }
 
