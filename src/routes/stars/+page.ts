@@ -8,8 +8,8 @@ export async function load({ parent, url }) {
   const owner = url.searchParams.get('owner') ?? 'techniq';
   const repo = url.searchParams.get('repo') ?? 'svelte-ux';
 
-  const before = url.searchParams.get('before');
-  const after = url.searchParams.get('after');
+  const before = url.searchParams.get('before') ?? undefined;
+  const after = url.searchParams.get('after') ?? undefined;
 
   const variables = { owner, repo, before, after };
 
