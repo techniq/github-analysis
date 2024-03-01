@@ -20,7 +20,7 @@ async function fetchFollowers(accessToken: string, variables: { login: string })
 
   let followers: UserApi[] = [];
 
-  const user = await github.api<UserApi>(`users/${variables.login}`, {});
+  const user = await github.api<UserApi>(`users/${variables.login}`);
 
   const perPage = 100;
 
