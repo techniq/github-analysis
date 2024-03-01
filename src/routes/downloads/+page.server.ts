@@ -1,12 +1,12 @@
 import { Npm } from '$lib/npm';
 import { timeYear } from 'd3-time';
-import { endOfYear, format, startOfYear } from 'date-fns';
+import { endOfYear, format, startOfYear, subYears } from 'date-fns';
 
 export async function load({ url }) {
   const pkg = url.searchParams.get('pkg') ?? 'svelte-ux';
   const from = url.searchParams.has('from')
     ? new Date(url.searchParams.get('from'))
-    : startOfYear(new Date());
+    : subYears(new Date(), 1);
   const to = url.searchParams.has('to') ? new Date(url.searchParams.get('to')) : new Date();
 
   const variables = { pkg, from, to };
