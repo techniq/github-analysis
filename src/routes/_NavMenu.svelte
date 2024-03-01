@@ -1,6 +1,7 @@
 <script lang="ts">
   import {
     mdiAccount,
+    mdiAccountSearch,
     mdiBookVariant,
     mdiCodeBraces,
     mdiDownload,
@@ -53,6 +54,7 @@
 
 <h2>User</h2>
 <NavItem text="Repositories" icon={mdiBookVariant} path="/repositories" currentUrl={$page.url} />
+<NavItem text="Followers" icon={mdiAccountSearch} path="/followers" currentUrl={$page.url} />
 <NavItem
   text="Contributions"
   icon={mdiPeriodicTable}

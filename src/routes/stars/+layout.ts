@@ -26,10 +26,9 @@ async function fetchStargazers(accessToken: string, variables: { owner: string; 
 
   const perPage = 100;
 
-  // TODO: Consider using API instead of GraphQL to fan out requests (like https://star-history.com and  https://seladb.github.io/) - `curl 'https://api.github.com/repos/techniq/svelte-ux/stargazers?per_page=100&page=1' -H 'accept: application/vnd.github.v3.star+json'`
-  // TODO: Also consider only grabbing a few data points (like https://star-history.com).  Especially for very big repos
-  // Both of these would break showing all users and follower details.  Could maybe paginate details (showing most recent)
+  // TODO: Consider only grabbing a few data points (like https://star-history.com).  Especially for very big repos
   async function fetchPage(page) {
+    // https://docs.github.com/en/rest/activity/starring
     const result = await github.api<StargazerApi[]>(
       `repos/${variables.owner}/${variables.repo}/stargazers`,
       {

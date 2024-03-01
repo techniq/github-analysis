@@ -9,7 +9,7 @@
 
   function prevPage() {
     const params = new URLSearchParams(window.location.search);
-    params.set('before', data.stargazers.pageInfo.startCursor);
+    params.set('before', data.followers.pageInfo.startCursor);
     params.delete('after');
     goto(`?${params}`);
   }
@@ -17,15 +17,15 @@
   function nextPage() {
     const params = new URLSearchParams(window.location.search);
     params.delete('before');
-    params.set('after', data.stargazers.pageInfo.endCursor);
+    params.set('after', data.followers.pageInfo.endCursor);
     goto(`?${params}`);
   }
 </script>
 
 <div class="grid gap-1">
-  <div class="text-xs text-surface-content/50 mb-1">Recent Stargazers</div>
+  <div class="text-xs text-surface-content/50 mb-1">Recent followers</div>
   <div>
-    {#each [...data.stargazers.users].sort(sortFunc('starredAt', 'desc')) as user}
+    {#each [...data.followers.users].sort(sortFunc('starredAt', 'desc')) as user}
       {@const name = user.name ?? user.login}
       <ListItem>
         <a slot="avatar" href="https://github.com/{user.login}" target="_blank">
@@ -36,7 +36,7 @@
             {name}
           </a>
           <span class="text-xs text-surface-content/50 whitespace-nowrap">
-            {formatDate(user.starredAt, 'M/d/yyyy @ h:mm aa')}
+            <!-- {formatDate(user.starredAt, 'M/d/yyyy @ h:mm aa')} -->
           </span>
         </div>
         <div slot="subheading" class="text-xs text-surface-content/50">
@@ -49,12 +49,12 @@
   <div class="text-right">
     <Button
       icon={mdiChevronLeft}
-      disabled={!data.stargazers.pageInfo.hasPreviousPage}
+      disabled={!data.followers.pageInfo.hasPreviousPage}
       on:click={prevPage}
     />
     <Button
       icon={mdiChevronRight}
-      disabled={!data.stargazers.pageInfo.hasNextPage}
+      disabled={!data.followers.pageInfo.hasNextPage}
       on:click={nextPage}
     />
   </div>
