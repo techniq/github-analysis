@@ -45,8 +45,11 @@
   $: barChartData = flatRollup(
     chartData,
     (values) => values.length,
-    (d) => timeDay.ceil(d.starred_at)
+    (d) => timeDay.floor(d.starred_at)
   );
+
+  $: extents = extent(barChartData, (d) => d[0]);
+  $: xDomain = timeDay.range(extents[0], timeDay.offset(extents[1], 1)); // add offset to make end inclusive
 </script>
 
 <main>
@@ -107,7 +110,7 @@
           data={barChartData}
           x={(d) => d[0]}
           xScale={scaleBand()}
-          xDomain={timeDay.range(...extent(barChartData, (d) => d[0]))}
+          {xDomain}
           y={(d) => d[1]}
           yDomain={[0, null]}
           yNice
