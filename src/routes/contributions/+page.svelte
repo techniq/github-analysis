@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { endOfYear, startOfWeek, startOfYear, subDays } from 'date-fns';
+  import { endOfYear, startOfYear } from 'date-fns';
   import { flatGroup, sum } from 'd3-array';
   import { scaleThreshold } from 'd3-scale';
-  import { schemeGreens } from 'd3-scale-chromatic';
 
   import { mdiAccount, mdiCalendarRange, mdiOpenInNew, mdiPlay } from '@mdi/js';
 
@@ -100,10 +99,10 @@
             rDomain={[1, 10, 20, 30]}
             rRange={[
               'hsl(var(--color-surface-100))',
-              'hsl(var(--color-secondary-300))',
-              'hsl(var(--color-secondary-500))',
-              'hsl(var(--color-secondary-700))',
-              'hsl(var(--color-secondary-900))'
+              'hsl(var(--color-primary-300))',
+              'hsl(var(--color-primary-500))',
+              'hsl(var(--color-primary-700))',
+              'hsl(var(--color-primary-900))'
             ]}
             padding={{ top: 8, left: 20 }}
             tooltip={{ mode: 'manual' }}

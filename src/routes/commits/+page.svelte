@@ -1,9 +1,7 @@
 <script lang="ts">
-  import { format } from 'date-fns';
-
   import { mdiAccount, mdiDatabase, mdiPlay, mdiSourceBranch } from '@mdi/js';
 
-  import { Button, ListItem, TextField } from 'svelte-ux';
+  import { Button, ListItem, PeriodType, TextField, format } from 'svelte-ux';
 
   import { goto } from '$app/navigation';
 
@@ -57,7 +55,7 @@
         <div slot="title">
           {commit.node.message}
           <span class="text-xs text-surface-content/50 whitespace-nowrap">
-            {format(commit.node.committedDate, 'h:mm aa')}
+            {format(commit.node.committedDate, PeriodType.TimeOnly)}
           </span>
         </div>
         <div slot="actions" />

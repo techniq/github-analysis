@@ -1,5 +1,5 @@
 import { Github } from '$lib/github.js';
-import { endOfYear, startOfWeek, startOfYear, subDays } from 'date-fns';
+import { endOfYear, startOfYear } from 'date-fns';
 import { timeYear } from 'd3-time';
 import { gql } from 'svelte-ux';
 import { localToUtcDate } from 'svelte-ux/utils/date';

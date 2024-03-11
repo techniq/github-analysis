@@ -30,8 +30,8 @@ dependencies:
     specifier: ^1.108.3
     version: 1.108.3
   svelte-ux:
-    specifier: ^0.61.1
-    version: 0.61.1(postcss@8.4.35)(svelte@4.2.12)
+    specifier: ^0.61.4
+    version: 0.61.4(postcss@8.4.35)(svelte@4.2.12)
 
 devDependencies:
   '@sveltejs/adapter-cloudflare':
@@ -1467,7 +1467,7 @@ packages:
       posthog-js: 1.108.3
       shapefile: 0.6.6
       svelte: 4.2.12
-      svelte-ux: 0.61.1(postcss@8.4.35)(svelte@4.2.12)
+      svelte-ux: 0.61.4(postcss@8.4.35)(svelte@4.2.12)
       topojson-client: 3.1.0
     transitivePeerDependencies:
       - '@babel/core'
@@ -2158,8 +2158,8 @@ packages:
       svelte: 4.2.12
       typescript: 5.3.3
 
-  /svelte-ux@0.61.1(postcss@8.4.35)(svelte@4.2.12):
-    resolution: {integrity: sha512-in1TmzkpwC76sG5bFQ5Aw1OsAjv21gPNxVsiDBVqLZa34nKVvAIG1rIj7PhkLo1Brd8P/e3qsZrHEYVD5QJgcw==}
+  /svelte-ux@0.61.4(postcss@8.4.35)(svelte@4.2.12):
+    resolution: {integrity: sha512-/FPGayLcJpgdfaF9yiewUhDRkW3l5FfwTRpubjDm+G50Nt2eYx7uj9bx6Jl0Gj1aHdvwS/kaZThbQJAezsGhtA==}
     peerDependencies:
       svelte: ^3.56.0 || ^4.0.0
     dependencies:

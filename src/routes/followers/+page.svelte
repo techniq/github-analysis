@@ -1,7 +1,6 @@
 <script lang="ts">
   import { mdiChevronLeft, mdiChevronRight } from '@mdi/js';
-  import { format as formatDate } from 'date-fns';
-  import { Button, DividerDot, ListItem, format, sortFunc } from 'svelte-ux';
+  import { Button, DividerDot, ListItem, PeriodType, format, sortFunc } from 'svelte-ux';
 
   import { goto } from '$app/navigation';
 
@@ -36,7 +35,7 @@
             {name}
           </a>
           <span class="text-xs text-surface-content/50 whitespace-nowrap">
-            <!-- {formatDate(user.starredAt, 'M/d/yyyy @ h:mm aa')} -->
+            <!-- {format(user.starredAt, PeriodType.DayTime)} -->
           </span>
         </div>
         <div slot="subheading" class="text-xs text-surface-content/50">

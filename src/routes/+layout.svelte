@@ -46,11 +46,6 @@
             'text-primary bg-surface-100 font-medium before:absolute before:bg-primary before:rounded-full before:w-1 before:h-2/3 before:left-[6px] shadow z-10'
         }
       }
-    },
-    // themes: data.themes,
-    themes: {
-      light: ['light'],
-      dark: ['dark']
     }
   });
 

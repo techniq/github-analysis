@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { format as formatDate } from 'date-fns';
-
   import { mdiAccount, mdiDatabase, mdiPlay } from '@mdi/js';
 
   import { Button, Card, PeriodType, TextField, format } from 'svelte-ux';
