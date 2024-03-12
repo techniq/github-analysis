@@ -116,7 +116,7 @@
       >
         <Svg>
           <Axis placement="left" grid rule format="metric" />
-          <Axis placement="bottom" format={(d) => $format(d, PeriodType.Month)} rule />
+          <Axis placement="bottom" format={(d) => $format(d, PeriodType.Day)} rule />
           <LinearGradient class="from-secondary/50 to-secondary/0" vertical let:url>
             <Area line={{ class: 'stroke-2 stroke-secondary' }} fill={url} tweened />
           </LinearGradient>
