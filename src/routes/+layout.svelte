@@ -116,9 +116,9 @@
   </ViewportCenter>
 {:else}
   <AppLayout>
-    <nav slot="nav" class="nav h-full">
+    <svelte:fragment slot="nav">
       <NavMenu />
-    </nav>
+    </svelte:fragment>
 
     <AppBar title="Github Analysis">
       <div slot="actions" class="flex gap-3 items-center">
