@@ -20,7 +20,7 @@
   import { page } from '$app/stores';
 </script>
 
-<NavItem currentUrl={$page.url} class="pl-4 border-b border-b">
+<NavItem currentUrl={$page.url} class="pl-4 border-b">
   <Avatar class="bg-surface-100 mr-4 overflow-hidden">
     <img src={$user.avatarUrl} />
     <!-- <Icon path={mdiAccount} /> -->
@@ -31,12 +31,12 @@
     <div class="text-xs text-surface-content/50">{$user.login}</div>
   </div>
 
-  <Toggle let:on={open} let:toggle>
+  <Toggle let:on={open} let:toggle let:toggleOff>
     <Tooltip title="Sign out">
       <Button icon={mdiExitRun} on:click={toggle} class="p-1 m-1 transition-none" />
     </Tooltip>
 
-    <Dialog {open} on:close={toggle}>
+    <Dialog {open} on:close={toggleOff}>
       <div slot="title">Sign out</div>
       <div class="p-4">Are you sure you want to sign out?</div>
 
