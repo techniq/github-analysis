@@ -105,7 +105,6 @@
               'hsl(var(--color-primary-900))'
             ]}
             padding={{ top: 8, left: 20 }}
-            tooltip={{ mode: 'manual' }}
             let:tooltip
           >
             <Svg>
