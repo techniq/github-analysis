@@ -1,7 +1,7 @@
 <script lang="ts">
   import { scaleBand, scaleTime } from 'd3-scale';
-  import { extent, flatRollup } from 'd3-array';
-  import { timeDay } from 'd3-time';
+  import { bin } from 'd3-array';
+  import { timeDays } from 'd3-time';
 
   import { mdiAccount, mdiDatabase, mdiPlay } from '@mdi/js';
 
@@ -42,14 +42,10 @@
   });
   // .slice(-50);
 
-  $: barChartData = flatRollup(
-    chartData,
-    (values) => values.length,
-    (d) => timeDay.floor(d.starred_at)
-  );
-
-  $: extents = extent(barChartData, (d) => d[0]);
-  $: xDomain = timeDay.range(extents[0], timeDay.offset(extents[1], 1)); // add offset to make end inclusive
+  $: binByTime = bin()
+    .thresholds((_data, min, max) => timeDays(min, max))
+    .value((d) => d.starred_at);
+  $: chartDataByDay = binByTime(chartData);
 </script>
 
 <main>
@@ -107,11 +103,10 @@
 
       <div class="h-[100px]">
         <Chart
-          data={barChartData}
-          x={(d) => d[0]}
+          data={chartDataByDay}
+          x={['x0', 'x1']}
           xScale={scaleBand()}
-          {xDomain}
-          y={(d) => d[1]}
+          y="length"
           yDomain={[0, null]}
           yNice
           padding={{ left: 36, bottom: 32, right: 24 }}
@@ -119,14 +114,13 @@
         >
           <Svg>
             <Axis placement="left" grid format="metric" ticks={3} />
-            <!-- <Axis placement="bottom" grid format={(d) => format(d, PeriodType.Day)} /> -->
             <Rule y class="stroke-surface-content/20" />
             <Bars class="fill-secondary" />
             <Highlight area />
           </Svg>
 
-          <Tooltip header={(data) => format(data[0], PeriodType.Day)} let:data>
-            <TooltipItem label="Count" value={data[1]} />
+          <Tooltip header={(data) => format(data.x0, PeriodType.Day)} let:data>
+            <TooltipItem label="Count" value={data.length} />
           </Tooltip>
         </Chart>
       </div>
