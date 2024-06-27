@@ -20,9 +20,9 @@
   import { page } from '$app/stores';
 </script>
 
-<NavItem currentUrl={$page.url} class="pl-4 border-b">
+<NavItem path="" currentUrl={$page.url} class="pl-4 border-b">
   <Avatar class="bg-surface-100 mr-4 overflow-hidden">
-    <img src={$user.avatarUrl} />
+    <img src={$user.avatarUrl} alt="profile" />
     <!-- <Icon path={mdiAccount} /> -->
   </Avatar>
 
