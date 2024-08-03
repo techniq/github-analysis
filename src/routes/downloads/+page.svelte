@@ -37,7 +37,7 @@
   let pkg = data.variables.pkg;
 
   let dateRange: DateRange = {
-    periodType: PeriodType.WeekMon,
+    periodType: PeriodType.Day, // TODO: DateRange needs to improve WeekMon support
     from: data.variables.from,
     to: data.variables.to
   };
@@ -83,12 +83,7 @@
       bind:value={dateRange}
       icon={mdiCalendarRange}
       dense
-      periodTypeOptions={[
-        PeriodType.Day,
-        PeriodType.WeekSun,
-        PeriodType.Month,
-        PeriodType.CalendarYear
-      ]}
+      periodTypes={[PeriodType.Day, PeriodType.WeekSun, PeriodType.Month, PeriodType.CalendarYear]}
       on:change={run}
       class="flex-1"
     />
