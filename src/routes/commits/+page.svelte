@@ -20,8 +20,48 @@
   }
 </script>
 
+<svelte:head>
+  <title>
+    {owner}/{repo}@{branch} - Commits - GitHub Analysis
+  </title>
+  <meta
+    name="description"
+    content="View commits for {owner}/{repo} on branch {branch}."
+  />
+
+  <!-- Open Graph meta tags for social media sharing -->
+  <meta property="og:title" content="{owner}/{repo}@{branch} - Commits" />
+  <meta
+    property="og:description"
+    content="View commits for {owner}/{repo} on branch {branch}."
+  />
+  <meta property="og:type" content="website" />
+  <meta
+    property="og:url"
+    content="https://github.techniq.dev/commits?owner={owner}&repo={repo}&branch={branch}"
+  />
+
+  <!-- Twitter Card meta tags -->
+  <meta name="twitter:card" content="summary" />
+  <meta
+    name="twitter:title"
+    content="{owner}/{repo}@{branch} - Commits"
+  />
+  <meta
+    name="twitter:description"
+    content="View commits for {owner}/{repo} on branch {branch}."
+  />
+
+  <!-- Consider adding a canonical URL if applicable -->
+  <link
+    rel="canonical"
+    href="https://github.techniq.dev/commits?owner={owner}&repo={repo}&branch={branch}"
+  />
+</svelte:head>
+
+
 <main>
-  <form class="flex gap-2 bg-surface-100 border-b p-4" on:submit|preventDefault={run}>
+  <form class="flex gap-2 border-b bg-surface-100 p-4" on:submit|preventDefault={run}>
     <TextField
       label="User"
       bind:value={owner}
@@ -46,7 +86,7 @@
       placeholder="Name of repository"
       class="flex-1"
     />
-    <Button type="submit" icon={mdiPlay} variant="fill" color="blue">Run</Button>
+    <Button type="submit" icon={mdiPlay} variant="fill" color="primary">Run</Button>
   </form>
 
   <div class="relative min-h-[56px] p-4">
@@ -54,11 +94,11 @@
       <ListItem>
         <div slot="title">
           {commit.node.message}
-          <span class="text-xs text-surface-content/50 whitespace-nowrap">
+          <span class="whitespace-nowrap text-xs text-surface-content/50">
             {format(commit.node.committedDate, PeriodType.TimeOnly)}
           </span>
         </div>
-        <div slot="actions" />
+        <div slot="actions" ></div>
       </ListItem>
     {/each}
   </div>

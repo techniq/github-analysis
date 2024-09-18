@@ -57,7 +57,7 @@
       <div
         class="h-full grid place-items-center m-3 bg-surface-200/50 text-surface-content/30 rounded-lg border"
       >
-        TODO: Determine way to find follow date to allow visualization
+        TODO: Determine a way to find follow date to allow visualization
       </div>
       <!-- <Chart
         data={chartData}

@@ -21,8 +21,36 @@
   }
 </script>
 
+
+<svelte:head>
+  <title>GitHub Follower Analysis</title>
+  <meta name="description" content="Analyze and visualize recent followers on GitHub. Explore follower trends, demographics, and gain insights into audience growth." />
+
+  <!-- Open Graph meta tags for social media sharing -->
+  <meta property="og:title" content="GitHub Follower Analysis" />
+  <meta property="og:description" content="Analyze and visualize recent followers on GitHub. Explore follower trends, demographics, and gain insights into audience growth." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://github.techniq.dev/followers" /> 
+  <meta property="og:image" content="https://github.techniq.dev/opengraph-image-followers.jpg" /> <!-- Replace with a relevant image URL -->
+
+  <!-- Twitter Card meta tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="GitHub Follower Analysis" />
+  <meta name="twitter:description" content="Analyze and visualize recent followers on GitHub. Explore follower trends, demographics, and gain insights into audience growth." />
+  <meta name="twitter:image" content="https://github.techniq.dev/twitter-image-followers.jpg" /> <!-- Replace with a relevant image URL -->
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://github.techniq.dev/followers" />
+
+  <!-- Additional meta tags for better SEO -->
+  <meta name="keywords" content="GitHub, followers, analysis, visualization, trends, audience growth, demographics" />
+  <meta name="robots" content="index, follow" />
+</svelte:head>
+
+
+
 <div class="grid gap-1">
-  <div class="text-xs text-surface-content/50 mb-1">Recent followers</div>
+  <div class="mb-1 text-xs text-surface-content/50">Recent followers</div>
   <div>
     {#each [...data.followers.users].sort(sortFunc('starredAt', 'desc')) as user}
       {@const name = user.name ?? user.login}
@@ -34,7 +62,7 @@
           <a href="https://github.com/{user.login}" target="_blank">
             {name}
           </a>
-          <span class="text-xs text-surface-content/50 whitespace-nowrap">
+          <span class="whitespace-nowrap text-xs text-surface-content/50">
             <!-- {format(user.starredAt, PeriodType.DayTime)} -->
           </span>
         </div>
