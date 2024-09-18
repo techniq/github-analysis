@@ -11,10 +11,18 @@ export async function load({ parent, url }) {
 
   const variables = { owner, repo, branch };
 
-  return {
-    commits: await fetchCommits(accessToken, variables),
-    variables
-  };
+  try {
+    const commits = await fetchCommits(accessToken, variables);
+    return { commits, variables };
+  } catch (error) {
+    console.error('Error fetching commits:', error);
+    // Handle the error gracefully, e.g., show an error message to the user
+    return {
+      commits: [],
+      variables,
+      error: 'Failed to fetch commits. Please check the repository and branch details.'
+    };
+  }
 }
 
 async function fetchCommits(
@@ -64,5 +72,9 @@ async function fetchCommits(
     `,
     variables
   );
+  // Add error handling here
+  if (!repository || !repository.ref || !repository.ref.target) {
+    throw new Error('Invalid repository or branch.');
+  }
   return repository.ref.target.history.edges;
 }

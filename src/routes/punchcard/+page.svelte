@@ -34,8 +34,38 @@
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 </script>
 
+
+<svelte:head>
+  <title>{owner}/{repo} - Commit Punchcard - GitHub Analysis</title>
+  <meta name="description" content="Visualize the commit activity of {owner}/{repo} on GitHub with an interactive punchcard. See the most active days and hours for contributions." />
+
+  <!-- Open Graph meta tags for social media sharing -->
+  <meta property="og:title" content="{owner}/{repo} - GitHub Commit Punchcard" />
+  <meta property="og:description" content="Visualize the commit activity of {owner}/{repo} on GitHub with an interactive punchcard. See the most active days and hours for contributions." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://github.techniq.dev/punchcard?owner={owner}&repo={repo}" /> 
+  <meta property="og:image" content="https://github.techniq.dev/opengraph-image-punchcard.jpg" /> <!-- Replace with a relevant image URL -->
+
+  <!-- Twitter Card meta tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{owner}/{repo} - GitHub Commit Punchcard" />
+  <meta name="twitter:description" content="Visualize the commit activity of {owner}/{repo} on GitHub with an interactive punchcard. See the most active days and hours for contributions." />
+  <meta name="twitter:image" content="https://github.techniq.dev/twitter-image-punchcard.jpg" /> <!-- Replace with a relevant image URL -->
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://github.techniq.dev/punchcard?owner={owner}&repo={repo}" />
+
+  <!-- Additional meta tags for better SEO -->
+  <meta name="keywords" content="GitHub, punchcard, commits, activity, analysis, visualization, {owner}, {repo}" />
+  <meta name="robots" content="index, follow" />
+</svelte:head>
+
+
+
+
+
 <main>
-  <form class="flex gap-2 bg-surface-100 border-b p-4" on:submit|preventDefault={run}>
+  <form class="flex gap-2 border-b bg-surface-100 p-4" on:submit|preventDefault={run}>
     <TextField
       label="Owner"
       bind:value={owner}
@@ -56,7 +86,7 @@
   </form>
 
   <div class="relative min-h-[56px] p-4">
-    <!-- <Card class="grid grid-rows-[repeat(8,1fr)] grid-cols-[repeat(25,1fr)] gap-1 p-4 text-right">
+    <!-- <Card class="grid grid-cols-[repeat(25,1fr)] grid-rows-[repeat(8,1fr)] gap-1 p-4 text-right">
 				{#each Array.from({ length: 24 }) as _, i}
 					<div class="text-xs font-bold" style="grid-row: 1; grid-column: {i + 2}">{i}:00</div>
 				{/each}
@@ -76,7 +106,7 @@
 				{/each}
 			</Card> -->
 
-    <Card class="h-[300px] p-4 mt-4 group">
+    <Card class="group mt-4 h-[300px] p-4">
       <Chart
         data={data.punchCard}
         x={(d) => d.hour}
@@ -117,7 +147,7 @@
                 value={point.data.count}
                 textAnchor="middle"
                 verticalAnchor="middle"
-                class="stroke-emerald-800 fill-white text-xs stroke-2 transition-all opacity-0 group-hover:opacity-100"
+                class="fill-white stroke-emerald-800 stroke-2 text-xs opacity-0 transition-all group-hover:opacity-100"
                 capHeight=".6rem"
               />
             {/each}

@@ -68,8 +68,34 @@
   );
 </script>
 
+<svelte:head>
+  <title>{pkg} - Download Statistics - GitHub Analysis</title>
+  <meta name="description" content="Analyze download statistics for the {pkg} package. Visualize download trends over time and gain insights into package popularity." />
+
+  <!-- Open Graph meta tags for social media sharing -->
+  <meta property="og:title" content="{pkg} - Package Download Insights" />
+  <meta property="og:description" content="Analyze download statistics for the {pkg} package. Visualize download trends over time and gain insights into package popularity." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://github.techniq.dev/downloads?pkg={pkg}" /> 
+  <meta property="og:image" content="https://github.techniq.dev/opengraph-image-downloads.jpg" /> <!-- Replace with a relevant image URL -->
+
+  <!-- Twitter Card meta tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{pkg} - Package Download Insights" />
+  <meta name="twitter:description" content="Analyze download statistics for the {pkg} package. Visualize download trends over time and gain insights into package popularity." />
+  <meta name="twitter:image" content="https://github.techniq.dev/twitter-image-downloads.jpg" /> <!-- Replace with a relevant image URL -->
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://github.techniq.dev/downloads?pkg={pkg}" />
+
+  <!-- Additional meta tags for better SEO -->
+  <meta name="keywords" content="package downloads, {pkg}, statistics, analysis, visualization, trends, popularity" />
+  <meta name="robots" content="index, follow" />
+</svelte:head>
+
+
 <main>
-  <form class="flex gap-2 bg-surface-100 border-b p-4" on:submit|preventDefault={run}>
+  <form class="flex gap-2 border-b bg-surface-100 p-4" on:submit|preventDefault={run}>
     <TextField
       label="Package"
       bind:value={pkg}
@@ -90,7 +116,7 @@
     <Button type="submit" icon={mdiPlay} variant="fill" color="primary">Run</Button>
   </form>
 
-  <div class="p-4 grid gap-4">
+  <div class="grid gap-4 p-4">
     <Card
       title={data.variables.pkg}
       subheading="{$format(

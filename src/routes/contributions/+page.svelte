@@ -26,6 +26,7 @@
 
   let login = data.variables.login;
 
+  //@ts-expect-error
   let dateRange: DateRange = {
     periodType: PeriodType.CalendarYear,
     from: data.variables.from,
@@ -47,9 +48,38 @@
   );
 </script>
 
+<svelte:head>
+  <title>{login} - GitHub Contributions</title> 
+  <meta name="description" content="View and analyze the GitHub contributions of {login} over time. Explore their commit history, activity levels, and more." />
+
+  <!-- Open Graph meta tags for social media sharing -->
+  <meta property="og:title" content="{login} - GitHub Contributions" />
+  <meta property="og:description" content="View and analyze the GitHub contributions of {login} over time. Explore their commit history, activity levels, and more." />
+  <meta property="og:type" content="website" /> 
+  <meta property="og:url" content="https://github.techniq.dev/contributions/{login}" /> 
+  //TODO: #9 Add a relevant image URL
+  <meta property="og:image" content="https://github.techniq.dev/opengraph-image.jpg" /> <!-- Replace with a relevant image URL -->
+
+  <!-- Twitter Card meta tags -->
+  <meta name="twitter:card" content="summary_large_image" /> <!-- Use "summary_large_image" for better visibility -->
+  <meta name="twitter:title" content="{login} - GitHub Contributions" />
+  <meta name="twitter:description" content="View and analyze the GitHub contributions of {login} over time. Explore their commit history, activity levels, and more." />
+  //TODO: Add a relevant image URL
+  <meta name="twitter:image" content="https://github.techniq.dev/twitter-image.jpg" /> <!-- Replace with a relevant image URL -->
+
+  <!-- Consider adding a canonical URL if applicable -->
+  <link rel="canonical" href="https://github.techniq.dev/contributions/{login}" />
+
+  <!-- Additional meta tags for better SEO -->
+  <meta name="keywords" content="GitHub, contributions, open source, developer, profile, analysis, {login}" />
+</svelte:head>
+
+
+
+
 <main>
   <form
-    class="grid grid-cols-[1fr,1fr,auto] gap-2 bg-surface-100 border-b p-4"
+    class="grid grid-cols-[1fr,1fr,auto] gap-2 border-b bg-surface-100 p-4"
     on:submit|preventDefault={run}
   >
     <TextField
@@ -60,11 +90,11 @@
       placeholder="User to lookup"
     />
     <DateRangeField
-      label="Date Range"
-      bind:value={dateRange}
-      icon={mdiCalendarRange}
-      dense
-      on:change={run}
+    label="Date Range"
+    bind:value={dateRange}
+    icon={mdiCalendarRange}
+    dense
+    on:change={run}
     />
     <Button type="submit" icon={mdiPlay} variant="fill" color="primary">Run</Button>
   </form>
@@ -88,7 +118,7 @@
         </Header>
 
         <div
-          class="p-4 border rounded overflow-hidden"
+          class="overflow-hidden rounded border p-4"
           style:height="{140 * calendarDataByYear.length + 16}px"
         >
           <Chart
@@ -141,7 +171,7 @@
       </Card>
 
       <div>
-        <div class="text-xs text-surface-content/50 mb-1 tracking-widest">Commits</div>
+        <div class="mb-1 text-xs tracking-widest text-surface-content/50">Commits</div>
 
         <div class="relative min-h-[56px]">
           {#each data.commits ?? [] as d}
@@ -164,4 +194,4 @@
       </div>
     </div>
   </div>
-</main>
+</main>   
