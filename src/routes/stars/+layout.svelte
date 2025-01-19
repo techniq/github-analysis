@@ -15,7 +15,9 @@
     LinearGradient,
     Svg,
     Tooltip,
-    Rule
+    Rule,
+    LineChart,
+    BarChart
   } from 'layerchart';
   import { format, PeriodType } from '@layerstack/utils';
 
@@ -75,60 +77,60 @@
       subheading="{data.stargazers.length} stargazers"
     >
       <div class="h-[300px]">
-        <Chart
+        <LineChart
           data={chartData}
           x="starred_at"
-          xScale={scaleTime()}
           y="count"
-          yDomain={[0, null]}
-          yNice
+          series={[{ key: 'count', color: 'hsl(var(--color-secondary))' }]}
           padding={{ left: 36, bottom: 32, right: 24 }}
-          tooltip={{ mode: 'bisect-x' }}
+          props={{
+            xAxis: { format: PeriodType.Day },
+            yAxis: { format: 'metric' }
+          }}
         >
-          <Svg>
-            <Axis placement="left" grid rule format="metric" />
-            <Axis placement="bottom" format={(d) => format(d, PeriodType.Day)} rule />
+          <svelte:fragment slot="marks">
             <LinearGradient class="from-secondary/50 to-secondary/0" vertical let:gradient>
               <Area line={{ class: 'stroke-2 stroke-secondary' }} fill={gradient} tweened />
             </LinearGradient>
-            <Highlight points={{ class: 'fill-secondary' }} lines />
-          </Svg>
+          </svelte:fragment>
 
-          <Tooltip.Root let:data>
-            <Tooltip.Header>{format(data.starred_at, PeriodType.DayTime)}</Tooltip.Header>
-            <Tooltip.List>
-              <Tooltip.Item label="User" value={data.user.login} />
-              <Tooltip.Item label="Count" value={data.count} />
-            </Tooltip.List>
-          </Tooltip.Root>
-        </Chart>
+          <svelte:fragment slot="tooltip">
+            <Tooltip.Root let:data>
+              <Tooltip.Header>{format(data.starred_at, PeriodType.DayTime)}</Tooltip.Header>
+              <Tooltip.List>
+                <Tooltip.Item label="User" value={data.user.login} />
+                <Tooltip.Item label="Count" value={data.count} />
+              </Tooltip.List>
+            </Tooltip.Root>
+          </svelte:fragment>
+        </LineChart>
       </div>
 
       <div class="h-[100px]">
-        <Chart
+        <BarChart
           data={chartDataByDay}
           x="x0"
-          xScale={scaleBand()}
           y="length"
           yDomain={[0, null]}
-          yNice
           padding={{ left: 36, bottom: 32, right: 24 }}
           tooltip={{ mode: 'bisect-x' }}
+          axis="y"
+          grid={false}
+          props={{
+            bars: { rounded: false, class: 'stroke-none fill-secondary' },
+            yAxis: { grid: true, format: 'metric', ticks: 3 },
+            rule: { class: 'stroke-surface-content/20' }
+          }}
         >
-          <Svg>
-            <Axis placement="left" grid format="metric" ticks={3} />
-            <Rule y class="stroke-surface-content/20" />
-            <Bars class="fill-secondary" />
-            <Highlight area />
-          </Svg>
-
-          <Tooltip.Root let:data>
-            <Tooltip.Header>{format(data.x0, PeriodType.Day)}</Tooltip.Header>
-            <Tooltip.List>
-              <Tooltip.Item label="Count" value={data.length} />
-            </Tooltip.List>
-          </Tooltip.Root>
-        </Chart>
+          <svelte:fragment slot="tooltip">
+            <Tooltip.Root let:data>
+              <Tooltip.Header>{format(data.x0, PeriodType.Day)}</Tooltip.Header>
+              <Tooltip.List>
+                <Tooltip.Item label="Count" value={data.length} />
+              </Tooltip.List>
+            </Tooltip.Root>
+          </svelte:fragment>
+        </BarChart>
       </div>
     </Card>
 
