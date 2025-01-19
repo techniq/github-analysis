@@ -10,23 +10,13 @@
     DateRange,
     DateRangeDisplay,
     DateRangeField,
-    PeriodType,
     TextField,
-    getSettings,
-    sort
+    getSettings
   } from 'svelte-ux';
-  import { getDateFuncsByPeriodType } from 'svelte-ux/utils/date';
+  import { sort } from '@layerstack/utils';
+  import { getDateFuncsByPeriodType, PeriodType } from '@layerstack/utils/date';
 
-  import {
-    Area,
-    Axis,
-    Chart,
-    Highlight,
-    LinearGradient,
-    Svg,
-    Tooltip,
-    TooltipItem
-  } from 'layerchart';
+  import { Area, Axis, Chart, Highlight, LinearGradient, Svg, Tooltip } from 'layerchart';
 
   import { goto } from '$app/navigation';
 
@@ -112,20 +102,22 @@
         <Svg>
           <Axis placement="left" grid rule format="metric" />
           <Axis placement="bottom" format={(d) => $format(d, PeriodType.Day)} rule />
-          <LinearGradient class="from-secondary/50 to-secondary/0" vertical let:url>
-            <Area line={{ class: 'stroke-2 stroke-secondary' }} fill={url} tweened />
+          <LinearGradient class="from-secondary/50 to-secondary/0" vertical let:gradient>
+            <Area line={{ class: 'stroke-2 stroke-secondary' }} fill={gradient} tweened />
           </LinearGradient>
           <Highlight points={{ class: 'fill-secondary' }} lines />
         </Svg>
 
-        <Tooltip let:data>
-          <div slot="header" let:data>
+        <Tooltip.Root let:data>
+          <Tooltip.Header>
             <DateRangeDisplay
               value={{ from: data.start, to: data.end, periodType: dateRange.periodType }}
             />
-          </div>
-          <TooltipItem label="Downloads" value={data.downloads} format="integer" />
-        </Tooltip>
+          </Tooltip.Header>
+          <Tooltip.List>
+            <Tooltip.Item label="Downloads" value={data.downloads} format="integer" />
+          </Tooltip.List>
+        </Tooltip.Root>
       </Chart>
     </Card>
   </div>

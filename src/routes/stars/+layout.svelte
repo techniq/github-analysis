@@ -5,7 +5,7 @@
 
   import { mdiAccount, mdiDatabase, mdiPlay } from '@mdi/js';
 
-  import { Button, Card, PeriodType, TextField, format } from 'svelte-ux';
+  import { Button, Card, TextField } from 'svelte-ux';
   import {
     Area,
     Axis,
@@ -15,9 +15,9 @@
     LinearGradient,
     Svg,
     Tooltip,
-    TooltipItem,
     Rule
   } from 'layerchart';
+  import { format, PeriodType } from '@layerstack/utils';
 
   import { goto } from '$app/navigation';
 
@@ -88,23 +88,27 @@
           <Svg>
             <Axis placement="left" grid rule format="metric" />
             <Axis placement="bottom" format={(d) => format(d, PeriodType.Day)} rule />
-            <LinearGradient class="from-secondary/50 to-secondary/0" vertical let:url>
-              <Area line={{ class: 'stroke-2 stroke-secondary' }} fill={url} tweened />
+            <LinearGradient class="from-secondary/50 to-secondary/0" vertical let:gradient>
+              <Area line={{ class: 'stroke-2 stroke-secondary' }} fill={gradient} tweened />
             </LinearGradient>
             <Highlight points={{ class: 'fill-secondary' }} lines />
           </Svg>
 
-          <Tooltip header={(data) => format(data.starred_at, PeriodType.DayTime)} let:data>
-            <TooltipItem label="User" value={data.user.login} />
-            <TooltipItem label="Count" value={data.count} />
-          </Tooltip>
+          <Tooltip.Root let:data>
+            <Tooltip.Header>{format(data.starred_at, PeriodType.DayTime)}</Tooltip.Header>
+            <Tooltip.List>
+              <Tooltip.Item label="User" value={data.user.login} />
+              <Tooltip.Item label="Count" value={data.count} />
+            </Tooltip.List>
+          </Tooltip.Root>
         </Chart>
       </div>
 
+      {console.log(chartDataByDay)}
       <div class="h-[100px]">
         <Chart
           data={chartDataByDay}
-          x={['x0', 'x1']}
+          x="x0"
           xScale={scaleBand()}
           y="length"
           yDomain={[0, null]}
@@ -119,9 +123,12 @@
             <Highlight area />
           </Svg>
 
-          <Tooltip header={(data) => format(data.x0, PeriodType.Day)} let:data>
-            <TooltipItem label="Count" value={data.length} />
-          </Tooltip>
+          <Tooltip.Root let:data>
+            <Tooltip.Header>{format(data.x0, PeriodType.Day)}</Tooltip.Header>
+            <Tooltip.List>
+              <Tooltip.Item label="Count" value={data.length} />
+            </Tooltip.List>
+          </Tooltip.Root>
         </Chart>
       </div>
     </Card>

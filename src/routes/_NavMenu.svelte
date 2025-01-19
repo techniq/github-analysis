@@ -41,7 +41,7 @@
       <div class="p-4">Are you sure you want to sign out?</div>
 
       <div slot="actions" class="flex items-center gap-2">
-        <Button variant="fill" color="blue" icon={mdiExitRun} href="/auth/logout" rel="external">
+        <Button variant="fill" color="primary" icon={mdiExitRun} href="/auth/logout" rel="external">
           Sign out
         </Button>
         <Button>Cancel</Button>

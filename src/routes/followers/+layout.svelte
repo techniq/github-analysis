@@ -1,19 +1,11 @@
 <script lang="ts">
-  import { mdiAccount, mdiDatabase, mdiPlay } from '@mdi/js';
+  import { mdiAccount, mdiPlay } from '@mdi/js';
 
-  import { Button, Card, PeriodType, TextField, format } from 'svelte-ux';
+  import { Button, Card, TextField } from 'svelte-ux';
+  import { format, sortFunc, PeriodType } from '@layerstack/utils';
 
   import { goto } from '$app/navigation';
-  import {
-    Area,
-    Axis,
-    Chart,
-    Highlight,
-    LinearGradient,
-    Svg,
-    Tooltip,
-    TooltipItem
-  } from 'layerchart';
+  import { Area, Axis, Chart, Highlight, LinearGradient, Svg, Tooltip } from 'layerchart';
   import { scaleTime } from 'd3-scale';
 
   export let data;
@@ -72,16 +64,19 @@
         <Svg>
           <Axis placement="left" grid rule format="metric" />
           <Axis placement="bottom" format={(d) => format(d, PeriodType.Month)} rule />
-          <LinearGradient class="from-secondary/50 to-secondary/0" vertical let:url>
-            <Area line={{ class: 'stroke-2 stroke-secondary' }} fill={url} tweened />
+          <LinearGradient class="from-secondary/50 to-secondary/0" vertical let:gradient>
+            <Area line={{ class: 'stroke-2 stroke-secondary' }} fill={gradient} tweened />
           </LinearGradient>
           <Highlight points={{ class: 'fill-secondary' }} lines />
         </Svg>
 
-        <Tooltip header={(data) => formatDate(data.starred_at, 'M/d/yyyy @ h:mm aa')} let:data>
-          <TooltipItem label="User" value={data.login} />
-          <TooltipItem label="Count" value={data.count} />
-        </Tooltip>
+        <Tooltip.Root let:data>
+          <Tooltip.Header>{formatDate(data.starred_at, 'M/d/yyyy @ h:mm aa')}</Tooltip.Header>
+          <Tooltip.List>
+            <Tooltip.Item label="User" value={data.login} />
+            <Tooltip.Item label="Count" value={data.count} />
+          </Tooltip.List>
+        </Tooltip.Root>
       </Chart> -->
     </Card>
 

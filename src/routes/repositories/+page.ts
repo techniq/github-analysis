@@ -1,5 +1,5 @@
 import { Github } from '$lib/github.js';
-import { gql } from 'svelte-ux';
+import { gql } from '@layerstack/svelte-stores';
 // import type { User } from '@octokit/graphql-schema';
 
 export async function load({ parent }) {

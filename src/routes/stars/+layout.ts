@@ -1,6 +1,7 @@
 import { Github, type RepoApi, type StargazerApi } from '$lib/github.js';
 import { range } from 'd3-array';
-import { gql, sort } from 'svelte-ux';
+import { sort } from '@layerstack/utils';
+import { gql } from '@layerstack/svelte-stores';
 // import type { User } from '@octokit/graphql-schema';
 
 export async function load({ parent, url }) {

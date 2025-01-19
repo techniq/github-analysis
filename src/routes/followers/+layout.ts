@@ -1,6 +1,7 @@
 import { Github, type UserApi } from '$lib/github.js';
 import { range } from 'd3-array';
-import { gql, sort } from 'svelte-ux';
+import { sort } from '@layerstack/utils';
+import { gql } from '@layerstack/svelte-stores';
 
 export async function load({ parent, url }) {
   const { accessToken } = await parent();

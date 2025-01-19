@@ -2,7 +2,8 @@
   import { tweened } from 'svelte/motion';
   import { cubicOut } from 'svelte/easing';
 
-  import { Progress, cls } from 'svelte-ux';
+  import { Progress } from 'svelte-ux';
+  import { cls } from '@layerstack/tailwind';
 
   export let loading = false;
   export let timeout = 5000;

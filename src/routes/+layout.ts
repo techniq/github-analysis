@@ -1,4 +1,4 @@
-import { gql } from 'svelte-ux';
+import { gql } from '@layerstack/svelte-stores';
 import posthog from 'posthog-js';
 import { redirect } from '@sveltejs/kit';
 

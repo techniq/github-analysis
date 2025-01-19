@@ -1,6 +1,7 @@
 <script lang="ts">
   import { mdiChevronLeft, mdiChevronRight } from '@mdi/js';
-  import { Button, DividerDot, ListItem, PeriodType, format, sortFunc } from 'svelte-ux';
+  import { Button, DividerDot, ListItem } from 'svelte-ux';
+  import { PeriodType, format, sortFunc } from '@layerstack/utils';
 
   import { goto } from '$app/navigation';
 

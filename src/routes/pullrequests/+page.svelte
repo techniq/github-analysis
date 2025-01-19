@@ -3,34 +3,14 @@
   import { mdiCalendar, mdiSourcePull } from '@mdi/js';
   import { scaleTime, scaleBand } from 'd3-scale';
 
-  import {
-    Axis,
-    Chart,
-    Highlight,
-    Points,
-    Svg,
-    Tooltip as ChartTooltip,
-    TooltipItem,
-    TooltipSeparator
-  } from 'layerchart';
+  import { Axis, Chart, Highlight, Points, Svg, Tooltip as ChartTooltip } from 'layerchart';
 
-  import {
-    ListItem,
-    DividerDot,
-    Button,
-    format,
-    Icon,
-    Tooltip,
-    PeriodType,
-    Duration,
-    formatDate,
-    Card,
-    sortFunc
-  } from 'svelte-ux';
+  import { ListItem, DividerDot, Button, Icon, Tooltip, Duration, Card } from 'svelte-ux';
+  import { format, PeriodType, formatDate, sortFunc } from '@layerstack/utils';
 
   export let data;
 
-  $: pullRequests = data.pullRequests.nodes.sort(sortFunc('createdAt', 'asc'));
+  $: pullRequests = data.pullRequests.nodes.sort(sortFunc('createdAt', 'asc')).filter((d) => d);
 </script>
 
 <main class="p-4 grid gap-3">
@@ -59,21 +39,22 @@
         <Points class="fill-emerald-500 stroke-emerald-700" links />
         <Highlight points={{ class: 'fill-emerald-500' }} lines area />
       </Svg>
-      <ChartTooltip let:data>
+
+      <ChartTooltip.Root let:data>
         <div class="col-span-full text-center text-primary-400">#{data.number}</div>
         <div class="col-span-full max-w-[300px] text-sm text-center mb-2">{data.title}</div>
-        <TooltipItem label="Created At" value={format(data.createdAt, PeriodType.DayTime)} />
-        <TooltipItem label="Closed At" value={format(data.closedAt, PeriodType.DayTime)} />
-        <TooltipSeparator />
-        <TooltipItem label="duration" valueAlign="right">
+        <ChartTooltip.Item label="Created At" value={format(data.createdAt, PeriodType.DayTime)} />
+        <ChartTooltip.Item label="Closed At" value={format(data.closedAt, PeriodType.DayTime)} />
+        <ChartTooltip.Separator />
+        <ChartTooltip.Item label="duration" valueAlign="right">
           <Duration start={data.createdAt} end={data.closedAt} totalUnits={2} />
-        </TooltipItem>
-      </ChartTooltip>
+        </ChartTooltip.Item>
+      </ChartTooltip.Root>
     </Chart>
   </Card>
 
   <div>
-    {#each data.pullRequests.nodes as pr}
+    {#each pullRequests as pr}
       <ListItem
         icon={mdiSourcePull}
         avatar={{ class: 'bg-surface-300 text-surface-content/90' }}

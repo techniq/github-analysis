@@ -1,6 +1,7 @@
 <script lang="ts">
   import { mdiBookVariant, mdiSourceCommit, mdiStar, mdiTimelineClockOutline } from '@mdi/js';
-  import { Button, ListItem, Tooltip, format } from 'svelte-ux';
+  import { Button, ListItem, Tooltip } from 'svelte-ux';
+  import { format } from '@layerstack/utils';
 
   export let data;
 </script>

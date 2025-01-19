@@ -13,12 +13,10 @@
     ListItem,
     TextField,
     DateRangeField,
-    format,
-    sortFunc,
-    PeriodType,
     DateRange
   } from 'svelte-ux';
-  import { Calendar, Chart, Svg, Tooltip, TooltipItem, Group, Text } from 'layerchart';
+  import { Calendar, Chart, Svg, Tooltip, Group, Text } from 'layerchart';
+  import { format, sortFunc, PeriodType } from '@layerstack/utils';
 
   import { goto } from '$app/navigation';
 
@@ -94,10 +92,10 @@
           <Chart
             data={data.calendar}
             x="date"
-            r="contributionCount"
-            rScale={scaleThreshold().unknown('transparent')}
-            rDomain={[1, 10, 20, 30]}
-            rRange={[
+            c="contributionCount"
+            cScale={scaleThreshold().unknown('transparent')}
+            cDomain={[1, 10, 20, 30]}
+            cRange={[
               'hsl(var(--color-surface-100))',
               'hsl(var(--color-primary-300))',
               'hsl(var(--color-primary-500))',
@@ -126,16 +124,19 @@
               {/each}
             </Svg>
 
-            <Tooltip header={(d) => format(d.date, PeriodType.Day)} let:data>
+            <Tooltip.Root let:data>
+              <Tooltip.Header>{format(data.date, PeriodType.Day)}</Tooltip.Header>
               {#if data?.contributionCount != null}
-                <TooltipItem
-                  label="Contributions"
-                  value={data.contributionCount}
-                  format="integer"
-                  valueAlign="right"
-                />
+                <Tooltip.List>
+                  <Tooltip.Item
+                    label="Contributions"
+                    value={data.contributionCount}
+                    format="integer"
+                    valueAlign="right"
+                  />
+                </Tooltip.List>
               {/if}
-            </Tooltip>
+            </Tooltip.Root>
           </Chart>
         </div>
       </Card>

@@ -7,17 +7,7 @@
 
   import { Button, Card, TextField } from 'svelte-ux';
 
-  import {
-    Axis,
-    Chart,
-    Circle,
-    Highlight,
-    Points,
-    Svg,
-    Text,
-    Tooltip,
-    TooltipItem
-  } from 'layerchart';
+  import { Axis, Chart, Circle, Highlight, Points, Svg, Text, Tooltip } from 'layerchart';
 
   export let data;
 
@@ -125,9 +115,14 @@
           <Highlight area axis="x" />
           <Highlight area axis="y" />
         </Svg>
-        <Tooltip header={(d) => daysOfWeek[d.weekday] + ' @ ' + d.hour + ':00'} let:data>
-          <TooltipItem label="Commits" value={data?.count} valueAlign="right" />
-        </Tooltip>
+        <Tooltip.Root let:data>
+          <Tooltip.Header>
+            {daysOfWeek[data.weekday]} @ {data.hour}:00
+          </Tooltip.Header>
+          <Tooltip.List>
+            <Tooltip.Item label="Commits" value={data?.count} valueAlign="right" />
+          </Tooltip.List>
+        </Tooltip.Root>
       </Chart>
     </Card>
   </div>

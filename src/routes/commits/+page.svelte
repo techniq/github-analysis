@@ -1,7 +1,8 @@
 <script lang="ts">
   import { mdiAccount, mdiDatabase, mdiPlay, mdiSourceBranch } from '@mdi/js';
 
-  import { Button, ListItem, PeriodType, TextField, format } from 'svelte-ux';
+  import { Button, ListItem, TextField } from 'svelte-ux';
+  import { PeriodType, format } from '@layerstack/utils';
 
   import { goto } from '$app/navigation';
 
@@ -46,7 +47,7 @@
       placeholder="Name of repository"
       class="flex-1"
     />
-    <Button type="submit" icon={mdiPlay} variant="fill" color="blue">Run</Button>
+    <Button type="submit" icon={mdiPlay} variant="fill" color="primary">Run</Button>
   </form>
 
   <div class="relative min-h-[56px] p-4">
@@ -58,7 +59,7 @@
             {format(commit.node.committedDate, PeriodType.TimeOnly)}
           </span>
         </div>
-        <div slot="actions" />
+        <div slot="actions"></div>
       </ListItem>
     {/each}
   </div>

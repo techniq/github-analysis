@@ -1,8 +1,8 @@
 import { Github } from '$lib/github.js';
 import { endOfYear, startOfYear } from 'date-fns';
 import { timeYear } from 'd3-time';
-import { gql } from 'svelte-ux';
-import { localToUtcDate } from 'svelte-ux/utils/date';
+import { gql } from '@layerstack/svelte-stores';
+import { localToUtcDate } from '@layerstack/utils/date';
 // import type { User } from '@octokit/graphql-schema';
 
 export async function load({ parent, url }) {
