@@ -104,7 +104,6 @@
         </Chart>
       </div>
 
-      {console.log(chartDataByDay)}
       <div class="h-[100px]">
         <Chart
           data={chartDataByDay}
