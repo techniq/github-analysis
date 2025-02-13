@@ -1,6 +1,5 @@
 <script lang="ts">
   import { flatRollup, max, min, sum } from 'd3-array';
-  import { scaleTime } from 'd3-scale';
 
   import { mdiCalendarRange, mdiPackage, mdiPlay } from '@mdi/js';
 
@@ -16,7 +15,7 @@
   import { sort } from '@layerstack/utils';
   import { getDateFuncsByPeriodType, PeriodType } from '@layerstack/utils/date';
 
-  import { Area, Axis, Chart, Highlight, LinearGradient, Svg, Tooltip } from 'layerchart';
+  import { Area, LinearGradient, LineChart, Tooltip } from 'layerchart';
 
   import { goto } from '$app/navigation';
 
@@ -89,36 +88,36 @@
       )} total downloads"
       class="h-[300px]"
     >
-      <Chart
+      <LineChart
         data={chartData}
         x="start"
-        xScale={scaleTime()}
         y="downloads"
-        yDomain={[0, null]}
-        yNice
         padding={{ left: 36, bottom: 32, right: 24 }}
-        tooltip={{ mode: 'bisect-x' }}
+        props={{
+          xAxis: { format: PeriodType.Day },
+          yAxis: { format: 'metric' }
+        }}
+        series={[{ key: 'downloads', color: 'hsl(var(--color-secondary))' }]}
       >
-        <Svg>
-          <Axis placement="left" grid rule format="metric" />
-          <Axis placement="bottom" format={(d) => $format(d, PeriodType.Day)} rule />
+        <svelte:fragment slot="marks">
           <LinearGradient class="from-secondary/50 to-secondary/0" vertical let:gradient>
             <Area line={{ class: 'stroke-2 stroke-secondary' }} fill={gradient} tweened />
           </LinearGradient>
-          <Highlight points={{ class: 'fill-secondary' }} lines />
-        </Svg>
+        </svelte:fragment>
 
-        <Tooltip.Root let:data>
-          <Tooltip.Header>
-            <DateRangeDisplay
-              value={{ from: data.start, to: data.end, periodType: dateRange.periodType }}
-            />
-          </Tooltip.Header>
-          <Tooltip.List>
-            <Tooltip.Item label="Downloads" value={data.downloads} format="integer" />
-          </Tooltip.List>
-        </Tooltip.Root>
-      </Chart>
+        <svelte:fragment slot="tooltip">
+          <Tooltip.Root let:data>
+            <Tooltip.Header>
+              <DateRangeDisplay
+                value={{ from: data.start, to: data.end, periodType: dateRange.periodType }}
+              />
+            </Tooltip.Header>
+            <Tooltip.List>
+              <Tooltip.Item label="Downloads" value={data.downloads} format="integer" />
+            </Tooltip.List>
+          </Tooltip.Root>
+        </svelte:fragment>
+      </LineChart>
     </Card>
   </div>
 </main>

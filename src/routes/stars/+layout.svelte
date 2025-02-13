@@ -1,24 +1,11 @@
 <script lang="ts">
-  import { scaleBand, scaleTime } from 'd3-scale';
   import { bin } from 'd3-array';
   import { timeDays } from 'd3-time';
 
   import { mdiAccount, mdiDatabase, mdiPlay } from '@mdi/js';
 
   import { Button, Card, TextField } from 'svelte-ux';
-  import {
-    Area,
-    Axis,
-    Bars,
-    Chart,
-    Highlight,
-    LinearGradient,
-    Svg,
-    Tooltip,
-    Rule,
-    LineChart,
-    BarChart
-  } from 'layerchart';
+  import { Area, BarChart, LinearGradient, LineChart, Tooltip } from 'layerchart';
   import { format, PeriodType } from '@layerstack/utils';
 
   import { goto } from '$app/navigation';
