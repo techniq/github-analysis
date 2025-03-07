@@ -40,8 +40,8 @@
           </span>
         </div>
         <div slot="subheading" class="text-xs text-surface-content/50">
-          {user.followers.totalCount} followers <DividerDot />
-          {user.following.totalCount} following
+          {format(user.followers.totalCount)} followers <DividerDot />
+          {format(user.following.totalCount)} following
         </div>
       </ListItem>
     {/each}

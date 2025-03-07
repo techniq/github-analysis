@@ -43,7 +43,7 @@
   <div class="p-4 grid gap-4">
     <Card
       title={data.variables.login}
-      subheading="{data.followers.length} followers"
+      subheading="{format(data.followers.length)} followers"
       class="h-[300px]"
     >
       <div

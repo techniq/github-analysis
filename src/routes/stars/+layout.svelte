@@ -61,7 +61,7 @@
   <div class="p-4 grid gap-4">
     <Card
       title="{data.variables.owner}/{data.variables.repo}"
-      subheading="{data.stargazers.length} stargazers"
+      subheading="{format(data.stargazers.length)} stargazers"
     >
       <div class="h-[300px]">
         <LineChart
