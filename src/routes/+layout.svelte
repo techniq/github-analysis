@@ -39,13 +39,13 @@
       },
       AppBar: {
         classes:
-          'bg-primary text-primary-content shadow-md [text-shadow:1px_1px_2px_theme(colors.primary-700)]'
+          'bg-primary text-primary-content shadow-md [text-shadow:1px_1px_2px_var(--color-primary-700)]'
       },
       NavItem: {
         classes: {
           root: 'text-sm text-surface-content/70 pl-6 py-2 hover:bg-surface-100/70 relative',
           active:
-            'text-primary bg-surface-100 font-medium before:absolute before:bg-primary before:rounded-full before:w-1 before:h-2/3 before:left-[6px] shadow z-10'
+            'text-primary bg-surface-100 font-medium before:absolute before:bg-primary before:rounded-full before:w-1 before:h-2/3 before:left-[6px] shadow-sm z-10'
         }
       }
     }
@@ -97,11 +97,11 @@
 </script>
 
 {#if $navigating}
-  <div out:fade={{ duration: 200 }} class="absolute top-0 w-full z-[9999]">
+  <div out:fade={{ duration: 200 }} class="absolute top-0 w-full z-9999">
     <LoadingProgress
       loading={$navigating != null}
       timeout={3000}
-      class="[--color:theme(colors.emerald.400)] [--track-color:theme(colors.emerald.600)] [&.error]:[--color:theme(colors.red.400)] block h-1"
+      class="[--color:var(--color-emerald-400)] [--track-color:var(--color-emerald-600)] [&.error]:[--color:var(--color-red-400)] block h-1"
     />
   </div>
 {/if}
@@ -163,7 +163,7 @@
 
 {#if $fetchErrors.length}
   <div
-    class="flex flex-col gap-4 fixed top-0 right-0 p-7 overflow-auto h-max-screen z-[100] pointer-events-none"
+    class="flex flex-col gap-4 fixed top-0 right-0 p-7 overflow-auto h-max-screen z-100 pointer-events-none"
   >
     {#each $fetchErrors as error (error)}
       <div class="pointer-events-auto" animate:flip>

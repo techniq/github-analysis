@@ -47,7 +47,7 @@
 
 <main>
   <form
-    class="grid grid-cols-[1fr,1fr,auto] gap-2 bg-surface-100 border-b p-4"
+    class="grid grid-cols-[1fr_1fr_auto] gap-2 bg-surface-100 border-b p-4"
     on:submit|preventDefault={run}
   >
     <TextField
@@ -86,7 +86,7 @@
         </Header>
 
         <div
-          class="p-4 border rounded overflow-hidden"
+          class="p-4 border rounded-sm overflow-hidden"
           style:height="{140 * calendarDataByYear.length + 16}px"
         >
           <Chart
