@@ -68,7 +68,7 @@
           data={chartData}
           x="starred_at"
           y="count"
-          series={[{ key: 'count', color: 'hsl(var(--color-secondary))' }]}
+          series={[{ key: 'count', color: 'var(--color-secondary)' }]}
           padding={{ left: 36, bottom: 32, right: 24 }}
           props={{
             xAxis: { format: PeriodType.Day },
@@ -76,7 +76,7 @@
           }}
         >
           <svelte:fragment slot="marks">
-            <LinearGradient class="from-secondary/50 to-secondary/0" vertical let:gradient>
+            <LinearGradient class="from-secondary/50 to-secondary/1" vertical let:gradient>
               <Area line={{ class: 'stroke-2 stroke-secondary' }} fill={gradient} tweened />
             </LinearGradient>
           </svelte:fragment>
