@@ -25,6 +25,8 @@
   import NavMenu from './_NavMenu.svelte';
   import LoadingProgress from './LoadingProgress.svelte';
 
+  import './app.css';
+
   export let data;
 
   settings({
@@ -178,13 +180,3 @@
     {/each}
   </div>
 {/if}
-
-<style lang="postcss">
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-
-  :global(body) {
-    @apply bg-surface-200 accent-primary;
-  }
-</style>
