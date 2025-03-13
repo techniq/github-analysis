@@ -7,6 +7,11 @@
 @source '../../node_modules/svelte-ux/dist';
 @source '../../node_modules/layerchart/dist';
 
+:root {
+  --color-primary: var(--color-emerald-600);
+  --color-secondary: var(--color-blue-500);
+}
+
 /*
   The default border color has changed to `currentColor` in Tailwind CSS v4,
   so we've added these compatibility styles to make sure everything still
@@ -34,9 +39,7 @@
   }
 }
 
-:root {
-  --color-primary: var(--color-emerald-600);
-}
+
 
 
 body {
