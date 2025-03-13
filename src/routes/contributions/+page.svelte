@@ -47,7 +47,7 @@
 
 <main>
   <form
-    class="grid grid-cols-[1fr,1fr,auto] gap-2 bg-surface-100 border-b p-4"
+    class="grid grid-cols-[1fr_1fr_auto] gap-2 bg-surface-100 border-b p-4"
     on:submit|preventDefault={run}
   >
     <TextField
@@ -86,7 +86,7 @@
         </Header>
 
         <div
-          class="p-4 border rounded overflow-hidden"
+          class="p-4 border rounded-sm overflow-hidden"
           style:height="{140 * calendarDataByYear.length + 16}px"
         >
           <Chart
@@ -96,11 +96,11 @@
             cScale={scaleThreshold().unknown('transparent')}
             cDomain={[1, 10, 20, 30]}
             cRange={[
-              'hsl(var(--color-surface-100))',
-              'hsl(var(--color-primary-300))',
-              'hsl(var(--color-primary-500))',
-              'hsl(var(--color-primary-700))',
-              'hsl(var(--color-primary-900))'
+              'var(--color-surface-100)',
+              'var(--color-primary-300)',
+              'var(--color-primary-500)',
+              'var(--color-primary-700)',
+              'var(--color-primary-900)'
             ]}
             padding={{ top: 8, left: 20 }}
             let:tooltip

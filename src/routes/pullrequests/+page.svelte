@@ -99,7 +99,7 @@
 
             <div
               slot="title"
-              class="grid grid-cols-[auto,1fr] gap-x-4 gap-y-2 bg-surface-300 border text-surface-content px-4 py-2 text-xs rounded shadow"
+              class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 bg-surface-300 border text-surface-content px-4 py-2 text-xs rounded-sm shadow-sm"
               transition:fly={{ y: -8 }}
             >
               <div class="text-surface-content/50 justify-self-end">Created:</div>

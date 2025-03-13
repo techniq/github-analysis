@@ -26,7 +26,7 @@
     <!-- <Icon path={mdiAccount} /> -->
   </Avatar>
 
-  <div class="flex-grow">
+  <div class="grow">
     <div class="text-surface-content">{$user.name}</div>
     <div class="text-xs text-surface-content/50">{$user.login}</div>
   </div>
@@ -76,9 +76,3 @@
 
 <h2>NPM</h2>
 <NavItem text="Downloads" icon={mdiDownload} path="/downloads" currentUrl={$page.url} />
-
-<style lang="postcss">
-  h2 {
-    @apply pt-4 pb-2 pl-4 text-xs text-surface-content font-bold;
-  }
-</style>

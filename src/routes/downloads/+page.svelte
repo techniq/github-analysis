@@ -97,10 +97,10 @@
             xAxis: { format: PeriodType.Day },
             yAxis: { format: 'metric' }
           }}
-          series={[{ key: 'downloads', color: 'hsl(var(--color-secondary))' }]}
+          series={[{ key: 'downloads', color: 'var(--color-secondary)' }]}
         >
           <svelte:fragment slot="marks">
-            <LinearGradient class="from-secondary/50 to-secondary/0" vertical let:gradient>
+            <LinearGradient class="from-secondary/50 to-secondary/1" vertical let:gradient>
               <Area line={{ class: 'stroke-2 stroke-secondary' }} fill={gradient} tweened />
             </LinearGradient>
           </svelte:fragment>

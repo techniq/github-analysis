@@ -64,7 +64,7 @@
         <Svg>
           <Axis placement="left" grid rule format="metric" />
           <Axis placement="bottom" format={(d) => format(d, PeriodType.Month)} rule />
-          <LinearGradient class="from-secondary/50 to-secondary/0" vertical let:gradient>
+          <LinearGradient class="from-secondary/50 to-secondary/1" vertical let:gradient>
             <Area line={{ class: 'stroke-2 stroke-secondary' }} fill={gradient} tweened />
           </LinearGradient>
           <Highlight points={{ class: 'fill-secondary' }} lines />
