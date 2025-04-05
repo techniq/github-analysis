@@ -40,15 +40,20 @@
         <Highlight points={{ class: 'fill-emerald-500' }} lines area />
       </Svg>
 
-      <ChartTooltip.Root let:data>
-        <div class="col-span-full text-center text-primary-400">#{data.number}</div>
-        <div class="col-span-full max-w-[300px] text-sm text-center mb-2">{data.title}</div>
-        <ChartTooltip.Item label="Created At" value={format(data.createdAt, PeriodType.DayTime)} />
-        <ChartTooltip.Item label="Closed At" value={format(data.closedAt, PeriodType.DayTime)} />
-        <ChartTooltip.Separator />
-        <ChartTooltip.Item label="duration" valueAlign="right">
-          <Duration start={data.createdAt} end={data.closedAt} totalUnits={2} />
-        </ChartTooltip.Item>
+      <ChartTooltip.Root>
+        {#snippet children({ data })}
+          <div class="col-span-full text-center text-primary-400">#{data.number}</div>
+          <div class="col-span-full max-w-[300px] text-sm text-center mb-2">{data.title}</div>
+          <ChartTooltip.Item
+            label="Created At"
+            value={format(data.createdAt, PeriodType.DayTime)}
+          />
+          <ChartTooltip.Item label="Closed At" value={format(data.closedAt, PeriodType.DayTime)} />
+          <ChartTooltip.Separator />
+          <ChartTooltip.Item label="duration" valueAlign="right">
+            <Duration start={data.createdAt} end={data.closedAt} totalUnits={2} />
+          </ChartTooltip.Item>
+        {/snippet}
       </ChartTooltip.Root>
     </Chart>
   </Card>

@@ -99,14 +99,21 @@
           }}
           series={[{ key: 'downloads', color: 'var(--color-secondary)' }]}
         >
-          <svelte:fragment slot="marks">
-            <LinearGradient class="from-secondary/50 to-secondary/1" vertical let:gradient>
-              <Area line={{ class: 'stroke-2 stroke-secondary' }} fill={gradient} tweened />
+          {#snippet marks()}
+            <LinearGradient class="from-secondary/50 to-secondary/1" vertical>
+              {#snippet children({ gradient })}
+                <Area
+                  line={{ class: 'stroke-2 stroke-secondary' }}
+                  fill={gradient}
+                  motion="tween"
+                />
+              {/snippet}
             </LinearGradient>
-          </svelte:fragment>
+          {/snippet}
 
-          <svelte:fragment slot="tooltip">
-            <Tooltip.Root let:data>
+          {#snippet tooltip({ context })}
+            {@const data = context.tooltip.data}
+            <Tooltip.Root>
               <Tooltip.Header>
                 <DateRangeDisplay
                   value={{ from: data.start, to: data.end, periodType: dateRange.periodType }}
@@ -116,7 +123,7 @@
                 <Tooltip.Item label="Downloads" value={data.downloads} format="integer" />
               </Tooltip.List>
             </Tooltip.Root>
-          </svelte:fragment>
+          {/snippet}
         </LineChart>
       </div>
     </Card>

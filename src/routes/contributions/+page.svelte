@@ -103,40 +103,49 @@
               'var(--color-primary-900)'
             ]}
             padding={{ top: 8, left: 20 }}
-            let:tooltip
           >
-            <Svg>
-              {#each calendarDataByYear as [year, calendarData], i}
-                {@const start = startOfYear(calendarData[0].date)}
-                {@const end = endOfYear(calendarData[calendarData.length - 1].date)}
-                <Group y={140 * i}>
-                  <Text
-                    value={year}
-                    class="text-xs"
-                    rotate={270}
-                    x={-20}
-                    y={(16 * 7) / 2}
-                    textAnchor="middle"
-                    verticalAnchor="start"
-                  />
-                  <Calendar {start} {end} {tooltip} cellSize={16} monthPath />
-                </Group>
-              {/each}
-            </Svg>
+            {#snippet children({ context })}
+              <Svg>
+                {#each calendarDataByYear as [year, calendarData], i}
+                  {@const start = startOfYear(calendarData[0].date)}
+                  {@const end = endOfYear(calendarData[calendarData.length - 1].date)}
+                  <Group y={140 * i}>
+                    <Text
+                      value={year}
+                      class="text-xs"
+                      rotate={270}
+                      x={-20}
+                      y={(16 * 7) / 2}
+                      textAnchor="middle"
+                      verticalAnchor="start"
+                    />
+                    <Calendar
+                      {start}
+                      {end}
+                      tooltipContext={context.tooltip}
+                      cellSize={16}
+                      monthPath
+                    />
+                  </Group>
+                {/each}
+              </Svg>
 
-            <Tooltip.Root let:data>
-              <Tooltip.Header>{format(data.date, PeriodType.Day)}</Tooltip.Header>
-              {#if data?.contributionCount != null}
-                <Tooltip.List>
-                  <Tooltip.Item
-                    label="Contributions"
-                    value={data.contributionCount}
-                    format="integer"
-                    valueAlign="right"
-                  />
-                </Tooltip.List>
-              {/if}
-            </Tooltip.Root>
+              <Tooltip.Root>
+                {#snippet children({ data })}
+                  <Tooltip.Header>{format(data.date, PeriodType.Day)}</Tooltip.Header>
+                  {#if data?.contributionCount != null}
+                    <Tooltip.List>
+                      <Tooltip.Item
+                        label="Contributions"
+                        value={data.contributionCount}
+                        format="integer"
+                        valueAlign="right"
+                      />
+                    </Tooltip.List>
+                  {/if}
+                {/snippet}
+              </Tooltip.Root>
+            {/snippet}
           </Chart>
         </div>
       </Card>

@@ -5,9 +5,8 @@
 
   import { goto } from '$app/navigation';
 
-  import { Button, Card, TextField } from 'svelte-ux';
-
   import { Axis, Chart, Circle, Highlight, Points, Svg, Text, Tooltip } from 'layerchart';
+  import { Button, Card, TextField } from 'svelte-ux';
 
   export let data;
 
@@ -77,52 +76,57 @@
         r={(d) => d.value}
         padding={{ left: 24, bottom: 36 }}
         tooltip={{ mode: 'band' }}
-        let:xScale
-        let:yScale
       >
-        {@const minBandwidth = Math.min(xScale.bandwidth(), yScale.bandwidth())}
-        {@const maxValue = max(data.punchCard, (d) => d.count)}
-        {@const rScale = scaleSqrt()
-          .domain([0, maxValue])
-          .range([0, minBandwidth / 2 - 5])}
-        <Svg>
-          <Axis
-            placement="left"
-            format={(d) => daysOfWeek[d]}
-            grid={{ style: 'stroke-dasharray: 2' }}
-            rule
-          />
-          <Axis placement="bottom" format={(d) => `${d}:00`} grid />
-          <Points let:points>
-            {#each points as point, index}
-              <Circle
-                cx={point.x}
-                cy={point.y}
-                r={rScale(point.data.count)}
-                class="fill-secondary"
-              />
-              <Text
-                x={point.x}
-                y={point.y}
-                value={point.data.count}
-                textAnchor="middle"
-                verticalAnchor="middle"
-                class="stroke-emerald-800 fill-white text-xs stroke-2 transition-all opacity-0 group-hover:opacity-100"
-                capHeight=".6rem"
-              />
-            {/each}
-          </Points>
-          <Highlight area axis="x" />
-          <Highlight area axis="y" />
-        </Svg>
-        <Tooltip.Root let:data>
-          <Tooltip.Header>
-            {daysOfWeek[data.weekday]} @ {data.hour}:00
-          </Tooltip.Header>
-          <Tooltip.List>
-            <Tooltip.Item label="Commits" value={data?.count} valueAlign="right" />
-          </Tooltip.List>
-        </Tooltip.Root>
+        {#snippet children({ context })}
+          {@const minBandwidth = Math.min(context.xScale.bandwidth(), context.yScale.bandwidth())}
+          {@const maxValue = max(data.punchCard, (d) => d.count)}
+          {@const rScale = scaleSqrt()
+            .domain([0, maxValue])
+            .range([0, minBandwidth / 2 - 5])}
+          <Svg>
+            <Axis
+              placement="left"
+              format={(d) => daysOfWeek[d]}
+              grid={{ style: 'stroke-dasharray: 2' }}
+              rule
+            />
+            <Axis placement="bottom" format={(d) => `${d}:00`} grid />
+            <Points>
+              {#snippet children({ points })}
+                {#each points as point, index}
+                  <Circle
+                    cx={point.x}
+                    cy={point.y}
+                    r={rScale(point.data.count)}
+                    class="fill-secondary"
+                  />
+                  <Text
+                    x={point.x}
+                    y={point.y}
+                    value={point.data.count}
+                    textAnchor="middle"
+                    verticalAnchor="middle"
+                    class="stroke-emerald-800 fill-white text-xs stroke-2 transition-all opacity-0 group-hover:opacity-100"
+                    capHeight=".6rem"
+                  />
+                {/each}
+              {/snippet}
+            </Points>
+            <Highlight area axis="x" />
+            <Highlight area axis="y" />
+          </Svg>
+
+          <Tooltip.Root>
+            {#snippet children({ data })}
+              <Tooltip.Header>
+                {daysOfWeek[data.weekday]} @ {data.hour}:00
+              </Tooltip.Header>
+              <Tooltip.List>
+                <Tooltip.Item label="Commits" value={data?.count} valueAlign="right" />
+              </Tooltip.List>
+            {/snippet}
+          </Tooltip.Root>
+        {/snippet}
       </Chart>
     </Card>
   </div>

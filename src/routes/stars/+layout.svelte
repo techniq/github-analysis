@@ -75,21 +75,28 @@
             yAxis: { format: 'metric' }
           }}
         >
-          <svelte:fragment slot="marks">
-            <LinearGradient class="from-secondary/50 to-secondary/1" vertical let:gradient>
-              <Area line={{ class: 'stroke-2 stroke-secondary' }} fill={gradient} tweened />
+          {#snippet marks()}
+            <LinearGradient class="from-secondary/50 to-secondary/1" vertical>
+              {#snippet children({ gradient })}
+                <Area
+                  line={{ class: 'stroke-2 stroke-secondary' }}
+                  fill={gradient}
+                  motion="tween"
+                />
+              {/snippet}
             </LinearGradient>
-          </svelte:fragment>
+          {/snippet}
 
-          <svelte:fragment slot="tooltip">
-            <Tooltip.Root let:data>
+          {#snippet tooltip({ context })}
+            {@const data = context.tooltip.data}
+            <Tooltip.Root>
               <Tooltip.Header>{format(data.starred_at, PeriodType.DayTime)}</Tooltip.Header>
               <Tooltip.List>
                 <Tooltip.Item label="User" value={data.user.login} />
                 <Tooltip.Item label="Count" value={data.count} />
               </Tooltip.List>
             </Tooltip.Root>
-          </svelte:fragment>
+          {/snippet}
         </LineChart>
       </div>
 
@@ -100,23 +107,24 @@
           y="length"
           yDomain={[0, null]}
           padding={{ left: 36, bottom: 32, right: 24 }}
-          tooltip={{ mode: 'bisect-x' }}
           axis="y"
           grid={false}
           props={{
-            bars: { rounded: false, class: 'stroke-none fill-secondary' },
+            tooltip: { context: { mode: 'bisect-x' } },
+            bars: { rounded: 'none', class: 'stroke-none fill-secondary' },
             yAxis: { grid: true, format: 'metric', ticks: 3 },
             rule: { class: 'stroke-surface-content/20' }
           }}
         >
-          <svelte:fragment slot="tooltip">
-            <Tooltip.Root let:data>
+          {#snippet tooltip({ context })}
+            {@const data = context.tooltip.data}
+            <Tooltip.Root>
               <Tooltip.Header>{format(data.x0, PeriodType.Day)}</Tooltip.Header>
               <Tooltip.List>
                 <Tooltip.Item label="Count" value={data.length} />
               </Tooltip.List>
             </Tooltip.Root>
-          </svelte:fragment>
+          {/snippet}
         </BarChart>
       </div>
     </Card>
