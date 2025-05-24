@@ -1,54 +1,49 @@
 <script lang="ts">
+  import type { ComponentProps } from 'svelte';
   import { endOfYear, startOfYear } from 'date-fns';
   import { flatGroup, sum } from 'd3-array';
   import { scaleThreshold } from 'd3-scale';
 
   import { mdiAccount, mdiCalendarRange, mdiOpenInNew, mdiPlay } from '@mdi/js';
 
-  import {
-    Button,
-    Card,
-    Header,
-    Icon,
-    ListItem,
-    TextField,
-    DateRangeField,
-    DateRange
-  } from 'svelte-ux';
+  import { Button, Card, Header, Icon, ListItem, TextField, DateRangeField } from 'svelte-ux';
   import { Calendar, Chart, Svg, Tooltip, Group, Text } from 'layerchart';
   import { format, sortFunc, PeriodType } from '@layerstack/utils';
 
   import { goto } from '$app/navigation';
 
-  export let data;
+  let { data } = $props();
 
-  let login = data.variables.login;
+  let login = $derived(data.variables.login);
 
-  let dateRange: DateRange = {
+  let dateRange = $state<ComponentProps<DateRangeField>['value']>({
     periodType: PeriodType.CalendarYear,
     from: data.variables.from,
     to: data.variables.to
-  };
+  });
 
-  let selectedDate: Date = null;
+  let selectedDate = $state<Date | null>(null);
 
   function run() {
     const params = new URLSearchParams();
     params.set('login', login);
-    params.set('from', dateRange.from);
-    params.set('to', dateRange.to);
+    params.set('from', dateRange.from.toISOString());
+    params.set('to', dateRange.to.toISOString());
     goto(`?${params}`);
   }
 
-  $: calendarDataByYear = flatGroup(data.calendar ?? [], (d) => d.date.getFullYear()).sort(
-    sortFunc((d) => d[0], 'desc')
+  let calendarDataByYear = $derived(
+    flatGroup(data.calendar ?? [], (d) => d.date.getFullYear()).sort(sortFunc((d) => d[0], 'desc'))
   );
 </script>
 
 <main>
   <form
     class="grid grid-cols-[1fr_1fr_auto] gap-2 bg-surface-100 border-b p-4"
-    on:submit|preventDefault={run}
+    onsubmit={(e) => {
+      e.preventDefault();
+      run();
+    }}
   >
     <TextField
       label="User"

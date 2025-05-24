@@ -16,19 +16,19 @@
 
   import { Avatar, Button, Dialog, NavItem, Toggle, Tooltip } from 'svelte-ux';
 
-  import { user } from '$lib/stores';
-  import { page } from '$app/stores';
+  import { appState } from '$lib/state.svelte';
+  import { page } from '$app/state';
 </script>
 
-<NavItem path="" currentUrl={$page.url} class="pl-4 border-b">
+<NavItem path="" currentUrl={page.url} class="pl-4 border-b">
   <Avatar class="bg-surface-100 mr-4 overflow-hidden">
-    <img src={$user.avatarUrl} alt="profile" />
+    <img src={appState.user.avatarUrl} alt="profile" />
     <!-- <Icon path={mdiAccount} /> -->
   </Avatar>
 
   <div class="grow">
-    <div class="text-surface-content">{$user.name}</div>
-    <div class="text-xs text-surface-content/50">{$user.login}</div>
+    <div class="text-surface-content">{appState.user.name}</div>
+    <div class="text-xs text-surface-content/50">{appState.user.login}</div>
   </div>
 
   <Toggle let:on={open} let:toggle let:toggleOff>
@@ -50,29 +50,19 @@
   </Toggle>
 </NavItem>
 
-<!-- <NavItem text="Home" icon={mdiHome} path="/" currentUrl={$page.url} class="mt-2" /> -->
+<!-- <NavItem text="Home" icon={mdiHome} path="/" currentUrl={page.url} class="mt-2" /> -->
 
 <h2>User</h2>
-<NavItem text="Repositories" icon={mdiBookVariant} path="/repositories" currentUrl={$page.url} />
-<NavItem text="Followers" icon={mdiAccountSearch} path="/followers" currentUrl={$page.url} />
-<NavItem
-  text="Contributions"
-  icon={mdiPeriodicTable}
-  path="/contributions"
-  currentUrl={$page.url}
-/>
-<NavItem text="Pull Requests" icon={mdiSourcePull} path="/pullrequests" currentUrl={$page.url} />
+<NavItem text="Repositories" icon={mdiBookVariant} path="/repositories" currentUrl={page.url} />
+<NavItem text="Followers" icon={mdiAccountSearch} path="/followers" currentUrl={page.url} />
+<NavItem text="Contributions" icon={mdiPeriodicTable} path="/contributions" currentUrl={page.url} />
+<NavItem text="Pull Requests" icon={mdiSourcePull} path="/pullrequests" currentUrl={page.url} />
 
 <h2>Repository</h2>
-<NavItem text="Stars" icon={mdiStar} path="/stars" currentUrl={$page.url} />
-<NavItem
-  text="Punch Card"
-  icon={mdiTimelineClockOutline}
-  path="/punchcard"
-  currentUrl={$page.url}
-/>
+<NavItem text="Stars" icon={mdiStar} path="/stars" currentUrl={page.url} />
+<NavItem text="Punch Card" icon={mdiTimelineClockOutline} path="/punchcard" currentUrl={page.url} />
 <!-- TODO: Improve and show -->
-<!-- <NavItem text="Commits" icon={mdiSourceCommit} path="/commits" currentUrl={$page.url} /> -->
+<!-- <NavItem text="Commits" icon={mdiSourceCommit} path="/commits" currentUrl={page.url} /> -->
 
 <h2>NPM</h2>
-<NavItem text="Downloads" icon={mdiDownload} path="/downloads" currentUrl={$page.url} />
+<NavItem text="Downloads" icon={mdiDownload} path="/downloads" currentUrl={page.url} />

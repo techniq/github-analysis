@@ -8,10 +8,10 @@
   import { Axis, Chart, Circle, Highlight, Points, Svg, Text, Tooltip } from 'layerchart';
   import { Button, Card, TextField } from 'svelte-ux';
 
-  export let data;
+  let { data } = $props();
 
-  let owner = 'techniq';
-  let repo = 'svelte-ux';
+  let owner = $state('techniq');
+  let repo = $state('svelte-ux');
 
   function run() {
     const params = new URLSearchParams();
@@ -24,7 +24,13 @@
 </script>
 
 <main>
-  <form class="flex gap-2 bg-surface-100 border-b p-4" on:submit|preventDefault={run}>
+  <form
+    class="flex gap-2 bg-surface-100 border-b p-4"
+    onsubmit={(e) => {
+      e.preventDefault();
+      run();
+    }}
+  >
     <TextField
       label="Owner"
       bind:value={owner}

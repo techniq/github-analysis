@@ -16,7 +16,7 @@ export async function GET({ url, locals, cookies }) {
     path: '/',
     httpOnly: true,
     secure: BASE_URL.startsWith('https://')
-  } as CookieSerializeOptions;
+  } satisfies CookieSerializeOptions;
 
   cookies.set('user', user.login || '', cookieOptions);
   cookies.set('accessToken', accessToken || '', cookieOptions);

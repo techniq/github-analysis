@@ -8,9 +8,9 @@
   import { Area, Axis, Chart, Highlight, LinearGradient, Svg, Tooltip } from 'layerchart';
   import { scaleTime } from 'd3-scale';
 
-  export let data;
+  let { data, children } = $props();
 
-  let login = data.variables.login;
+  let login = $derived(data.variables.login);
 
   function run() {
     const params = new URLSearchParams();
@@ -19,16 +19,24 @@
   }
 
   // Add running count for easier chart value
-  $: chartData = data.followers.map((d, i) => {
-    return {
-      ...d,
-      count: i + 1
-    };
-  });
+  let chartData = $derived(
+    data.followers.map((d, i) => {
+      return {
+        ...d,
+        count: i + 1
+      };
+    })
+  );
 </script>
 
 <main>
-  <form class="flex gap-2 bg-surface-100 border-b p-4" on:submit|preventDefault={run}>
+  <form
+    class="flex gap-2 bg-surface-100 border-b p-4"
+    onsubmit={(e) => {
+      e.preventDefault();
+      run();
+    }}
+  >
     <TextField
       label="User"
       bind:value={login}
@@ -80,6 +88,6 @@
       </Chart> -->
     </Card>
 
-    <slot />
+    {@render children?.()}
   </div>
 </main>

@@ -1,17 +1,18 @@
 <script>
-  import { tweened } from 'svelte/motion';
   import { cubicOut } from 'svelte/easing';
+  import { Tween } from 'svelte/motion';
 
   import { Progress } from 'svelte-ux';
   import { cls } from '@layerstack/tailwind';
 
-  export let loading = false;
-  export let timeout = 5000;
+  let { loading = false, timeout = 5000, class: className, ...props } = $props();
 
-  $: loading ? start() : finish();
+  $effect(() => {
+    loading ? start() : finish();
+  });
 
-  let isError = false;
-  const progress = tweened(0, { duration: timeout, easing: cubicOut });
+  let isError = $state(false);
+  let progress = new Tween(0, { duration: timeout, easing: cubicOut });
 
   async function start() {
     isError = false;
@@ -31,4 +32,4 @@
   }
 </script>
 
-<Progress value={$progress} {...$$restProps} class={cls(isError && 'error', $$props.class)} />
+<Progress value={progress.current} {...props} class={cls(isError && 'error', className)} />

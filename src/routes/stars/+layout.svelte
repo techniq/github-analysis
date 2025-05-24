@@ -10,10 +10,10 @@
 
   import { goto } from '$app/navigation';
 
-  export let data;
+  let { data, children } = $props();
 
-  let owner = data.variables.owner;
-  let repo = data.variables.repo;
+  let owner = $derived(data.variables.owner);
+  let repo = $derived(data.variables.repo);
 
   function run() {
     const params = new URLSearchParams();
@@ -23,22 +23,32 @@
   }
 
   // Add running count for easier chart value
-  $: chartData = data.stargazers.map((d, i) => {
-    return {
-      ...d,
-      count: i + 1
-    };
-  });
-  // .slice(-50);
+  let chartData = $derived(
+    data.stargazers.map((d, i) => {
+      return {
+        ...d,
+        count: i + 1
+      };
+    })
+    // .slice(-50);
+  );
 
-  $: binByTime = bin()
-    .thresholds((_data, min, max) => timeDays(min, max))
-    .value((d) => d.starred_at);
-  $: chartDataByDay = binByTime(chartData);
+  let binByTime = $derived(
+    bin<(typeof chartData)[0], Date>()
+      .thresholds((_data, min, max) => timeDays(min, max))
+      .value((d) => d.starred_at)
+  );
+  let chartDataByDay = $derived(binByTime(chartData));
 </script>
 
 <main>
-  <form class="flex gap-2 bg-surface-100 border-b p-4" on:submit|preventDefault={run}>
+  <form
+    class="flex gap-2 bg-surface-100 border-b p-4"
+    onsubmit={(e) => {
+      e.preventDefault();
+      run();
+    }}
+  >
     <TextField
       label="Owner"
       bind:value={owner}
@@ -69,9 +79,9 @@
           x="starred_at"
           y="count"
           series={[{ key: 'count', color: 'var(--color-secondary)' }]}
-          padding={{ left: 36, bottom: 32, right: 24 }}
+          padding={{ left: 36, bottom: 40, right: 24 }}
           props={{
-            xAxis: { format: PeriodType.Day },
+            xAxis: { tickMultiline: true },
             yAxis: { format: 'metric' }
           }}
         >
@@ -129,6 +139,6 @@
       </div>
     </Card>
 
-    <slot />
+    {@render children?.()}
   </div>
 </main>

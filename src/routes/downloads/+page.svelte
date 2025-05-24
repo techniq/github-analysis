@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { ComponentProps } from 'svelte';
   import { flatRollup, max, min, sum } from 'd3-array';
 
   import { mdiCalendarRange, mdiPackage, mdiPlay } from '@mdi/js';
@@ -6,7 +7,6 @@
   import {
     Button,
     Card,
-    DateRange,
     DateRangeDisplay,
     DateRangeField,
     TextField,
@@ -19,46 +19,54 @@
 
   import { goto } from '$app/navigation';
 
-  export let data;
+  let { data } = $props();
 
   const { format, localeSettings } = getSettings();
 
-  let pkg = data.variables.pkg;
+  let pkg = $derived(data.variables.pkg);
 
-  let dateRange: DateRange = {
+  let dateRange = $state<ComponentProps<DateRangeField>['value']>({
     periodType: PeriodType.Day, // TODO: DateRange needs to improve WeekMon support
     from: data.variables.from,
     to: data.variables.to
-  };
+  });
 
   function run() {
     const params = new URLSearchParams();
     params.set('pkg', pkg);
-    params.set('from', dateRange.from);
-    params.set('to', dateRange.to);
+    params.set('from', dateRange.from.toISOString());
+    params.set('to', dateRange.to.toISOString());
     goto(`?${params}`);
   }
 
-  $: dateFuncs = getDateFuncsByPeriodType($localeSettings, dateRange.periodType);
+  let dateFuncs = $derived(getDateFuncsByPeriodType($localeSettings, dateRange.periodType));
 
-  $: chartData = sort(
-    flatRollup(
-      data.downloads,
-      (values) => {
-        return {
-          start: min(values, (d) => d.day),
-          end: max(values, (d) => d.day),
-          downloads: sum(values, (d) => d.downloads)
-        };
-      },
-      (d) => dateFuncs.start(d.day)
-    ).map((d) => d[1]),
-    (d) => d.start
+  let chartData = $derived(
+    sort(
+      flatRollup(
+        data.downloads,
+        (values) => {
+          return {
+            start: min(values, (d) => d.day),
+            end: max(values, (d) => d.day),
+            downloads: sum(values, (d) => d.downloads)
+          };
+        },
+        (d) => dateFuncs.start(d.day)
+      ).map((d) => d[1]),
+      (d) => d.start
+    )
   );
 </script>
 
 <main>
-  <form class="flex gap-2 bg-surface-100 border-b p-4" on:submit|preventDefault={run}>
+  <form
+    class="flex gap-2 bg-surface-100 border-b p-4"
+    onsubmit={(e) => {
+      e.preventDefault();
+      run();
+    }}
+  >
     <TextField
       label="Package"
       bind:value={pkg}
@@ -92,9 +100,9 @@
           data={chartData}
           x="start"
           y="downloads"
-          padding={{ left: 36, bottom: 32, right: 24 }}
+          padding={{ left: 36, bottom: 40, right: 24 }}
           props={{
-            xAxis: { format: PeriodType.Day },
+            xAxis: { tickMultiline: true },
             yAxis: { format: 'metric' }
           }}
           series={[{ key: 'downloads', color: 'var(--color-secondary)' }]}

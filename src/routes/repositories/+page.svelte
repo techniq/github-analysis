@@ -3,7 +3,7 @@
   import { Button, ListItem, Tooltip } from 'svelte-ux';
   import { format } from '@layerstack/utils';
 
-  export let data;
+  let { data } = $props();
 </script>
 
 <main class="p-4">

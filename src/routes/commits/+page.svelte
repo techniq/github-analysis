@@ -6,11 +6,11 @@
 
   import { goto } from '$app/navigation';
 
-  export let data;
+  let { data } = $props();
 
-  let owner = data.variables.owner;
-  let repo = data.variables.repo;
-  let branch = data.variables.branch;
+  let owner = $derived(data.variables.owner);
+  let repo = $derived(data.variables.repo);
+  let branch = $derived(data.variables.branch);
 
   function run() {
     const params = new URLSearchParams();
@@ -22,7 +22,13 @@
 </script>
 
 <main>
-  <form class="flex gap-2 bg-surface-100 border-b p-4" on:submit|preventDefault={run}>
+  <form
+    class="flex gap-2 bg-surface-100 border-b p-4"
+    onsubmit={(e) => {
+      e.preventDefault();
+      run();
+    }}
+  >
     <TextField
       label="User"
       bind:value={owner}

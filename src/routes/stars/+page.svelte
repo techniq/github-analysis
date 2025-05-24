@@ -5,7 +5,7 @@
 
   import { goto } from '$app/navigation';
 
-  export let data;
+  let { data } = $props();
 
   function prevPage() {
     const params = new URLSearchParams(window.location.search);

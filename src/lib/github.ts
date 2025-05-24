@@ -130,6 +130,7 @@ export type UserApi = {
   gravatar_id: string;
   url: string;
   html_url: string;
+  followers: number;
   followers_url: string;
   following_url: string;
   gists_url: string;

@@ -8,9 +8,11 @@
   import { ListItem, DividerDot, Button, Icon, Tooltip, Duration, Card } from 'svelte-ux';
   import { format, PeriodType, formatDate, sortFunc } from '@layerstack/utils';
 
-  export let data;
+  let { data } = $props();
 
-  $: pullRequests = data.pullRequests.nodes.sort(sortFunc('createdAt', 'asc')).filter((d) => d);
+  let pullRequests = $derived(
+    data.pullRequests.nodes.sort(sortFunc('createdAt', 'asc')).filter((d) => d)
+  );
 </script>
 
 <main class="p-4 grid gap-3">

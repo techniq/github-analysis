@@ -4,7 +4,8 @@
   import { flip } from 'svelte/animate';
   import { fade } from 'svelte/transition';
   import posthog from 'posthog-js';
-  import { mdiGithub, mdiLogin, mdiTwitter } from '@mdi/js';
+  import { mdiGithub, mdiLogin } from '@mdi/js';
+  import { watch } from 'runed';
 
   import {
     AppLayout,
@@ -20,14 +21,14 @@
   import { initGraphClient } from '@layerstack/svelte-stores';
 
   import { dev } from '$app/environment';
-  import { navigating, page } from '$app/stores';
-  import { user } from '$lib/stores';
+  import { navigating, page } from '$app/state';
+  import { appState } from '$lib/state.svelte';
   import NavMenu from './_NavMenu.svelte';
   import LoadingProgress from './LoadingProgress.svelte';
 
   import './app.css';
 
-  export let data;
+  let { data, children } = $props();
 
   settings({
     components: {
@@ -67,39 +68,40 @@
     }
   });
 
-  $user = data.user;
+  appState.user = data.user;
 
   let currentPath = '';
   onMount(() => {
     // Posthog analytics
     if (!dev) {
-      const unsubscribePage = page.subscribe(($page) => {
-        if (currentPath && currentPath !== $page.url.pathname) {
-          // Page navigated away
-          posthog.capture('$pageleave');
+      watch(
+        () => page,
+        () => {
+          if (currentPath && currentPath !== page.url.pathname) {
+            // Page navigated away
+            posthog.capture('$pageleave');
+          }
+          // Page entered
+          currentPath = page.url.pathname;
+          posthog.capture('$pageview');
         }
-
-        // Page entered
-        currentPath = $page.url.pathname;
-        posthog.capture('$pageview');
-      });
+      );
       const handleBeforeUnload = () => {
         // Hard reloads or browser exit
         posthog.capture('$pageleave');
       };
       window.addEventListener('beforeunload', handleBeforeUnload);
       return () => {
-        unsubscribePage();
         window.removeEventListener('beforeunload', handleBeforeUnload);
       };
     }
   });
 </script>
 
-{#if $navigating}
+{#if navigating.to}
   <div out:fade={{ duration: 200 }} class="absolute top-0 w-full z-9999">
     <LoadingProgress
-      loading={$navigating != null}
+      loading={navigating != null}
       timeout={3000}
       class="[--color:var(--color-emerald-400)] [--track-color:var(--color-emerald-600)] [&.error]:[--color:var(--color-red-400)] block h-1"
     />
@@ -157,7 +159,7 @@
       </div>
     </AppBar>
 
-    <slot />
+    {@render children?.()}
   </AppLayout>
 {/if}
 
