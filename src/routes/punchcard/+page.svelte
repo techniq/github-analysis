@@ -37,7 +37,7 @@
       icon={mdiAccount}
       dense
       placeholder="User or organization"
-      class="flex-1"
+      class="grow"
     />
     <TextField
       label="Repository"
@@ -45,7 +45,7 @@
       icon={mdiDatabase}
       dense
       placeholder="Name of repository"
-      class="flex-1"
+      class="grow"
     />
     <Button type="submit" icon={mdiPlay} variant="fill" color="primary">Run</Button>
   </form>

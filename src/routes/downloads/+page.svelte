@@ -73,7 +73,7 @@
       icon={mdiPackage}
       dense
       placeholder="Package"
-      class="flex-1"
+      class="grow"
     />
     <DateRangeField
       label="Date Range"
@@ -82,7 +82,7 @@
       dense
       periodTypes={[PeriodType.Day, PeriodType.WeekSun, PeriodType.Month, PeriodType.CalendarYear]}
       on:change={run}
-      class="flex-1"
+      class="grow"
     />
     <Button type="submit" icon={mdiPlay} variant="fill" color="primary">Run</Button>
   </form>
