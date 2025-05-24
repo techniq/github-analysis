@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { ComponentProps } from 'svelte';
   import { flatRollup, max, min, sum } from 'd3-array';
+  import { timeDay, timeMonth, timeYear } from 'd3-time';
 
   import { mdiCalendarRange, mdiPackage, mdiPlay } from '@mdi/js';
 
@@ -26,7 +27,7 @@
   let pkg = $derived(data.variables.pkg);
 
   let dateRange = $state<ComponentProps<DateRangeField>['value']>({
-    periodType: PeriodType.Day, // TODO: DateRange needs to improve WeekMon support
+    periodType: PeriodType.Day,
     from: data.variables.from,
     to: data.variables.to
   });
@@ -57,6 +58,9 @@
       (d) => d.start
     )
   );
+
+  // Use yesterday as current data is not available yet
+  const yesterday = timeDay.offset(new Date(), -1);
 </script>
 
 <main>
@@ -81,6 +85,76 @@
       icon={mdiCalendarRange}
       dense
       periodTypes={[PeriodType.Day, PeriodType.WeekSun, PeriodType.Month, PeriodType.CalendarYear]}
+      quickPresets={[
+        {
+          label: 'Last 90 days (daily)',
+          value: { periodType: PeriodType.Day, from: timeDay.offset(yesterday, -90), to: yesterday }
+        },
+        {
+          label: 'Year to date (daily)',
+          value: { periodType: PeriodType.Day, from: timeYear.floor(yesterday), to: yesterday }
+        },
+        {
+          label: 'Year to date (weekly)',
+          value: { periodType: PeriodType.Week, from: timeYear.floor(yesterday), to: yesterday }
+        },
+        {
+          label: 'Last 6 months (daily)',
+          value: {
+            periodType: PeriodType.Day,
+            from: timeMonth.offset(yesterday, -6),
+            to: yesterday
+          }
+        },
+        {
+          label: 'Last 6 months (weekly)',
+          value: {
+            periodType: PeriodType.Week,
+            from: timeMonth.offset(yesterday, -12),
+            to: yesterday
+          }
+        },
+        {
+          label: 'Last 12 months (weekly)',
+          value: {
+            periodType: PeriodType.Week,
+            from: timeMonth.offset(yesterday, -12),
+            to: yesterday
+          }
+        },
+        {
+          label: 'Last 12 months (monthly)',
+          value: {
+            periodType: PeriodType.Month,
+            from: timeMonth.offset(yesterday, -12),
+            to: yesterday
+          }
+        },
+        {
+          label: 'Last 36 months (monthly)',
+          value: {
+            periodType: PeriodType.Month,
+            from: timeMonth.offset(yesterday, -36),
+            to: yesterday
+          }
+        },
+        {
+          label: 'Last 5 years (yearly)',
+          value: {
+            periodType: PeriodType.CalendarYear,
+            from: timeYear.offset(yesterday, -5),
+            to: yesterday
+          }
+        },
+        {
+          label: 'Last 10 years (yearly)',
+          value: {
+            periodType: PeriodType.CalendarYear,
+            from: timeYear.offset(yesterday, -10),
+            to: yesterday
+          }
+        }
+      ]}
       on:change={run}
       class="grow"
     />
