@@ -1,13 +1,16 @@
 import { Npm } from '$lib/npm';
-import { timeYear } from 'd3-time';
-import { endOfYear, format, startOfYear, subYears } from 'date-fns';
+import { timeDay, timeMonth, timeYear } from 'd3-time';
+import { endOfYear, format, startOfYear } from 'date-fns';
 
 export async function load({ url }) {
-  const pkg = url.searchParams.get('pkg') ?? 'svelte-ux';
+  // Use yesterday as current data is not available yet
+  const yesterday = timeDay.offset(new Date(), -1);
+
+  const pkg = url.searchParams.get('pkg') ?? 'layerchart';
   const from = url.searchParams.has('from')
     ? new Date(url.searchParams.get('from'))
-    : subYears(new Date(), 1);
-  const to = url.searchParams.has('to') ? new Date(url.searchParams.get('to')) : new Date();
+    : timeMonth.offset(yesterday, -6);
+  const to = url.searchParams.has('to') ? new Date(url.searchParams.get('to')) : yesterday;
 
   const variables = { pkg, from, to };
 
@@ -35,10 +38,11 @@ async function fetchDownloads(variables: { pkg: string; from: Date; to: Date }) 
     }
   }
 
-  // TODO: Pass period and use getDateFuncsByPeriodType(...).start() / .end() instead of startOfYear() / endOfYear()
   await Promise.allSettled(
-    timeYear.range(startOfYear(variables.from), variables.to).map((from) => {
-      return fetchPage(from, endOfYear(from));
+    timeYear.range(startOfYear(variables.from), endOfYear(variables.to)).map((from) => {
+      const start = from < variables.from ? variables.from : from;
+      const end = endOfYear(from) > variables.to ? variables.to : endOfYear(from);
+      return fetchPage(start, end);
     })
   );
 
