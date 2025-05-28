@@ -110,7 +110,7 @@
           label: 'Last 6 months (weekly)',
           value: {
             periodType: PeriodType.Week,
-            from: timeMonth.offset(yesterday, -12),
+            from: timeMonth.offset(yesterday, -6),
             to: yesterday
           }
         },
