@@ -10,7 +10,10 @@
     Card,
     DateRangeDisplay,
     DateRangeField,
+    Header,
     TextField,
+    ToggleGroup,
+    ToggleOption,
     getSettings
   } from 'svelte-ux';
   import { sort } from '@layerstack/utils';
@@ -87,19 +90,15 @@
       periodTypes={[PeriodType.Day, PeriodType.WeekSun, PeriodType.Month, PeriodType.CalendarYear]}
       quickPresets={[
         {
-          label: 'Last 90 days (daily)',
+          label: 'Last 90 days',
           value: { periodType: PeriodType.Day, from: timeDay.offset(yesterday, -90), to: yesterday }
         },
         {
-          label: 'Year to date (daily)',
-          value: { periodType: PeriodType.Day, from: timeYear.floor(yesterday), to: yesterday }
-        },
-        {
-          label: 'Year to date (weekly)',
+          label: 'Year to date',
           value: { periodType: PeriodType.Week, from: timeYear.floor(yesterday), to: yesterday }
         },
         {
-          label: 'Last 6 months (daily)',
+          label: 'Last 6 months',
           value: {
             periodType: PeriodType.Day,
             from: timeMonth.offset(yesterday, -6),
@@ -107,15 +106,7 @@
           }
         },
         {
-          label: 'Last 6 months (weekly)',
-          value: {
-            periodType: PeriodType.Week,
-            from: timeMonth.offset(yesterday, -6),
-            to: yesterday
-          }
-        },
-        {
-          label: 'Last 12 months (weekly)',
+          label: 'Last 12 months',
           value: {
             periodType: PeriodType.Week,
             from: timeMonth.offset(yesterday, -12),
@@ -123,15 +114,7 @@
           }
         },
         {
-          label: 'Last 12 months (monthly)',
-          value: {
-            periodType: PeriodType.Month,
-            from: timeMonth.offset(yesterday, -12),
-            to: yesterday
-          }
-        },
-        {
-          label: 'Last 36 months (monthly)',
+          label: 'Last 36 months',
           value: {
             periodType: PeriodType.Month,
             from: timeMonth.offset(yesterday, -36),
@@ -139,7 +122,7 @@
           }
         },
         {
-          label: 'Last 5 years (yearly)',
+          label: 'Last 5 years',
           value: {
             periodType: PeriodType.CalendarYear,
             from: timeYear.offset(yesterday, -5),
@@ -147,7 +130,7 @@
           }
         },
         {
-          label: 'Last 10 years (yearly)',
+          label: 'Last 10 years',
           value: {
             periodType: PeriodType.CalendarYear,
             from: timeYear.offset(yesterday, -10),
@@ -162,13 +145,25 @@
   </form>
 
   <div class="p-4 grid gap-4">
-    <Card
-      title={data.variables.pkg}
-      subheading="{$format(
-        sum(data?.downloads ?? [], (d) => d.downloads),
-        'integer'
-      )} total downloads"
-    >
+    <Card>
+      <Header
+        title={data.variables.pkg}
+        subheading="{$format(
+          sum(data?.downloads ?? [], (d) => d.downloads),
+          'integer'
+        )} total downloads"
+        slot="header"
+      >
+        <div slot="actions">
+          <ToggleGroup bind:value={dateRange.periodType} variant="outline" rounded="full" inset>
+            <ToggleOption value={PeriodType.Day}>Day</ToggleOption>
+            <ToggleOption value={PeriodType.Week}>Week</ToggleOption>
+            <ToggleOption value={PeriodType.Month}>Month</ToggleOption>
+            <ToggleOption value={PeriodType.CalendarYear}>Year</ToggleOption>
+          </ToggleGroup>
+        </div>
+      </Header>
+
       <div class="h-[300px]">
         <LineChart
           data={chartData}
