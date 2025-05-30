@@ -21,6 +21,7 @@
   }
 
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const hoursOfDay = range(24).map((h) => `${h % 12 || 12}${h < 12 ? 'AM' : 'PM'}`);
 </script>
 
 <main>
@@ -96,7 +97,7 @@
               grid={{ style: 'stroke-dasharray: 2' }}
               rule
             />
-            <Axis placement="bottom" format={(d) => `${d}:00`} grid />
+            <Axis placement="bottom" format={(d) => hoursOfDay[d]} grid />
             <Points>
               {#snippet children({ points })}
                 {#each points as point, index}
@@ -125,7 +126,7 @@
           <Tooltip.Root>
             {#snippet children({ data })}
               <Tooltip.Header>
-                {daysOfWeek[data.weekday]} @ {data.hour}:00
+                {daysOfWeek[data.weekday]} @ {hoursOfDay[data.hour]}
               </Tooltip.Header>
               <Tooltip.List>
                 <Tooltip.Item label="Commits" value={data?.count} valueAlign="right" />

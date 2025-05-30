@@ -2,7 +2,7 @@
   import { mdiAccount, mdiDatabase, mdiPlay, mdiSourceBranch } from '@mdi/js';
 
   import { Button, ListItem, TextField } from 'svelte-ux';
-  import { PeriodType, format } from '@layerstack/utils';
+  import { format } from '@layerstack/utils';
 
   import { goto } from '$app/navigation';
 
@@ -62,7 +62,7 @@
         <div slot="title">
           {commit.node.message}
           <span class="text-xs text-surface-content/50 whitespace-nowrap">
-            {format(commit.node.committedDate, PeriodType.TimeOnly)}
+            {format(commit.node.committedDate, 'time')}
           </span>
         </div>
         <div slot="actions"></div>

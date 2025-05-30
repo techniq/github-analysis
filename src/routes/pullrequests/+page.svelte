@@ -6,7 +6,7 @@
   import { Axis, Chart, Highlight, Points, Svg, Tooltip as ChartTooltip } from 'layerchart';
 
   import { ListItem, DividerDot, Button, Icon, Tooltip, Duration, Card } from 'svelte-ux';
-  import { format, PeriodType, formatDate, sortFunc } from '@layerstack/utils';
+  import { format, sortFunc } from '@layerstack/utils';
 
   let { data } = $props();
 
@@ -27,17 +27,8 @@
       tooltip={{ mode: 'band' }}
     >
       <Svg>
-        <Axis
-          placement="left"
-          grid={{ style: 'stroke-dasharray: 2' }}
-          labelProps={{ dx: -8 }}
-          rule
-        />
-        <Axis
-          placement="bottom"
-          format={(d) => formatDate(d, PeriodType.Day)}
-          labelProps={{ rotate: 315, textAnchor: 'end', verticalAnchor: 'middle', dy: 10 }}
-        />
+        <Axis placement="left" grid={{ style: 'stroke-dasharray: 2' }} rule />
+        <Axis placement="bottom" tickMultiline />
         <Points class="fill-emerald-500 stroke-emerald-700" links />
         <Highlight points={{ class: 'fill-emerald-500' }} lines area />
       </Svg>
@@ -46,11 +37,8 @@
         {#snippet children({ data })}
           <div class="col-span-full text-center text-primary-400">#{data.number}</div>
           <div class="col-span-full max-w-[300px] text-sm text-center mb-2">{data.title}</div>
-          <ChartTooltip.Item
-            label="Created At"
-            value={format(data.createdAt, PeriodType.DayTime)}
-          />
-          <ChartTooltip.Item label="Closed At" value={format(data.closedAt, PeriodType.DayTime)} />
+          <ChartTooltip.Item label="Created At" value={data.createdAt} format="daytime" />
+          <ChartTooltip.Item label="Closed At" value={data.closedAt} format="daytime" />
           <ChartTooltip.Separator />
           <ChartTooltip.Item label="duration" valueAlign="right">
             <Duration start={data.createdAt} end={data.closedAt} totalUnits={2} />
@@ -102,7 +90,7 @@
           <DividerDot />
           <Tooltip>
             <Icon data={mdiCalendar} size="1rem" />
-            {format(pr.createdAt, PeriodType.Day)}
+            {format(pr.createdAt, 'day')}
 
             <div
               slot="title"
@@ -110,13 +98,13 @@
               transition:fly={{ y: -8 }}
             >
               <div class="text-surface-content/50 justify-self-end">Created:</div>
-              <div class="justify-self-end">{format(pr.createdAt, PeriodType.DayTime)}</div>
+              <div class="justify-self-end">{format(pr.createdAt, 'daytime')}</div>
               <div class="text-surface-content/50 justify-self-end">Updated:</div>
-              <div class="justify-self-end">{format(pr.updatedAt, PeriodType.DayTime)}</div>
+              <div class="justify-self-end">{format(pr.updatedAt, 'daytime')}</div>
               <div class="text-surface-content/50 justify-self-end">Merged:</div>
-              <div class="justify-self-end">{format(pr.mergedAt, PeriodType.DayTime)}</div>
+              <div class="justify-self-end">{format(pr.mergedAt, 'daytime')}</div>
               <div class="text-surface-content/50 justify-self-end">Closed:</div>
-              <div class="justify-self-end">{format(pr.closedAt, PeriodType.DayTime)}</div>
+              <div class="justify-self-end">{format(pr.closedAt, 'daytime')}</div>
             </div>
           </Tooltip>
         </div>

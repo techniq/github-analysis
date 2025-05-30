@@ -6,7 +6,7 @@
 
   import { Button, Card, TextField } from 'svelte-ux';
   import { Area, BarChart, LinearGradient, LineChart, Tooltip } from 'layerchart';
-  import { format, PeriodType } from '@layerstack/utils';
+  import { format } from '@layerstack/utils';
 
   import { goto } from '$app/navigation';
 
@@ -100,7 +100,7 @@
           {#snippet tooltip({ context })}
             {@const data = context.tooltip.data}
             <Tooltip.Root>
-              <Tooltip.Header>{format(data.starred_at, PeriodType.DayTime)}</Tooltip.Header>
+              <Tooltip.Header value={data.starred_at} format="daytime" />
               <Tooltip.List>
                 <Tooltip.Item label="User" value={data.user.login} />
                 <Tooltip.Item label="Count" value={data.count} />
@@ -129,7 +129,7 @@
           {#snippet tooltip({ context })}
             {@const data = context.tooltip.data}
             <Tooltip.Root>
-              <Tooltip.Header>{format(data.x0, PeriodType.Day)}</Tooltip.Header>
+              <Tooltip.Header value={data.x0} format="day" />
               <Tooltip.List>
                 <Tooltip.Item label="Count" value={data.length} />
               </Tooltip.List>

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { mdiChevronLeft, mdiChevronRight } from '@mdi/js';
   import { Button, DividerDot, ListItem } from 'svelte-ux';
-  import { PeriodType, format, sortFunc } from '@layerstack/utils';
+  import { format, sortFunc } from '@layerstack/utils';
 
   import { goto } from '$app/navigation';
 
@@ -36,7 +36,7 @@
             {name}
           </a>
           <span class="text-xs text-surface-content/50 whitespace-nowrap">
-            {format(user.starredAt, PeriodType.DayTime, { variant: 'short' })}
+            {format(user.starredAt, 'daytime', { variant: 'short' })}
           </span>
         </div>
         <div slot="subheading" class="text-xs text-surface-content/50">

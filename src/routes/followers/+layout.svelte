@@ -2,7 +2,7 @@
   import { mdiAccount, mdiPlay } from '@mdi/js';
 
   import { Button, Card, TextField } from 'svelte-ux';
-  import { format, sortFunc, PeriodType } from '@layerstack/utils';
+  import { format } from '@layerstack/utils';
 
   import { goto } from '$app/navigation';
   import { Area, Axis, Chart, Highlight, LinearGradient, Svg, Tooltip } from 'layerchart';
@@ -71,7 +71,7 @@
       >
         <Svg>
           <Axis placement="left" grid rule format="metric" />
-          <Axis placement="bottom" format={(d) => format(d, PeriodType.Month)} rule />
+          <Axis placement="bottom" rule />
           <LinearGradient class="from-secondary/50 to-secondary/1" vertical let:gradient>
             <Area line={{ class: 'stroke-2 stroke-secondary' }} fill={gradient} tweened />
           </LinearGradient>
