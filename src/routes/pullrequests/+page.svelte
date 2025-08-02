@@ -20,7 +20,6 @@
     <Chart
       data={pullRequests}
       x={['createdAt', 'closedAt']}
-      xScale={scaleTime()}
       y="number"
       yScale={scaleBand()}
       padding={{ left: 36, bottom: 56 }}
