@@ -1,6 +1,6 @@
 <script lang="ts">
   import { bin } from 'd3-array';
-  import { timeDays } from 'd3-time';
+  import { timeDay, timeDays } from 'd3-time';
 
   import { mdiAccount, mdiDatabase, mdiPlay } from '@mdi/js';
 
@@ -14,6 +14,8 @@
 
   let owner = $derived(data.variables.owner);
   let repo = $derived(data.variables.repo);
+
+  let xDomain = $state<[Date, Date] | null>(null);
 
   function run() {
     const params = new URLSearchParams();
@@ -77,12 +79,20 @@
         <LineChart
           data={chartData}
           x="starred_at"
+          {xDomain}
           y="count"
           series={[{ key: 'count', color: 'var(--color-secondary)' }]}
           padding={{ left: 36, bottom: 40, right: 24 }}
           props={{
             xAxis: { tickMultiline: true },
             yAxis: { format: 'metric' }
+          }}
+          brush={{
+            xDomain,
+            onBrushEnd: (e) => {
+              xDomain = e.xDomain as typeof xDomain;
+            },
+            resetOnEnd: true
           }}
         >
           {#snippet marks()}
@@ -114,6 +124,8 @@
         <BarChart
           data={chartDataByDay}
           x="x0"
+          {xDomain}
+          xInterval={timeDay}
           y="length"
           yDomain={[0, null]}
           padding={{ left: 36, bottom: 32, right: 24 }}
@@ -124,6 +136,13 @@
             bars: { rounded: 'none', class: 'stroke-none fill-secondary' },
             yAxis: { grid: true, format: 'metric', ticks: 3 },
             rule: { class: 'stroke-surface-content/20' }
+          }}
+          brush={{
+            xDomain,
+            onBrushEnd: (e) => {
+              xDomain = e.xDomain as typeof xDomain;
+            },
+            resetOnEnd: true
           }}
         >
           {#snippet tooltip({ context })}
