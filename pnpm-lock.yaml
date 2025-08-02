@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       '@layerstack/svelte-stores':
-        specifier: 1.0.2-next.6
-        version: 1.0.2-next.6
+        specifier: 1.0.2-next.14
+        version: 1.0.2-next.14
       '@layerstack/tailwind':
-        specifier: 2.0.0-next.8
-        version: 2.0.0-next.8
+        specifier: 2.0.0-next.17
+        version: 2.0.0-next.17
       '@layerstack/utils':
-        specifier: 2.0.0-next.6
-        version: 2.0.0-next.6
+        specifier: 2.0.0-next.14
+        version: 2.0.0-next.14
       '@mdi/js':
         specifier: ^7.4.47
         version: 7.4.47
@@ -618,17 +618,26 @@ packages:
   '@layerstack/svelte-state@0.1.0-next.9':
     resolution: {integrity: sha512-hGixkM7U5WhGRsW7gFNwU43mJqMmxvVqPod0onXuAxYTvC4AzLuYllNVrgrGHVoAUhOFpYmUSNoPcuIEcJtFKQ==}
 
+  '@layerstack/svelte-stores@1.0.2-next.14':
+    resolution: {integrity: sha512-UI8VO35hgoG0XOenPgJlieUv6f/1nomFuXnHpFwXj0+OkqIwFoJxdsA8OjbE/gS0lImqv2KKsSCqDpXsKrGi9g==}
+
   '@layerstack/svelte-stores@1.0.2-next.6':
     resolution: {integrity: sha512-Pmi0ZHWoSjvQofOKJk8oMCRVnliVXDfsGw7FdkBZrmdtf50+8Lb/FRI1sp0DGzTI2kStgSb35QARVUEmc9XloA==}
 
   '@layerstack/svelte-table@1.0.1-next.6':
     resolution: {integrity: sha512-W7bpCJ0ZcC6O5aaMRjz/vsHUSw8CE5Mf5b/6Do5jWrxZEvXrnnPZaFDoDDwF0p3oqU1k/1WtG/RJjG6II+4nMQ==}
 
+  '@layerstack/tailwind@2.0.0-next.17':
+    resolution: {integrity: sha512-ZSn6ouqpnzB6DKzSKLVwrUBOQsrzpDA/By2/ba9ApxgTGnaD1nyqNwrvmZ+kswdAwB4YnrGEAE4VZkKrB2+DaQ==}
+
   '@layerstack/tailwind@2.0.0-next.6':
     resolution: {integrity: sha512-JoaGGKKmvGNBH3O0xp6XLeVN/z3csPW8vyBJcn4ZyLMXEVyciszRw2qZRrm5Kk4Uw+HHtb37Gjb4KKkfie4Avg==}
 
   '@layerstack/tailwind@2.0.0-next.8':
     resolution: {integrity: sha512-9V1AofipCgRV0nMdbnu8uV+wB0UCNa4/0Ld2YOyTKUlbY0srmKNshUphL/NVCdg0iZIT56bPxHT4+5fj6sGbMA==}
+
+  '@layerstack/utils@2.0.0-next.14':
+    resolution: {integrity: sha512-1I2CS0Cwgs53W35qVg1eBdYhB/CiPvL3s0XE61b8jWkTHxgjBF65yYNgXjW74kv7WI7GsJcWMNBufPd0rnu9kA==}
 
   '@layerstack/utils@2.0.0-next.4':
     resolution: {integrity: sha512-fs9RWlW08WHqn6m4u1MNJHKMfWYXdj4X0r1wMVjL2mc4RKr9SFtcRjSM51WA4IPf/C94DBkca9REzjAJt58ipg==}
@@ -2207,6 +2216,13 @@ snapshots:
     dependencies:
       '@layerstack/utils': 2.0.0-next.4
 
+  '@layerstack/svelte-stores@1.0.2-next.14':
+    dependencies:
+      '@layerstack/utils': 2.0.0-next.14
+      immer: 10.1.1
+      lodash-es: 4.17.21
+      zod: 3.25.41
+
   '@layerstack/svelte-stores@1.0.2-next.6':
     dependencies:
       '@layerstack/utils': 2.0.0-next.6
@@ -2224,9 +2240,17 @@ snapshots:
       date-fns: 4.1.0
       lodash-es: 4.17.21
 
+  '@layerstack/tailwind@2.0.0-next.17':
+    dependencies:
+      '@layerstack/utils': 2.0.0-next.14
+      clsx: 2.1.1
+      d3-array: 3.2.4
+      lodash-es: 4.17.21
+      tailwind-merge: 3.3.0
+
   '@layerstack/tailwind@2.0.0-next.6':
     dependencies:
-      '@layerstack/utils': 2.0.0-next.6
+      '@layerstack/utils': 2.0.0-next.14
       clsx: 2.1.1
       culori: 4.0.1
       d3-array: 3.2.4
@@ -2237,7 +2261,7 @@ snapshots:
 
   '@layerstack/tailwind@2.0.0-next.8':
     dependencies:
-      '@layerstack/utils': 2.0.0-next.6
+      '@layerstack/utils': 2.0.0-next.14
       clsx: 2.1.1
       culori: 4.0.1
       d3-array: 3.2.4
@@ -2245,6 +2269,13 @@ snapshots:
       lodash-es: 4.17.21
       tailwind-merge: 3.3.0
       tailwindcss: 4.1.11
+
+  '@layerstack/utils@2.0.0-next.14':
+    dependencies:
+      d3-array: 3.2.4
+      d3-time: 3.1.0
+      d3-time-format: 4.1.0
+      lodash-es: 4.17.21
 
   '@layerstack/utils@2.0.0-next.4':
     dependencies:
