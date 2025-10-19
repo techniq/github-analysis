@@ -1,15 +1,35 @@
 <script lang="ts">
   import { mdiBookVariant, mdiSourceCommit, mdiStar, mdiTimelineClockOutline } from '@mdi/js';
-  import { Button, ListItem, Tooltip } from 'svelte-ux';
+  import { Button, ListItem, Tooltip, SelectField } from 'svelte-ux';
   import { format } from '@layerstack/utils';
+    import { goto } from '$app/navigation';
+    import { REPO_KIND } from './kind.js';
 
   let { data } = $props();
+  let kind = $state(data.kind);
+ 
+  const options = Object.values(REPO_KIND).map((value) => ({ label: value.label, value: value.value }));
+  let description = $derived(Object.values(REPO_KIND).find((k) => k.value === kind.value)?.description);
 </script>
 
-<main class="p-4">
-  <div class="relative min-h-[56px]">
+<main>
+  <div class="gap-2 bg-surface-100 border-b p-4">
+    <SelectField
+      label="Kind of repositories to show"
+      bind:value={kind.value}
+      on:change={() => goto(`?kind=${kind.value}`)}      
+      dense
+      {options}
+    />
+  </div>
+
+  <div class="relative min-h-[56px] p-4">
     {#if data}
+    <div class="flex justify-between">
+
       <div class="text-xs text-surface-content/50 mb-1 tracking-widest">Repositories</div>
+      <div class="text-xs text-surface-content/50">{description}</div>
+    </div>
       <div>
         {#each data.repositories.nodes as repo}
           {@const [owner, name] = repo.nameWithOwner.split('/')}
