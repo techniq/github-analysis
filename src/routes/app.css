@@ -26,21 +26,10 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: color-mix(
-      in oklab,
-      var(--color-surface-content) 20%,
-      transparent
-    );
-    outline-color: color-mix(
-      in oklab,
-      var(--color-surface-content) 20%,
-      transparent
-    );
+    border-color: color-mix(in oklab, var(--color-surface-content) 20%, transparent);
+    outline-color: color-mix(in oklab, var(--color-surface-content) 20%, transparent);
   }
 }
-
-
-
 
 body {
   @apply bg-surface-200 accent-primary;
