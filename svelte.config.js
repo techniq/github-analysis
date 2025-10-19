@@ -7,6 +7,13 @@ const config = {
 
   kit: {
     adapter: cloudflare()
+  },
+
+  vitePlugin: {
+    inspector: {
+      toggleKeyCombo: 'alt-shift',
+      toggleButtonPos: 'bottom-right'
+    }
   }
 };
 
