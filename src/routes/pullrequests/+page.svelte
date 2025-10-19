@@ -1,19 +1,19 @@
 <script lang="ts">
   import { fly } from 'svelte/transition';
   import { mdiCalendar, mdiSourcePull } from '@mdi/js';
-  import {  scaleBand } from 'd3-scale';
+  import { scaleBand } from 'd3-scale';
 
   import { Axis, Chart, Highlight, Points, Svg, Tooltip as ChartTooltip } from 'layerchart';
 
   import { ListItem, DividerDot, Button, Icon, Tooltip, Duration, Card, BarStack } from 'svelte-ux';
   import { format, sortFunc } from '@layerstack/utils';
-  
+
   const colors = {
     draft: 'bg-gray-500',
     open: 'bg-emerald-500',
     closed: 'bg-red-500',
     merged: 'bg-violet-500'
-  }
+  };
 
   let { data } = $props();
 
@@ -24,40 +24,44 @@
   let stateSplit = $derived.by(() => {
     return [
       {
-        label: "Draft",
-        value: pullRequests.filter(d => d.isDraft).length,
+        label: 'Draft',
+        value: pullRequests.filter((d) => d.isDraft).length,
         color: colors.draft,
-        style: "background-color:" + colors.draft,
+        style: 'background-color:' + colors.draft,
         classes: { root: colors.draft }
       },
       {
-        label: "Open",
-        value: pullRequests.filter(d => d.state === "OPEN" && !d.isDraft).length,
+        label: 'Open',
+        value: pullRequests.filter((d) => d.state === 'OPEN' && !d.isDraft).length,
         color: colors.open,
-        style: "background-color:" + colors.open,
+        style: 'background-color:' + colors.open,
         classes: { root: colors.open }
       },
-     
+
       {
-        label: "Merged",
-        value: pullRequests.filter(d => d.state === "MERGED" && !!d.mergedAt && !d.isDraft).length,
+        label: 'Merged',
+        value: pullRequests.filter((d) => d.state === 'MERGED' && !!d.mergedAt && !d.isDraft)
+          .length,
         color: colors.merged,
-        style: "background-color:" + colors.merged,
+        style: 'background-color:' + colors.merged,
         classes: { root: colors.merged }
       },
       {
-        label: "Closed",
-        value: pullRequests.filter(d => d.state === "CLOSED" && !d.mergedAt && !d.isDraft).length,
+        label: 'Closed',
+        value: pullRequests.filter((d) => d.state === 'CLOSED' && !d.mergedAt && !d.isDraft).length,
         color: colors.closed,
-        style: "background-color:" + colors.closed,
+        style: 'background-color:' + colors.closed,
         classes: { root: colors.closed }
-      },
+      }
     ];
   });
 
   let averageDuration = $derived.by(() => {
     const prToConsider = pullRequests.filter((d) => !!d.closedAt);
-    const duration = prToConsider.reduce((acc, pr) => acc + (pr.closedAt.getTime() - pr.createdAt.getTime()), 0);
+    const duration = prToConsider.reduce(
+      (acc, pr) => acc + (pr.closedAt.getTime() - pr.createdAt.getTime()),
+      0
+    );
     return { milliseconds: duration / prToConsider.length };
   });
 </script>
@@ -96,19 +100,29 @@
 
   <div class="flex items-center justify-between">
     <div class="text-xs text-surface-content/50 tracking-widest">Last 50 pull requests</div>
-  <div>Average duration: <Duration duration={averageDuration} totalUnits={2} /></div>
+    <div>Average duration: <Duration duration={averageDuration} totalUnits={2} /></div>
   </div>
 
   <BarStack data={stateSplit} let:item>
     <div class="truncate text-xs font-semibold text-surface-content">
-      {item.label} ({format(item.value, "integer")})
+      {item.label} ({format(item.value, 'integer')})
     </div>
   </BarStack>
   <div>
     {#each pullRequests as pr}
       <ListItem
         icon={mdiSourcePull}
-        avatar={{ class: 'text-surface-content/90' + ( pr.isDraft ? ' bg-gray-500' : pr.state === 'OPEN' ? ' bg-emerald-500' : pr.state === 'CLOSED' ? ' bg-red-500' : ' bg-violet-500') }}
+        avatar={{
+          class:
+            'text-surface-content/90' +
+            (pr.isDraft
+              ? ' bg-gray-500'
+              : pr.state === 'OPEN'
+                ? ' bg-emerald-500'
+                : pr.state === 'CLOSED'
+                  ? ' bg-red-500'
+                  : ' bg-violet-500')
+        }}
         title={pr.title}
       >
         <div slot="title" class="flex items-center justify-between">
