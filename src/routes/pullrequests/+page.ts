@@ -28,6 +28,7 @@ async function fetchPullRequests(accessToken: string) {
               title
               url
               state
+              isDraft
               reviewDecision
               createdAt
               updatedAt
