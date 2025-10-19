@@ -1,5 +1,3 @@
-import { de } from 'date-fns/locale';
-
 export const REPO_KIND = {
   myTop: {
     label: 'My top',

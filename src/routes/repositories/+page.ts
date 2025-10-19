@@ -1,7 +1,6 @@
 import { Github } from '$lib/github.js';
 import { gql } from '@layerstack/svelte-stores';
 import { REPO_KIND } from './kind.js';
-// import type { User } from '@octokit/graphql-schema';
 
 type KindValue = (typeof REPO_KIND)[keyof typeof REPO_KIND]['value'];
 
