@@ -72,15 +72,19 @@ async function fetchRepositories(accessToken: string, kind: KindValue) {
   }
 
   let isFork = kind === REPO_KIND.myForks.value ? true : false;
+  let affiliations = kind === REPO_KIND.myOwned.value ? ['OWNER'] : null;
+
   const { viewer } = await github.graphql<{ viewer: any }>(
     gql`
-      query ($first: Int!, $isFork: Boolean) {
+      query ($first: Int!, $isFork: Boolean, $affiliations: [RepositoryAffiliation]) {
         viewer {
           name
+          login
           repositories(
             first: $first
             orderBy: { field: UPDATED_AT, direction: DESC }
             isFork: $isFork
+            affiliations: $affiliations
           ) {
             nodes {
               nameWithOwner
@@ -93,7 +97,8 @@ async function fetchRepositories(accessToken: string, kind: KindValue) {
         }
       }
     `,
-    { first, isFork }
+    { first, isFork, affiliations }
   );
+
   return viewer.repositories;
 }
