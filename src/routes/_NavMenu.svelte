@@ -11,13 +11,23 @@
     mdiSourceCommit,
     mdiSourcePull,
     mdiStar,
-    mdiTimelineClockOutline
+    mdiTimelineClockOutline,
+    mdiCircleDouble as mdiIssues
   } from '@mdi/js';
 
   import { Avatar, Button, Dialog, NavItem, Toggle, Tooltip } from 'svelte-ux';
 
   import { appState } from '$lib/state.svelte';
   import { page } from '$app/state';
+  
+  let sp = $derived.by(() => {
+    const o = page.url.searchParams.get('owner')
+    const r = page.url.searchParams.get('repo')
+    if (o && r) {
+      return `?owner=${o}&repo=${r}`
+    }
+    return ''
+  });
 </script>
 
 <NavItem path="" currentUrl={page.url} class="pl-4 border-b">
@@ -59,8 +69,9 @@
 <NavItem text="Pull Requests" icon={mdiSourcePull} path="/pullrequests" currentUrl={page.url} />
 
 <h2>Repository</h2>
-<NavItem text="Stars" icon={mdiStar} path="/stars" currentUrl={page.url} />
-<NavItem text="Punch Card" icon={mdiTimelineClockOutline} path="/punchcard" currentUrl={page.url} />
+<NavItem text="Stars" icon={mdiStar} path="/stars{sp}" currentUrl={page.url} />
+<NavItem text="Issues" icon={mdiIssues} path="/issues{sp}" currentUrl={page.url} />
+<NavItem text="Punch Card" icon={mdiTimelineClockOutline} path="/punchcard{sp}" currentUrl={page.url} />
 <!-- TODO: Improve and show -->
 <!-- <NavItem text="Commits" icon={mdiSourceCommit} path="/commits" currentUrl={page.url} /> -->
 
