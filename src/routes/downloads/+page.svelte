@@ -70,7 +70,7 @@
     )
   );
 
-  let totalDownloads = sum(downloads, (d) => d.downloads);
+  let totalDownloads = $derived(sum(downloads, (d) => d.downloads));
 
   // Use yesterday as current data is not available yet
   const yesterday = timeDay.offset(new Date(), -1);
