@@ -2,6 +2,7 @@
   import type { ComponentProps } from 'svelte';
   import { flatRollup, max, min, sum } from 'd3-array';
   import { timeDay, timeMonth, timeYear } from 'd3-time';
+  import { parseISO } from 'date-fns';
 
   import { mdiCalendarRange, mdiPackage, mdiPlay } from '@mdi/js';
 
@@ -29,6 +30,13 @@
 
   let pkg = $derived(data.variables.pkg);
 
+  let downloads = $derived(
+    data.downloads.map((d) => ({
+      ...d,
+      day: parseISO(d.day as any) // parse date strings as local Date objects (not UTC)
+    }))
+  );
+
   let dateRange = $state<ComponentProps<DateRangeField>['value']>({
     periodType: PeriodType.Day,
     from: data.variables.from,
@@ -48,7 +56,7 @@
   let chartData = $derived(
     sort(
       flatRollup(
-        data.downloads,
+        downloads,
         (values) => {
           return {
             start: min(values, (d) => d.day),
@@ -61,6 +69,8 @@
       (d) => d.start
     )
   );
+
+  let totalDownloads = sum(downloads, (d) => d.downloads);
 
   // Use yesterday as current data is not available yet
   const yesterday = timeDay.offset(new Date(), -1);
@@ -148,10 +158,7 @@
     <Card>
       <Header
         title={data.variables.pkg}
-        subheading="{$format(
-          sum(data?.downloads ?? [], (d) => d.downloads),
-          'integer'
-        )} total downloads"
+        subheading="{$format(totalDownloads, 'integer')} total downloads"
         slot="header"
       >
         <div slot="actions">
@@ -165,51 +172,57 @@
       </Header>
 
       <div class="h-[300px]">
-        <LineChart
-          data={chartData}
-          x="start"
-          y="downloads"
-          padding={{ left: 36, bottom: 40, right: 24 }}
-          props={{
-            xAxis: { tickMultiline: true },
-            yAxis: { format: 'metric' }
-          }}
-          series={[{ key: 'downloads', color: 'var(--color-secondary)' }]}
-        >
-          {#snippet marks()}
-            <LinearGradient class="from-secondary/50 to-secondary/1" vertical>
-              {#snippet children({ gradient })}
-                <Area
-                  line={{ class: 'stroke-2 stroke-secondary' }}
-                  fill={gradient}
-                  motion="tween"
-                />
-              {/snippet}
-            </LinearGradient>
-          {/snippet}
-
-          {#snippet tooltip({ context })}
-            {@const data = context.tooltip.data}
-            <Tooltip.Root>
-              <Tooltip.Header>
-                {#if data.start.getTime() === data.end.getTime()}
-                  {$format(data.start, 'custom', { custom: 'eee MMM d yyyy' })}
-                {:else}
-                  <DateRangeDisplay
-                    value={{
-                      from: data.start,
-                      to: data.end,
-                      periodType: dateRange.periodType
-                    }}
+        {#if chartData.length}
+          <LineChart
+            data={chartData}
+            x="start"
+            y="downloads"
+            padding={{ left: 36, bottom: 40, right: 24 }}
+            props={{
+              xAxis: { tickMultiline: true },
+              yAxis: { format: 'metric' }
+            }}
+            series={[{ key: 'downloads', color: 'var(--color-secondary)' }]}
+          >
+            {#snippet marks()}
+              <LinearGradient class="from-secondary/50 to-secondary/1" vertical>
+                {#snippet children({ gradient })}
+                  <Area
+                    line={{ class: 'stroke-2 stroke-secondary' }}
+                    fill={gradient}
+                    motion="tween"
                   />
-                {/if}
-              </Tooltip.Header>
-              <Tooltip.List>
-                <Tooltip.Item label="Downloads" value={data.downloads} format="integer" />
-              </Tooltip.List>
-            </Tooltip.Root>
-          {/snippet}
-        </LineChart>
+                {/snippet}
+              </LinearGradient>
+            {/snippet}
+
+            {#snippet tooltip({ context })}
+              {@const data = context.tooltip.data}
+              <Tooltip.Root>
+                <Tooltip.Header>
+                  {#if data.start.getTime() === data.end.getTime()}
+                    {$format(data.start, 'custom', { custom: 'eee MMM d yyyy' })}
+                  {:else}
+                    <DateRangeDisplay
+                      value={{
+                        from: data.start,
+                        to: data.end,
+                        periodType: dateRange.periodType
+                      }}
+                    />
+                  {/if}
+                </Tooltip.Header>
+                <Tooltip.List>
+                  <Tooltip.Item label="Downloads" value={data.downloads} format="integer" />
+                </Tooltip.List>
+              </Tooltip.Root>
+            {/snippet}
+          </LineChart>
+        {:else}
+          <div class="flex items-center justify-center h-full text-center text-surface-content/50">
+            No data available
+          </div>
+        {/if}
       </div>
     </Card>
   </div>
