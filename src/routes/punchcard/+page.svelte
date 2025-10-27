@@ -4,14 +4,15 @@
   import { max, range } from 'd3-array';
 
   import { goto } from '$app/navigation';
+  import { page } from '$app/state';
 
   import { Axis, Chart, Circle, Highlight, Points, Svg, Text, Tooltip } from 'layerchart';
   import { Button, Card, TextField } from 'svelte-ux';
 
   let { data } = $props();
 
-  let owner = $state('techniq');
-  let repo = $state('svelte-ux');
+  let owner = $derived(data.variables.owner);
+  let repo = $derived(data.variables.repo);
 
   function run() {
     const params = new URLSearchParams();
