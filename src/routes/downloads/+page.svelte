@@ -192,9 +192,17 @@
             {@const data = context.tooltip.data}
             <Tooltip.Root>
               <Tooltip.Header>
-                <DateRangeDisplay
-                  value={{ from: data.start, to: data.end, periodType: dateRange.periodType }}
-                />
+                {#if data.start.getTime() === data.end.getTime()}
+                  {$format(data.start, 'custom', { custom: 'eee MMM d yyyy' })}
+                {:else}
+                  <DateRangeDisplay
+                    value={{
+                      from: data.start,
+                      to: data.end,
+                      periodType: dateRange.periodType
+                    }}
+                  />
+                {/if}
               </Tooltip.Header>
               <Tooltip.List>
                 <Tooltip.Item label="Downloads" value={data.downloads} format="integer" />
