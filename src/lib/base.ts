@@ -4,6 +4,7 @@ export type ApiOptions = {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
   data?: any;
   headers?: Record<string, string>;
+  parse?<T>(data: string): T;
 };
 
 export async function api<Data = any>(origin: string, resource: string, options: ApiOptions = {}) {
@@ -26,7 +27,7 @@ export async function api<Data = any>(origin: string, resource: string, options:
       })
   }).then(async (response) => {
     const text = await response.text();
-    return parse<Data>(text);
+    return options.parse ? options.parse<Data>(text) : parse<Data>(text);
   });
 }
 
@@ -50,7 +51,7 @@ export async function graphql<Data = any>(
   })
     .then(async (response) => {
       const text = await response.text();
-      return parse(text);
+      return options.parse ? options.parse(text) : parse(text);
     })
     .then((json) => json.data as Data);
 }
