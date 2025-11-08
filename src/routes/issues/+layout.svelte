@@ -68,7 +68,7 @@
       subheading="{format(data.issues.issuesOpen)} open, {format(data.issues.issuesTotal)} total issues"
     >
 
-      <div class="text-sm text-surface-content/50 ml-4">Average duration: <Duration duration={{milliseconds: data.issues.averageDuration}} totalUnits={2} /></div>
+      <div class="text-sm text-surface-content/50 ml-4">Mean duration: <Duration duration={{milliseconds: data.issues.medianDuration}} totalUnits={2} /></div>
       <div class="h-[300px]">
         <LineChart
           data={chartData}

@@ -116,11 +116,8 @@ async function fetchIssues(accessToken: string, variables: { owner: string; repo
   // Let's filter again data because with some transferts we can have issues before the since date..
   sortedData = sortedData.filter((c) => c.dt >= since);
 
-  // Let's remove the 5% of each extrema durations
   durations = sort(durations);
-  const percent = Math.floor(durations.length * 0.05);
-  durations = durations.slice(percent, durations.length - percent);
-  const averageDuration = average(durations);
+  const medianDuration = durations[Math.floor(durations.length / 2)];
 
-  return { sortedData, issuesOpen, issuesTotal, averageDuration };
+  return { sortedData, issuesOpen, issuesTotal, medianDuration };
 }
