@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { mdiBookVariant, mdiSourceCommit, mdiStar, mdiTimelineClockOutline } from '@mdi/js';
+  import { mdiBookVariant, mdiSourceCommit, mdiStar, mdiTimelineClockOutline, 
+    mdiCircleDouble as mdiIssues } from '@mdi/js';
   import { Button, ListItem, Tooltip, ToggleGroup, ToggleOption } from 'svelte-ux';
   import { format } from '@layerstack/utils';
   import { goto } from '$app/navigation';
@@ -80,6 +81,17 @@
                 >
                   {format(repo.stargazerCount, 'integer')} Stars
                 </Button>
+              </Tooltip>
+
+              <Tooltip title="View issues" offset={2}>
+                <Button
+                  icon={mdiIssues}
+                  href="/issues?owner={owner}&repo={name}"
+                  variant="fill-outline"
+                  size="sm"
+                  color="secondary"
+                  iconOnly={false}
+                />
               </Tooltip>
 
               <Tooltip title="View punchcard" offset={2}>
