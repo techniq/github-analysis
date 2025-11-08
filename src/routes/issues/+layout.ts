@@ -24,10 +24,10 @@ async function fetchIssues(accessToken: string, variables: { owner: string; repo
     gql`
       query ($owner: String!, $repo: String!) {
         repository(owner: $owner, name: $repo) {
-          open: issues(filterBy: { states: [OPEN] }) {
+          issuesOpen: issues(filterBy: { states: [OPEN] }) {
             totalCount
           }
-          total: issues {
+          issues: issues {
             totalCount
           }
         }
@@ -35,8 +35,8 @@ async function fetchIssues(accessToken: string, variables: { owner: string; repo
     `,
     variables
   );
-  const issuesOpen = stats.open.totalCount;
-  const issuesTotal = stats.total.totalCount;
+  const issuesOpen = stats.issuesOpen.totalCount;
+  const issuesTotal = stats.issues.totalCount;
 
   // max 1 year back
   const since = new Date(new Date().valueOf() - 2 * 365 * 24 * 60 * 60 * 1000);

@@ -50,6 +50,9 @@ async function fetchRepositories(
                 stargazerCount
                 isFork
                 updatedAt
+                issuesOpen: issues(filterBy: { states: [OPEN] }) {
+                  totalCount
+                }
               }
             }
           }
@@ -76,6 +79,9 @@ async function fetchRepositories(
                 stargazerCount
                 isFork
                 updatedAt
+                issuesOpen: issues(filterBy: { states: [OPEN] }) {
+                  totalCount
+                }
               }
             }
           }
@@ -113,6 +119,9 @@ async function fetchRepositories(
               stargazerCount
               isFork
               updatedAt
+              issuesOpen: issues(filterBy: { states: [OPEN] }) {
+                totalCount
+              }
             }
           }
         }

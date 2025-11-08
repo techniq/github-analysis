@@ -91,7 +91,9 @@
                   size="sm"
                   color="secondary"
                   iconOnly={false}
-                />
+                >
+                  {format(repo.issuesOpen.totalCount, 'integer')} Issues
+                </Button>
               </Tooltip>
 
               <Tooltip title="View punchcard" offset={2}>
