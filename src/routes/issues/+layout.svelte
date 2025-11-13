@@ -4,7 +4,7 @@
 
   import { mdiAccount, mdiDatabase, mdiPlay } from '@mdi/js';
 
-  import { Button, Card, Duration, TextField } from 'svelte-ux';
+  import { Button, Card, DividerDot, Duration, TextField } from 'svelte-ux';
   import { Area, BarChart, LinearGradient, LineChart, Tooltip } from 'layerchart';
   import { format } from '@layerstack/utils';
 
@@ -65,10 +65,24 @@
   <div class="p-4 grid gap-4">
     <Card
       title="{data.variables.owner}/{data.variables.repo}"
-      subheading="{format(data.issues.issuesOpen)} open, {format(data.issues.issuesTotal)} total issues"
+      subheading="{format(data.issues.issuesOpen)} open, {format(
+        data.issues.issuesTotal
+      )} total issues"
     >
+      <div slot="header">
+        <div class="text-lg">{data.variables.owner}/{data.variables.repo}</div>
+        <div class="text-sm text-surface-content/50">
+          <span class="text-surface-content">{format(data.issues.issuesOpen)}</span> open
+          <DividerDot />
+          <span class="text-surface-content">{format(data.issues.issuesTotal)}</span> total
+          <DividerDot />
+          <span class="text-surface-content">
+            <Duration duration={{ milliseconds: data.issues.medianDuration }} totalUnits={2} />
+          </span> mean
+        </div>
+        <div class="text-sm text-surface-content/50"></div>
+      </div>
 
-      <div class="text-sm text-surface-content/50 ml-4">Mean duration: <Duration duration={{milliseconds: data.issues.medianDuration}} totalUnits={2} /></div>
       <div class="h-[300px]">
         <LineChart
           data={chartData}
@@ -110,7 +124,7 @@
                 <Tooltip.Item label="Title" value={data.title} />
                 {#if data.duration}
                   <Tooltip.Item label="Duration">
-                    <Duration duration={{milliseconds: data.duration}} totalUnits={2} />
+                    <Duration duration={{ milliseconds: data.duration }} totalUnits={2} />
                   </Tooltip.Item>
                 {/if}
                 <Tooltip.Item label="Count" value={data.count} />
