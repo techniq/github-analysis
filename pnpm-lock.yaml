@@ -36,8 +36,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       layerchart:
-        specifier: 2.0.0-next.39
-        version: 2.0.0-next.39(svelte@5.37.2)
+        specifier: 2.0.0-next.42
+        version: 2.0.0-next.42(svelte@5.37.2)
       posthog-js:
         specifier: ^1.258.5
         version: 1.258.5(@rrweb/types@2.0.0-alpha.17)
@@ -467,9 +467,6 @@ packages:
 
   '@floating-ui/core@1.7.3':
     resolution: {integrity: sha512-sGnvb5dmrJaKEZ+LDIpguvdX3bDlEllmv4/ClQ9awcmCZrlx5jQyyMWFM5kBI+EyNOCDDiKk8il0zeuX3Zlg/w==}
-
-  '@floating-ui/dom@1.7.3':
-    resolution: {integrity: sha512-uZA413QEpNuhtb3/iIKoYMSK07keHPYeXF02Zhd6e213j+d1NamLix/mCLxBUDW/Gx52sPH2m+chlUsyaBs/Ag==}
 
   '@floating-ui/dom@1.7.4':
     resolution: {integrity: sha512-OOchDgh4F2CchOX94cRVqhvy7b3AFb+/rQXyswmzmGakRfkMgoWVjfnLWkRirfLEfuD4ysVW16eXzwt3jHIzKA==}
@@ -1286,8 +1283,8 @@ packages:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
 
-  layerchart@2.0.0-next.39:
-    resolution: {integrity: sha512-IS2OQnNFAhkcKL1snNb3G51U99ZxGDosrIMrhi2Ov8dmAZD5NnOtrx9UR4Vm+dbUuUNLuZ/b2tkaYvvvSsg+DQ==}
+  layerchart@2.0.0-next.42:
+    resolution: {integrity: sha512-vLMHaLaU5Glf7OG56cZiD/1Dt6qvYHxc9gbNTq2ypjs+3iGLekx//wvkvCAmx8mH/t6kx1fbmxwKpf+RrFkyew==}
     peerDependencies:
       svelte: ^5.0.0
 
@@ -2050,11 +2047,6 @@ snapshots:
     dependencies:
       '@floating-ui/utils': 0.2.10
 
-  '@floating-ui/dom@1.7.3':
-    dependencies:
-      '@floating-ui/core': 1.7.3
-      '@floating-ui/utils': 0.2.10
-
   '@floating-ui/dom@1.7.4':
     dependencies:
       '@floating-ui/core': 1.7.3
@@ -2162,7 +2154,7 @@ snapshots:
 
   '@layerstack/svelte-actions@1.0.1-next.14':
     dependencies:
-      '@floating-ui/dom': 1.7.3
+      '@floating-ui/dom': 1.7.4
       '@layerstack/utils': 2.0.0-next.14
       d3-scale: 4.0.2
 
@@ -2846,7 +2838,7 @@ snapshots:
 
   kleur@4.1.5: {}
 
-  layerchart@2.0.0-next.39(svelte@5.37.2):
+  layerchart@2.0.0-next.42(svelte@5.37.2):
     dependencies:
       '@dagrejs/dagre': 1.1.5
       '@layerstack/svelte-actions': 1.0.1-next.14
