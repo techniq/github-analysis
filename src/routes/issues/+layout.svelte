@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { bin } from 'd3-array';
-  import { timeDay, timeDays } from 'd3-time';
+  import { flatRollup } from 'd3-array';
+  import { timeDay } from 'd3-time';
 
   import { mdiAccount, mdiDatabase, mdiPlay } from '@mdi/js';
 
   import { Button, Card, DividerDot, Duration, TextField } from 'svelte-ux';
   import { Area, BarChart, LinearGradient, LineChart, Tooltip } from 'layerchart';
-  import { format } from '@layerstack/utils';
+  import { format, sortFunc, startOfInterval } from '@layerstack/utils';
 
   import { goto } from '$app/navigation';
 
@@ -27,12 +27,15 @@
   // Add running count for easier chart value
   let chartData = $derived(data.issues.sortedData);
 
-  let binByTime = $derived(
-    bin<(typeof chartData)[0], Date>()
-      .thresholds((_data, min, max) => timeDays(min, max))
-      .value((d) => d.dt)
+  let chartDataByDay = $derived(
+    flatRollup(
+      chartData,
+      (v) => v.length,
+      (d) => startOfInterval('day', d.dt)
+    )
+      .map(([date, count]) => ({ date, count }))
+      .sort(sortFunc('date'))
   );
-  let chartDataByDay = $derived(binByTime(chartData));
 </script>
 
 <main>
@@ -137,16 +140,15 @@
       <div class="h-[100px]">
         <BarChart
           data={chartDataByDay}
-          x="x0"
+          x="date"
           {xDomain}
           xInterval={timeDay}
-          y="length"
+          y="count"
           yDomain={[0, null]}
           padding={{ left: 36, bottom: 32, right: 24 }}
           axis="y"
           grid={false}
           props={{
-            tooltip: { context: { mode: 'bisect-x' } },
             bars: { rounded: 'none', class: 'stroke-none fill-secondary' },
             yAxis: { grid: true, format: 'metric', ticks: 3 },
             rule: { class: 'stroke-surface-content/20' }
@@ -162,9 +164,9 @@
           {#snippet tooltip({ context })}
             {@const data = context.tooltip.data}
             <Tooltip.Root>
-              <Tooltip.Header value={data.x0} format="day" />
+              <Tooltip.Header value={data.date} format="day" />
               <Tooltip.List>
-                <Tooltip.Item label="Count" value={data.length} />
+                <Tooltip.Item label="Count" value={data.count} />
               </Tooltip.List>
             </Tooltip.Root>
           {/snippet}
