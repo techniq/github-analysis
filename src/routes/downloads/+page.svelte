@@ -23,6 +23,7 @@
   import { Area, LinearGradient, LineChart, Tooltip } from 'layerchart';
 
   import { goto } from '$app/navigation';
+  import { quickPresets } from '$lib/quickPresets.js';
 
   let { data } = $props();
 
@@ -98,56 +99,7 @@
       icon={mdiCalendarRange}
       dense
       periodTypes={[PeriodType.Day, PeriodType.WeekSun, PeriodType.Month, PeriodType.CalendarYear]}
-      quickPresets={[
-        {
-          label: 'Last 90 days',
-          value: { periodType: PeriodType.Day, from: timeDay.offset(yesterday, -90), to: yesterday }
-        },
-        {
-          label: 'Year to date',
-          value: { periodType: PeriodType.Week, from: timeYear.floor(yesterday), to: yesterday }
-        },
-        {
-          label: 'Last 6 months',
-          value: {
-            periodType: PeriodType.Day,
-            from: timeMonth.offset(yesterday, -6),
-            to: yesterday
-          }
-        },
-        {
-          label: 'Last 12 months',
-          value: {
-            periodType: PeriodType.Week,
-            from: timeMonth.offset(yesterday, -12),
-            to: yesterday
-          }
-        },
-        {
-          label: 'Last 36 months',
-          value: {
-            periodType: PeriodType.Month,
-            from: timeMonth.offset(yesterday, -36),
-            to: yesterday
-          }
-        },
-        {
-          label: 'Last 5 years',
-          value: {
-            periodType: PeriodType.CalendarYear,
-            from: timeYear.offset(yesterday, -5),
-            to: yesterday
-          }
-        },
-        {
-          label: 'Last 10 years',
-          value: {
-            periodType: PeriodType.CalendarYear,
-            from: timeYear.offset(yesterday, -10),
-            to: yesterday
-          }
-        }
-      ]}
+      quickPresets={quickPresets({ baseDate: 'yesterday' })}
       on:change={run}
       class="grow"
     />

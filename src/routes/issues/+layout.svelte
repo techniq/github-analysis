@@ -1,10 +1,10 @@
 <script lang="ts">
   import { flatRollup, rollup } from 'd3-array';
-  import { timeDay } from 'd3-time';
+  import { timeDay, timeMonth, timeYear } from 'd3-time';
 
-  import { mdiAccount, mdiDatabase, mdiPlay } from '@mdi/js';
+  import { mdiAccount, mdiCalendarRange, mdiDatabase, mdiPlay } from '@mdi/js';
 
-  import { Button, Card, DividerDot, Duration, TextField } from 'svelte-ux';
+  import { Button, Card, DateRangeField, DividerDot, Duration, TextField } from 'svelte-ux';
   import {
     Area,
     Axis,
@@ -17,9 +17,11 @@
     Rule,
     Tooltip
   } from 'layerchart';
-  import { format, sortFunc, startOfInterval } from '@layerstack/utils';
+  import { format, PeriodType, sortFunc, startOfInterval } from '@layerstack/utils';
 
   import { goto } from '$app/navigation';
+    import type { ComponentProps } from 'svelte';
+    import { quickPresets } from '$lib/quickPresets.js';
 
   let { data, children } = $props();
 
@@ -28,10 +30,19 @@
 
   let xDomain = $state<[Date, Date] | null>(null);
 
+  const today = new Date();
+  let dateRange = $state<ComponentProps<DateRangeField>['value']>({
+    periodType: PeriodType.Day,
+    from: data.variables.from,
+    to: data.variables.to
+  });
+
   function run() {
     const params = new URLSearchParams();
     params.set('owner', owner);
     params.set('repo', repo);
+    params.set('from', dateRange.from.toISOString());
+    params.set('to', dateRange.to.toISOString());
     goto(`?${params}`);
   }
 
@@ -86,6 +97,16 @@
       icon={mdiDatabase}
       dense
       placeholder="Name of repository"
+      class="grow"
+    />
+    <DateRangeField
+      label="Date Range"
+      bind:value={dateRange}
+      icon={mdiCalendarRange}
+      dense
+      periodTypes={[PeriodType.Day, PeriodType.WeekSun, PeriodType.Month, PeriodType.CalendarYear]}
+      quickPresets={quickPresets({ baseDate: 'today' })}
+      on:change={run}
       class="grow"
     />
     <Button type="submit" icon={mdiPlay} variant="fill" color="primary">Run</Button>

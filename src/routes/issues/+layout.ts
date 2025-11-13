@@ -1,6 +1,7 @@
 import { Github } from '$lib/github.js';
 import { sort } from '@layerstack/utils';
 import { gql } from '@layerstack/svelte-stores';
+import { timeMonth, timeYear } from 'd3-time';
 
 export async function load({ parent, url }) {
   const { accessToken } = await parent();
@@ -8,7 +9,14 @@ export async function load({ parent, url }) {
   const owner = url.searchParams.get('owner') ?? 'techniq';
   const repo = url.searchParams.get('repo') ?? 'svelte-ux';
 
-  const variables = { owner, repo };
+  const today = new Date();
+
+  const from = url.searchParams.has('from')
+    ? new Date(url.searchParams.get('from'))
+    : timeYear.offset(today, -2);
+  const to = url.searchParams.has('to') ? new Date(url.searchParams.get('to')) : today;
+
+  const variables = { owner, repo, from, to };
 
   return {
     issues: await fetchIssues(accessToken, variables),
@@ -16,7 +24,10 @@ export async function load({ parent, url }) {
   };
 }
 
-async function fetchIssues(accessToken: string, variables: { owner: string; repo: string }) {
+async function fetchIssues(
+  accessToken: string,
+  variables: { owner: string; repo: string; from: Date; to: Date }
+) {
   const github = new Github(accessToken);
 
   const { repository: stats } = await github.graphql<{ repository: any }>(
@@ -40,9 +51,6 @@ async function fetchIssues(accessToken: string, variables: { owner: string; repo
   const issuesOpen = stats.issuesOpen.totalCount;
   const issuesClosed = stats.issuesClosed.totalCount;
   const issuesTotal = stats.issues.totalCount;
-
-  // max 1 year back
-  const since = new Date(new Date().valueOf() - 2 * 365 * 24 * 60 * 60 * 1000);
 
   const getIssues = async (after: string | undefined) => {
     const { repository } = await github.graphql<{ repository: any }>(
@@ -71,7 +79,7 @@ async function fetchIssues(accessToken: string, variables: { owner: string; repo
           }
         }
       `,
-      { ...variables, since: since.toISOString(), after }
+      { ...variables, since: variables.from.toISOString(), after }
     );
     return repository.issues;
   };
@@ -117,7 +125,7 @@ async function fetchIssues(accessToken: string, variables: { owner: string; repo
   }
 
   // Let's filter again data because with some transferts we can have issues before the since date..
-  sortedData = sortedData.filter((c) => c.dt >= since);
+  sortedData = sortedData.filter((c) => c.dt >= variables.from);
 
   durations = sort(durations);
   const medianDuration = durations[Math.floor(durations.length / 2)];
