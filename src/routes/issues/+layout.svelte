@@ -36,6 +36,17 @@
       .map(([date, count]) => ({ date, count }))
       .sort(sortFunc('date'))
   );
+
+  let chartDataByState = $derived(
+    flatRollup(
+      chartData,
+      (v) => v.length,
+      (d) => d.stateAtdt,
+      (d) => startOfInterval('day', d.dt)
+    )
+      .map(([date, count]) => ({ date, count }))
+      .sort(sortFunc('date'))
+  );
 </script>
 
 <main>
@@ -66,12 +77,7 @@
   </form>
 
   <div class="p-4 grid gap-4">
-    <Card
-      title="{data.variables.owner}/{data.variables.repo}"
-      subheading="{format(data.issues.issuesOpen)} open, {format(
-        data.issues.issuesTotal
-      )} total issues"
-    >
+    <Card>
       <div slot="header">
         <div class="text-lg">{data.variables.owner}/{data.variables.repo}</div>
         <div class="text-sm text-surface-content/50">
