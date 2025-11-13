@@ -1,7 +1,6 @@
 import { Github } from '$lib/github.js';
 import { sort } from '@layerstack/utils';
 import { gql } from '@layerstack/svelte-stores';
-import { average } from '@layerstack/utils/array';
 
 export async function load({ parent, url }) {
   const { accessToken } = await parent();
@@ -27,6 +26,9 @@ async function fetchIssues(accessToken: string, variables: { owner: string; repo
           issuesOpen: issues(filterBy: { states: [OPEN] }) {
             totalCount
           }
+          issuesClosed: issues(filterBy: { states: [CLOSED] }) {
+            totalCount
+          }
           issues: issues {
             totalCount
           }
@@ -36,6 +38,7 @@ async function fetchIssues(accessToken: string, variables: { owner: string; repo
     variables
   );
   const issuesOpen = stats.issuesOpen.totalCount;
+  const issuesClosed = stats.issuesClosed.totalCount;
   const issuesTotal = stats.issues.totalCount;
 
   // max 1 year back
@@ -119,5 +122,5 @@ async function fetchIssues(accessToken: string, variables: { owner: string; repo
   durations = sort(durations);
   const medianDuration = durations[Math.floor(durations.length / 2)];
 
-  return { sortedData, issuesOpen, issuesTotal, medianDuration };
+  return { sortedData, issuesOpen, issuesClosed, issuesTotal, medianDuration };
 }

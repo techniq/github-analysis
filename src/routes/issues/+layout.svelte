@@ -1,11 +1,22 @@
 <script lang="ts">
-  import { flatRollup } from 'd3-array';
+  import { flatRollup, rollup } from 'd3-array';
   import { timeDay } from 'd3-time';
 
   import { mdiAccount, mdiDatabase, mdiPlay } from '@mdi/js';
 
   import { Button, Card, DividerDot, Duration, TextField } from 'svelte-ux';
-  import { Area, BarChart, LinearGradient, LineChart, Tooltip } from 'layerchart';
+  import {
+    Area,
+    Axis,
+    Bars,
+    BarChart,
+    Chart,
+    Layer,
+    LinearGradient,
+    LineChart,
+    Rule,
+    Tooltip
+  } from 'layerchart';
   import { format, sortFunc, startOfInterval } from '@layerstack/utils';
 
   import { goto } from '$app/navigation';
@@ -38,14 +49,18 @@
   );
 
   let chartDataByState = $derived(
-    flatRollup(
+    rollup(
       chartData,
-      (v) => v.length,
-      (d) => d.stateAtdt,
-      (d) => startOfInterval('day', d.dt)
+      (v) =>
+        flatRollup(
+          v,
+          (v) => v.length,
+          (d) => startOfInterval('day', d.dt)
+        )
+          .map(([date, count]) => ({ date, count }))
+          .sort(sortFunc('date')),
+      (d) => d.stateAtdt
     )
-      .map(([date, count]) => ({ date, count }))
-      .sort(sortFunc('date'))
   );
 </script>
 
@@ -78,16 +93,44 @@
 
   <div class="p-4 grid gap-4">
     <Card>
+      <div class="h-20 py-2">
+        <Chart
+          data={chartDataByDay}
+          x="date"
+          xInterval={timeDay}
+          y="count"
+          padding={{ left: 36, right: 24 }}
+          brush={{
+            mode: 'separated',
+            xDomain,
+            onChange: (e) => {
+              xDomain = e.xDomain as typeof xDomain;
+            },
+            onReset: () => {
+              xDomain = null;
+            },
+            classes: {
+              range: 'border border-surface-content/50 bg-surface-content/10 rounded'
+            },
+            handleSize: 10
+          }}
+        >
+          <Layer type="svg">
+            <Axis placement="left" tickSpacing={20} grid />
+            <Rule y class="stroke-surface-content/20" />
+            <Bars class="fill-secondary" insets={{ x: 0.2 }} />
+          </Layer>
+        </Chart>
+      </div>
+    </Card>
+
+    <Card>
       <div slot="header">
-        <div class="text-lg">{data.variables.owner}/{data.variables.repo}</div>
+        <div class="text-lg">Issues over time</div>
         <div class="text-sm text-surface-content/50">
-          <span class="text-surface-content">{format(data.issues.issuesOpen)}</span> open
-          <DividerDot />
-          <span class="text-surface-content">{format(data.issues.issuesTotal)}</span> total
-          <DividerDot />
           <span class="text-surface-content">
             <Duration duration={{ milliseconds: data.issues.medianDuration }} totalUnits={2} />
-          </span> mean
+          </span> mean duration
         </div>
         <div class="text-sm text-surface-content/50"></div>
       </div>
@@ -142,21 +185,45 @@
           {/snippet}
         </LineChart>
       </div>
+    </Card>
 
-      <div class="h-[100px]">
+    <Card>
+      <div slot="header">
+        <div class="text-lg">Issues by state</div>
+        <div class="text-sm text-surface-content/50">
+          <span class="text-surface-content">{format(data.issues.issuesOpen)}</span> open
+          <DividerDot />
+          <span class="text-surface-content">{format(data.issues.issuesClosed)}</span> closed
+          <DividerDot />
+          <span class="text-surface-content">{format(data.issues.issuesTotal)}</span> total
+        </div>
+        <div class="text-sm text-surface-content/50"></div>
+      </div>
+
+      <div class="h-[300px]">
         <BarChart
-          data={chartDataByDay}
           x="date"
           {xDomain}
           xInterval={timeDay}
-          y="count"
-          yDomain={[0, null]}
-          padding={{ left: 36, bottom: 32, right: 24 }}
-          axis="y"
-          grid={false}
+          padding={{ left: 36, bottom: 40, right: 24 }}
+          series={[
+            {
+              key: 'OPEN',
+              data: Array.from(chartDataByState.get('OPEN') || []),
+              value: (d) => d.count,
+              color: 'var(--color-green-500)'
+            },
+            {
+              key: 'CLOSED',
+              data: Array.from(chartDataByState.get('CLOSED') || []),
+              value: (d) => -d.count,
+              color: 'var(--color-red-500)'
+            }
+          ]}
           props={{
-            bars: { rounded: 'none', class: 'stroke-none fill-secondary' },
-            yAxis: { grid: true, format: 'metric', ticks: 3 },
+            bars: { rounded: 'none', class: 'stroke-none', insets: { x: 0.2 } },
+            xAxis: { tickMultiline: true },
+            yAxis: { format: 'metric' },
             rule: { class: 'stroke-surface-content/20' }
           }}
           brush={{
@@ -172,7 +239,13 @@
             <Tooltip.Root>
               <Tooltip.Header value={data.date} format="day" />
               <Tooltip.List>
-                <Tooltip.Item label="Count" value={data.count} />
+                {#each context.tooltip.payload as item}
+                  <Tooltip.Item
+                    label={item.key}
+                    value={Math.abs(item.value ?? 0)}
+                    color={item.color}
+                  />
+                {/each}
               </Tooltip.List>
             </Tooltip.Root>
           {/snippet}
